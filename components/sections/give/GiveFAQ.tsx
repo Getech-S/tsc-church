@@ -167,10 +167,10 @@ export function GiveFAQ() {
                             <div
                                 className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? "max-h-[1000px] opacity-100 mb-6" : "max-h-0 opacity-0"}`}
                             >
-                                <p className="text-[16px] leading-[1.6] text-gray-500 font-normal">
+                                <div className="text-[16px] leading-[1.6] text-gray-500 font-normal">
 
                                     {faq.answer}
-                                </p>
+                                </div>
                             </div>
 
                         </div>

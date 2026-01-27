@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react"; // 👈 Added useMemo
+import { useState } from "react";
 import { Lock } from "lucide-react";
 import { COUNTRIES } from "@/lib/constants";
 import { useFlutterwave } from "flutterwave-react-v3";
@@ -15,9 +15,8 @@ export function GiveFormSection() {
         amount: "",
     });
 
-    // 👇 FIX: "Freeze" the timestamp so it doesn't change on every render
-    const [stableTxRef] = useState(() => Date.now().toString());
-
+    // 👇 FIX: Use useState instead of useMemo to satisfy the "Purity" rule
+    const [stableTxRef] = useState(() => `tx-${Date.now()}`);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -29,14 +28,15 @@ export function GiveFormSection() {
     };
 
     const config = {
-        // 🔴 REMINDER: Replace with your actual Test/Live Key
+        // 🔴 TODO: Switch to your Live Key when ready
         public_key: "FLWPUBK_TEST-REPLACE_THIS_WITH_YOUR_KEY-X",
-        tx_ref: stableTxRef, // 👈 Using the frozen reference here
+        tx_ref: stableTxRef,
         amount: Number(formData.amount),
         currency: getCurrency(),
         payment_options: "card,mobilemoney,ussd",
         customer: {
             email: formData.email,
+            // 👇 FIX: Must be 'phonenumber' (no underscore) to satisfy TypeScript
             phonenumber: formData.phone,
             name: formData.fullName,
         },
@@ -51,6 +51,7 @@ export function GiveFormSection() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        // Basic validation
         if (!formData.amount || !formData.email || !formData.fullName) {
             alert("Please fill in all required fields.");
             return;
@@ -60,7 +61,6 @@ export function GiveFormSection() {
             callback: (response) => {
                 console.log("Payment Successful!", response);
                 alert(`Thank you! Payment complete. Ref: ${response.tx_ref}`);
-                // Note: The modal closes automatically.
             },
             onClose: () => {
                 console.log("Payment closed by user");
@@ -73,7 +73,6 @@ export function GiveFormSection() {
             <div className="mx-auto max-w-[1280px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
 
                 {/* LEFT COLUMN (Text) */}
-                {/* 👇 FIX: Added 'lg:' prefix so it is ONLY sticky on large screens, not mobile */}
                 <div className="flex flex-col gap-6 max-w-[565px] lg:sticky lg:top-32 order-1 lg:order-1">
                     <h1 className="text-[36px] md:text-[48px] font-bold text-[#1B1C1E] leading-[1.1] tracking-[-2px]">
                         See what God can do <br />
