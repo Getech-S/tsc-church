@@ -1,10 +1,6 @@
-import type { NextConfig } from "next";
-
-// 👇 FIX: This comment silences the error about using 'any'
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const nextConfig: any = {
-
-  // 1. IGNORE ERRORS FOR DEPLOYMENT
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // 1. FORCE SUCCESSFUL BUILD
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -12,7 +8,7 @@ const nextConfig: any = {
     ignoreBuildErrors: true,
   },
 
-  // 2. YOUR ORIGINAL SECURITY & CONFIG
+  // 2. YOUR SETTINGS
   images: {
     remotePatterns: [
       {
@@ -24,10 +20,7 @@ const nextConfig: any = {
     ],
   },
 
-  turbopack: {
-    root: process.cwd(),
-  },
-
+  // 3. SECURITY HEADERS
   async headers() {
     return [
       {
