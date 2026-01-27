@@ -27,7 +27,7 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const pathname = usePathname(); // 👈 Gets the current URL
+  const pathname = usePathname();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -47,17 +47,14 @@ export function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <div className="relative w-[96px] h-[78px] flex items-center justify-center">
-            {/* Make sure you have logo.png in your public folder */}
             <Image src="/logo.png" alt="TSC Logo" fill className="object-contain" priority />
           </div>
         </Link>
 
-        {/* Navigation Links */}
+        {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-[24px]">
           {navLinks.map((link) => {
-            // Check if this specific link is the current page
             const isActive = pathname === link.href;
-
             return (
               <Link
                 key={link.name}
@@ -65,8 +62,8 @@ export function Navbar() {
                 className={cn(
                   "text-[16px] font-bold transition-colors",
                   isActive
-                    ? "text-[#DD5F4C]" // 👈 Active Page becomes Red
-                    : "text-gray-600 hover:text-[#DD5F4C]" // Others are gray
+                    ? "text-[#DD5F4C]"
+                    : "text-gray-600 hover:text-[#DD5F4C]"
                 )}
               >
                 {link.name}
@@ -75,7 +72,7 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right Actions */}
+        {/* Desktop Right Actions */}
         <div className="hidden lg:flex items-center gap-6">
 
           {/* LANGUAGE SWITCHER */}
@@ -116,17 +113,19 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Give Now Button */}
-          <button
-            className="text-white font-bold text-[15px] rounded-[100px] flex items-center justify-center shadow-md hover:opacity-90 transition-opacity"
-            style={{
-              backgroundColor: "#DD5F4C",
-              width: "116px",
-              height: "44px"
-            }}
-          >
-            Give Now
-          </button>
+          {/* Give Now Button (Desktop) */}
+          <Link href="/give">
+            <button
+              className="text-white font-bold text-[15px] rounded-[100px] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
+              style={{
+                backgroundColor: "#DD5F4C",
+                width: "116px",
+                height: "44px"
+              }}
+            >
+              Give Now
+            </button>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -135,9 +134,11 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU DROPDOWN */}
       {isOpen && (
-        <div className="absolute top-28 left-4 right-4 bg-white rounded-xl shadow-2xl p-6 flex flex-col gap-4 lg:hidden z-50">
+        <div className="absolute top-28 left-4 right-4 bg-white rounded-xl shadow-2xl p-6 flex flex-col gap-4 lg:hidden z-50 animate-in slide-in-from-top-2">
+
+          {/* Links */}
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
@@ -163,6 +164,17 @@ export function Navbar() {
               </span>
             ))}
           </div>
+
+          {/* 👇 NEW: Mobile Give Button (Added this section) */}
+          <Link href="/give" onClick={() => setIsOpen(false)} className="w-full mt-2">
+            <button
+              className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center shadow-md py-3"
+              style={{ backgroundColor: "#DD5F4C" }}
+            >
+              Give Now
+            </button>
+          </Link>
+
         </div>
       )}
     </header>

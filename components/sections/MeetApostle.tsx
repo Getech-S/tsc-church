@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+//import { motion } from "framer-motion";
 
 export function MeetApostle() {
+
     return (
         // 1. CONTAINER: Added min-h-[750px] for Mobile height, changed flex-col to items-end
         <section className="bg-black relative overflow-hidden flex items-end md:block min-h-[750px] md:min-h-0">
@@ -9,7 +13,9 @@ export function MeetApostle() {
           - Mobile: Changed to 'absolute inset-0' to cover background.
           - Desktop: Kept exactly as you had it (right aligned, 75% width).
       */}
-            <div className="absolute inset-0 w-full h-full md:w-[75%] md:left-auto md:right-0 md:z-10 overflow-hidden">
+            <div className="absolute inset-0 w-full h-full md:w-[75%] md:left-auto md:right-0 md:z-10 overflow-hidden"
+
+            >
                 <div className="relative h-full w-full">
                     <Image
                         src="/apostle.jpeg"

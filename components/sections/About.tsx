@@ -23,7 +23,7 @@ export function About() {
                     </span>
 
                     {/* Heading */}
-                    <h2 className="text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
+                    <h2 className="text-[48px] md:text-[32px] sm:text-[24px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
                         More Than a Church. A Family Walking With Christ
                     </h2>
 

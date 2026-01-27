@@ -32,7 +32,7 @@ export function ContactContent() {
                         </div>
                         <div className="flex flex-col">
                             <h3 className="text-[16px] md:text-[18px] font-bold text-gray-900">Call us</h3>
-                            <p className="text-[14px] md:text-[15px] text-gray-600">+(250) 788-888-888</p>
+                            <p className="text-[14px] md:text-[15px] text-gray-600">+(256) 742401012</p>
                         </div>
                     </div>
 

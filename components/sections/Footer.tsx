@@ -25,10 +25,11 @@ export function Footer() {
                     <h2 className="text-[32px] md:text-[40px] font-bold text-white leading-tight max-w-2xl tracking-[-1px]">
                         Belonging to our Father, we steward His resources to heal and save souls.
                     </h2>
-
-                    <button className="bg-[#F5BE41] hover:bg-[#F5BE41]/90 text-black font-bold text-[16px] px-[24px] py-[16px] rounded-[100px] transition-all">
-                        Support the Work
-                    </button>
+                    <Link href="\partnership#tiers">
+                        <button className="bg-[#F5BE40] text-black font-bold px-8 py-3 rounded-full transition-transform duration-300 hover:scale-105 active:scale-95">
+                            Support the Work
+                        </button>
+                    </Link>
                 </div>
 
                 {/* MAIN GRID SECTION */}
@@ -146,6 +147,6 @@ export function Footer() {
                 </div>
 
             </div>
-        </footer>
+        </footer >
     );
 }
