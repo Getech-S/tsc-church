@@ -49,9 +49,10 @@ export function PartnershipTiers() {
                 <div id="back-to-tiers" className="bg-[#1B1C1E] rounded-[24px] p-6 md:p-[56px]">
 
                     {/* GRID: 1 Col Mobile, 3 Col Desktop */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-[45px]">
+                    <div className="flex flex-col-reverse gap-6 lg:grid lg:grid-cols-3 lg:gap-8 max-w-5xl mx-auto">
 
                         {TIERS.map((tier) => (
+
                             <div
                                 key={tier.name}
                                 className={`

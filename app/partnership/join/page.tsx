@@ -64,7 +64,7 @@ function JoinContent() {
                     {/* Back Link */}
                     <Link
                         href="/partnership#back-to-tiers"
-                        className="flex items-center gap-2 text-[#626C75] text-[14px] font-medium hover:text-black transition-colors pl-2"
+                        className="order-1 lg:order-2 text-gray-500 flex items-center gap-2 hover:text-[#DD5F4C] transition-colors self-start lg:self-auto"
                     >
                         <ChevronLeft size={16} />
                         Choose Different Covenant

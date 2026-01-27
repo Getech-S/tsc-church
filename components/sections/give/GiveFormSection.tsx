@@ -16,7 +16,7 @@ export function GiveFormSection() {
     });
 
     // 👇 FIX: "Freeze" the timestamp so it doesn't change on every render
-    const stableTxRef = useMemo(() => Date.now().toString(), []);
+    const [stableTxRef] = useState(() => Date.now().toString());
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -73,7 +73,8 @@ export function GiveFormSection() {
             <div className="mx-auto max-w-[1280px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
 
                 {/* LEFT COLUMN (Text) */}
-                <div className="flex flex-col gap-6 max-w-[565px] sticky top-32 order-1 lg:order-1">
+                {/* 👇 FIX: Added 'lg:' prefix so it is ONLY sticky on large screens, not mobile */}
+                <div className="flex flex-col gap-6 max-w-[565px] lg:sticky lg:top-32 order-1 lg:order-1">
                     <h1 className="text-[36px] md:text-[48px] font-bold text-[#1B1C1E] leading-[1.1] tracking-[-2px]">
                         See what God can do <br />
                         through your Generosity

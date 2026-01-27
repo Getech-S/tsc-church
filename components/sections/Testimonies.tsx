@@ -26,8 +26,8 @@ const TESTIMONIES = [
     },
     {
         id: 4,
-        videoId: "4BHZX66c0T0", // Video ID for Healed of Stomach Tumors and Back Pain After 18 Years
-        title: "Healed of Stomach Tumors and Back Pain After 18 Years",
+        videoId: "qA7va6EbSmY", // Video ID for Healed of Stomach Tumors and Back Pain After 18 Years
+        title: "Completely Healed of Kidney Failure",
         duration: "09:00",
     },
     {
