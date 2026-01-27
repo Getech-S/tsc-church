@@ -1,14 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 1. FORCE SUCCESSFUL BUILD
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // 1. LINTING & TYPESCRIPT
+  // (We use eslint.config.mjs for linting now, but keeping this doesn't hurt)
   typescript: {
     ignoreBuildErrors: true,
   },
 
-  // 2. YOUR SETTINGS
+  // 2. IMAGES
   images: {
     remotePatterns: [
       {
@@ -41,6 +39,12 @@ const nextConfig = {
         ],
       },
     ];
+  },
+
+  // 4. 👇 THE FIX FOR MULTIPLE LOCKFILES 👇
+  // This explicitly tells Next.js: "The root is HERE, not in C:/Users/user"
+  turbopack: {
+    root: process.cwd(),
   },
 
   poweredByHeader: false,
