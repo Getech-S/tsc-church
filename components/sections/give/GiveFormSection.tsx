@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Lock } from "lucide-react";
 import { COUNTRIES } from "@/lib/constants";
-import { useFlutterwave } from "flutterwave-react-v3";
 
 export function GiveFormSection() {
     const [formData, setFormData] = useState({
@@ -15,8 +14,6 @@ export function GiveFormSection() {
         amount: "",
     });
 
-    // 👇 FIX: Use useState instead of useMemo to satisfy the "Purity" rule
-    const [stableTxRef] = useState(() => `tx-${Date.now()}`);
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -27,45 +24,18 @@ export function GiveFormSection() {
         return "USD";
     };
 
-    const config = {
-        // 🔴 TODO: Switch to your Live Key when ready
-        public_key: "FLWPUBK_TEST-REPLACE_THIS_WITH_YOUR_KEY-X",
-        tx_ref: stableTxRef,
-        amount: Number(formData.amount),
-        currency: getCurrency(),
-        payment_options: "card,mobilemoney,ussd",
-        customer: {
-            email: formData.email,
-            // 👇 FIX: Must be 'phonenumber' (no underscore) to satisfy TypeScript
-            phonenumber: formData.phone,
-            name: formData.fullName,
-        },
-        customizations: {
-            title: "True Salvation Church",
-            description: `Giving: ${formData.offeringType}`,
-            logo: "https://your-website.com/logo.png",
-        },
-    };
-
-    const handleFlutterPayment = useFlutterwave(config);
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         // Basic validation
         if (!formData.amount || !formData.email || !formData.fullName) {
             alert("Please fill in all required fields.");
             return;
         }
 
-        handleFlutterPayment({
-            callback: (response) => {
-                console.log("Payment Successful!", response);
-                alert(`Thank you! Payment complete. Ref: ${response.tx_ref}`);
-            },
-            onClose: () => {
-                console.log("Payment closed by user");
-            },
-        });
+        // Placeholder for future logic (API call or Database save)
+        console.log("Form Submitted:", formData);
+        alert(`Thank you, ${formData.fullName}! Your details have been received.`);
     };
 
     return (
@@ -166,7 +136,7 @@ export function GiveFormSection() {
 
                         <div className="flex items-center justify-center gap-2 text-gray-400 text-[12px] mt-2">
                             <Lock size={12} />
-                            <span>Secured by Flutterwave. Your privacy is our priority.</span>
+                            <span>Your privacy is our priority.</span>
                         </div>
                     </form>
                 </div>
