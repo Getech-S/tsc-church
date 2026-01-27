@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react"; // 👈 Added useMemo
+import { useState } from "react"; // 👈 Added useMemo
 import { Lock } from "lucide-react";
 import { COUNTRIES } from "@/lib/constants";
 import { useFlutterwave } from "flutterwave-react-v3";
@@ -37,7 +37,7 @@ export function GiveFormSection() {
         payment_options: "card,mobilemoney,ussd",
         customer: {
             email: formData.email,
-            phone_number: formData.phone,
+            phonenumber: formData.phone,
             name: formData.fullName,
         },
         customizations: {

@@ -45,7 +45,7 @@ export function AboutValues() {
                    - Border Left: 2px solid white/50
                    - Padding Left: 16px
                 */}
-                            <div className="border-l-[2px] border-white/40 pl-4">
+                            <div className="border-l-2 border-white/40 pl-4">
                                 <h3 className="text-[20px] font-bold text-white">
                                     {value.title}
                                 </h3>

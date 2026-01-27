@@ -96,7 +96,7 @@ export function Sermons() {
                                 />
 
                                 {/* OVERLAY */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 
                                 {/* PLAY BUTTON UI */}
                                 <div className="absolute bottom-6 left-6 flex items-center gap-4">

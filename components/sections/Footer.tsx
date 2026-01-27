@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, Youtube, Video, Music2, InstagramIcon } from "lucide-react";
+import { Phone, Mail, Youtube, InstagramIcon } from "lucide-react";
 
 // 1. Define the specific links here to match your Navbar routes
 const FOOTER_LINKS = [
@@ -133,7 +133,7 @@ export function Footer() {
                 </div>
 
                 {/* BOTTOM BAR */}
-                <div className="border-t border-white/[0.125] pt-[35px] flex flex-col md:flex-row justify-between items-center gap-4 text-[#FFFFFF]/50 text-[14px]">
+                <div className="border-t border-white/12.5 pt-[35px] flex flex-col md:flex-row justify-between items-center gap-4 text-[#FFFFFF]/50 text-[14px]">
 
                     <div className="flex items-center gap-6">
                         <Link href="#" className="hover:text-white transition-colors">Terms of Use</Link>

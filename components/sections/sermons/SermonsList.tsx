@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Play, X, ChevronDown } from "lucide-react"; // Added ChevronDown if needed for Load More
+import { Search, Play, X } from "lucide-react"; // Added ChevronDown if needed for Load More
 import Image from "next/image";
 
 // MOCK DATA - 9 Videos to fill the grid
@@ -89,7 +89,7 @@ export function SermonsList() {
                                 />
 
                                 {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 
                                 {/* Play Button & Label */}
                                 <div className="absolute bottom-6 left-6 flex items-center gap-4">

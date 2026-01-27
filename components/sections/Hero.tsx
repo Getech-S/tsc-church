@@ -49,7 +49,7 @@ export function Hero() {
         >
           {/* Dark Overlay */}
           <div className="absolute inset-0 bg-[#000000]/50 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
         </motion.div>
       </div>
 
@@ -66,7 +66,7 @@ export function Hero() {
           {/* "Welcome to" */}
           <motion.span
             variants={itemVariants}
-            className="block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
           >
             Welcome to
           </motion.span>
@@ -74,7 +74,7 @@ export function Hero() {
           {/* "True Salvation" */}
           <motion.span
             variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] mb-2 md:mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-bold text-6xl md:text-8xl lg:text-[110px] mb-2 md:mb-4 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
           >
             True Salvation
           </motion.span>
@@ -82,7 +82,7 @@ export function Hero() {
           {/* "Church" */}
           <motion.span
             variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
           >
             Church
           </motion.span>
@@ -96,7 +96,7 @@ export function Hero() {
           transition={{ delay: 2.5, duration: 1.5 }}
           className="absolute bottom-10"
         >
-          <div className="w-[1px] h-[60px] bg-gradient-to-b from-transparent via-[#F5BE40] to-transparent opacity-60" />
+          <div className="w-[px] h-[60px] bg-linear-to-b from-transparent via-[#F5BE40] to-transparent opacity-60" />
         </motion.div>
 
       </div>

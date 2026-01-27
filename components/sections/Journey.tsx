@@ -85,7 +85,7 @@ export function Journey() {
                         <div className="absolute inset-0 bg-black/70 md:hidden z-10" />
 
                         {/* DESKTOP GRADIENT (Left to Right) - Only visible on desktop */}
-                        <div className="hidden md:block absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/40 z-10" />
+                        <div className="hidden md:block absolute inset-0 bg-linear-to-r from-black via-black/70 to-black/40 z-10" />
 
                         {/* Content Layer (z-20) */}
                         <div className="relative z-20 w-full max-w-[600px] flex flex-col items-start gap-8 p-6 pb-12 md:p-[40px]">

@@ -58,7 +58,7 @@ export function Family() {
                         {/* GRADIENT OVERLAY 
                - Linear Black gradient for text readability
             */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
 
                         {/* CONTENT 
                - Padding: 32px
@@ -68,10 +68,10 @@ export function Family() {
                                 Worship In Person
                             </h3>
 
-                            {/*  NEW DESCRIPTION TEXT */}
-                            <p className="text-[#FFFFFF]/80 text-[16px] leading-[1.5] max-w-[90%]">
+                            {/*  NEW DESCRIPTION TEXT 
+                            <p className="text-[#FFFFFF]/80 text-[16px] leading-1.5 max-w-[90%]">
                                 Experience God’s presence. Worship, grow, and connect in Kampala.
-                            </p>
+                            </p> */}
 
                             {/* BUTTON 
                  - Border: 1px Solid #F5BE41
@@ -96,16 +96,16 @@ export function Family() {
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
 
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
 
                         <div className="absolute bottom-0 left-0 w-full p-[32px] flex flex-col items-start gap-4">
                             <h3 className="text-[24px] font-bold leading-[32px] text-white">
                                 Worship Online
                             </h3>
-                            {/*  NEW DESCRIPTION TEXT */}
-                            <p className="text-[#FFFFFF]/80 text-[16px] leading-[1.5] max-w-[90%]">
+                            {/*  NEW DESCRIPTION TEXT 
+                            <p className="text-[#FFFFFF]/80 text-[16px] leading-1.5 max-w-[90%]">
                                 Stay connected through our online services, teachings, and prayer moments available on Zoom, YouTube, and TikTok.
-                            </p>
+                            </p> */}
 
                             <Link href="\contact#online-worship">
                                 <button className="flex items-center gap-2 rounded-[100px] border border-[#F5BE41] px-[16px] py-[8px] text-[14px] font-bold text-[#F5BE41] transition-colors hover:bg-[#F5BE41] hover:text-black">

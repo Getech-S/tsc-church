@@ -28,11 +28,11 @@ export function MeetApostle() {
                     />
 
                     {/* NEW: Mobile Gradient (Bottom Up) for text readability */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[80%] bg-gradient-to-t from-black via-black/80 to-transparent md:hidden" />
+                    <div className="absolute bottom-0 left-0 right-0 h-[80%] bg-linear-to-t from-black via-black/80 to-transparent md:hidden" />
 
                     {/* Studio Blend Gradient - DESKTOP ONLY (Unchanged) */}
                     <div
-                        className="hidden md:block absolute inset-y-0 left-0 w-[50%] bg-gradient-to-r from-black via-black/80 to-transparent"
+                        className="hidden md:block absolute inset-y-0 left-0 w-[50%] bg-linear-to-r from-black via-black/80 to-transparent"
                     />
                 </div>
             </div>
@@ -45,7 +45,7 @@ export function MeetApostle() {
 
                 {/* Inner Content Wrapper */}
                 <div className="pointer-events-auto px-6 pb-16 pt-32 md:py-20 md:pb-[60px] md:px-0 max-w-[485px] flex flex-col gap-[24px]">
-                    <h2 className="font-bold text-[36px] leading-[42px] md:text-[45px] md:leading-[52px] text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40] tracking-[-2px] drop-shadow-lg">
+                    <h2 className="font-bold text-[36px] leading-[42px] md:text-[45px] md:leading-[52px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40] tracking-[-2px] drop-shadow-lg">
                         Our Spiritual Leadership
                     </h2>
                     <p className="font-normal text-[16px] leading-[26px] text-white/90 drop-shadow-md">

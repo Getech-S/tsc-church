@@ -13,7 +13,7 @@ export function EventsHero() {
             >
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
             </div>
 
             {/* 2. NAVBAR */}
@@ -21,10 +21,10 @@ export function EventsHero() {
 
             {/* 3. CENTER TEXT CONTENT */}
             <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
-                <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg break-words max-w-full">
+                <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
                     {/* "Events" -> Gold Gradient */}
                     <span
-                        className="text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#F5BE40] to-[#FFFFFF]"
+                        className="text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#F5BE40] to-[#FFFFFF]"
                     >
                         Events
                     </span>

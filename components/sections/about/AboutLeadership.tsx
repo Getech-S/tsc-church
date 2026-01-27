@@ -34,7 +34,7 @@ export function AboutLeadership() {
                     </p>
 
                     {/* Divider Line */}
-                    <div className="w-full h-[1px] bg-gray-200 mb-10" />
+                    <div className="w-full h-[px] bg-gray-200 mb-10" />
 
                     {/* Apostle Section */}
                     <div className="flex flex-col gap-4">
@@ -52,7 +52,7 @@ export function AboutLeadership() {
            - Radius: 16px
            - Height: 619px (on desktop)
         */}
-                <div className="relative w-full aspect-[4/5] lg:h-[619px] lg:w-auto rounded-[16px] overflow-hidden shadow-lg">
+                <div className="relative w-full aspect-4/5 lg:h-[619px] lg:w-auto rounded-[16px] overflow-hidden shadow-lg">
                     <Image
                         src="/about-apostle.jpg"
                         alt="Apostle Charles"

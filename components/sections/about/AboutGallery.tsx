@@ -61,7 +61,7 @@ export function AboutGallery() {
                  - From Black (0%) to Transparent
                  - Ensures text legibility at bottom
               */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
 
                             {/* TEXT CONTENT 
                  - Position: Absolute Bottom Left

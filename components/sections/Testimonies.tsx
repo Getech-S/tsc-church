@@ -156,7 +156,7 @@ export function Testimonies() {
                                 />
 
                                 {/* OVERLAY GRADIENT (Bottom Up) */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+                                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
 
                                 {/* PLAY BUTTON (Center) - Only clickable on active slide */}
                                 {position === "active" && (

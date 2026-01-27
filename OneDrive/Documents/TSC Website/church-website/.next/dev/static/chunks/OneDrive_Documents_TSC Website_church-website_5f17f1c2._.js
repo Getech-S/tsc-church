@@ -114,7 +114,7 @@ function Navbar() {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                         href: "/",
-                        className: "flex-shrink-0",
+                        className: "shrink-0",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "relative w-[96px] h-[78px] flex items-center justify-center",
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -418,7 +418,7 @@ function Hero() {
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"
+                            className: "absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Hero.tsx",
                             lineNumber: 52,
@@ -446,7 +446,7 @@ function Hero() {
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].span, {
                                 variants: itemVariants,
-                                className: "block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
+                                className: "block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
                                 children: "Welcome to"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Hero.tsx",
@@ -455,7 +455,7 @@ function Hero() {
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].span, {
                                 variants: itemVariants,
-                                className: "block font-bold text-6xl md:text-8xl lg:text-[110px] mb-2 md:mb-4 tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
+                                className: "block font-bold text-6xl md:text-8xl lg:text-[110px] mb-2 md:mb-4 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
                                 children: "True Salvation"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Hero.tsx",
@@ -464,7 +464,7 @@ function Hero() {
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__["motion"].span, {
                                 variants: itemVariants,
-                                className: "block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
+                                className: "block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]",
                                 children: "Church"
                             }, void 0, false, {
                                 fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Hero.tsx",
@@ -490,7 +490,7 @@ function Hero() {
                         },
                         className: "absolute bottom-10",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "w-[1px] h-[60px] bg-gradient-to-b from-transparent via-[#F5BE40] to-transparent opacity-60"
+                            className: "w-[px] h-[60px] bg-linear-to-b from-transparent via-[#F5BE40] to-transparent opacity-60"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Hero.tsx",
                             lineNumber: 99,
@@ -557,14 +557,14 @@ function MeetApostle() {
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "absolute bottom-0 left-0 right-0 h-[80%] bg-gradient-to-t from-black via-black/80 to-transparent md:hidden"
+                            className: "absolute bottom-0 left-0 right-0 h-[80%] bg-linear-to-t from-black via-black/80 to-transparent md:hidden"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/MeetApostle.tsx",
                             lineNumber: 31,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                            className: "hidden md:block absolute inset-y-0 left-0 w-[50%] bg-gradient-to-r from-black via-black/80 to-transparent"
+                            className: "hidden md:block absolute inset-y-0 left-0 w-[50%] bg-linear-to-r from-black via-black/80 to-transparent"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/MeetApostle.tsx",
                             lineNumber: 34,
@@ -587,7 +587,7 @@ function MeetApostle() {
                     className: "pointer-events-auto px-6 pb-16 pt-32 md:py-20 md:pb-[60px] md:px-0 max-w-[485px] flex flex-col gap-[24px]",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
-                            className: "font-bold text-[36px] leading-[42px] md:text-[45px] md:leading-[52px] text-transparent bg-clip-text bg-gradient-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40] tracking-[-2px] drop-shadow-lg",
+                            className: "font-bold text-[36px] leading-[42px] md:text-[45px] md:leading-[52px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40] tracking-[-2px] drop-shadow-lg",
                             children: "Our Spiritual Leadership"
                         }, void 0, false, {
                             fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/MeetApostle.tsx",
@@ -812,7 +812,7 @@ function Testimonies() {
                                         columnNumber: 33
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                        className: "absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"
+                                        className: "absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent"
                                     }, void 0, false, {
                                         fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Testimonies.tsx",
                                         lineNumber: 159,
@@ -1115,7 +1115,7 @@ function Sermons() {
                                                 columnNumber: 33
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$OneDrive$2f$Documents$2f$TSC__Website$2f$church$2d$website$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                                className: "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"
+                                                className: "absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent"
                                             }, void 0, false, {
                                                 fileName: "[project]/OneDrive/Documents/TSC Website/church-website/components/sections/Sermons.tsx",
                                                 lineNumber: 99,

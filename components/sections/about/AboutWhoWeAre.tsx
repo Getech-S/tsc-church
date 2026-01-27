@@ -30,7 +30,7 @@ export function AboutWhoWeAre() {
                     </p>
 
                     {/* Divider Line */}
-                    <div className="w-full h-[1px] bg-gray-200 mb-8" />
+                    <div className="w-full h-[px] bg-gray-200 mb-8" />
 
                     {/* Mission Section */}
                     <div className="flex flex-col gap-3 w-full">
@@ -42,7 +42,7 @@ export function AboutWhoWeAre() {
                         </p>
 
                         {/* Tagline (Bottom Right of text block) */}
-                        <span className="font-caveat text-[28px] text-[#DD5F4C] self-end mt-4 transform rotate-[-2deg]"
+                        <span className="font-caveat text-[28px] text-[#DD5F4C] self-end mt-4 transform rotate-2"
                             style={{
                                 fontVariantNumeric: "lining-nums tabular-nums",
                                 fontFeatureSettings: '"liga" off, "calt" off',
@@ -64,7 +64,7 @@ export function AboutWhoWeAre() {
              - UPDATED: Used aspect-[3/4] for a standard portrait shape.
              - Removed h-[85%].
           */}
-                    <div className="relative w-1/2 aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
+                    <div className="relative w-1/2 aspect-3/4 rounded-2xl overflow-hidden shadow-lg">
                         <Image
                             src="/about-baptism.jpg"
                             alt="Baptism Service"
@@ -77,7 +77,7 @@ export function AboutWhoWeAre() {
              - UPDATED: Used aspect-[2/3] for a taller portrait shape.
              - Removed h-full.
           */}
-                    <div className="relative w-1/2 aspect-[2/3] rounded-2xl overflow-hidden shadow-lg">
+                    <div className="relative w-1/2 aspect-2/3 rounded-2xl overflow-hidden shadow-lg">
                         <Image
                             src="/about-group.jpg"
                             alt="Community Gathering"

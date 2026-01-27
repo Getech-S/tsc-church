@@ -45,7 +45,7 @@ export function Navbar() {
       <div className="bg-white rounded-[5px] shadow-lg px-8 py-3 w-full max-w-[1240px] flex items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="shrink-0">
           <div className="relative w-[96px] h-[78px] flex items-center justify-center">
             <Image src="/logo.png" alt="TSC Logo" fill className="object-contain" priority />
           </div>

@@ -52,7 +52,7 @@ export function About() {
                 <div className="relative flex gap-4 justify-center lg:justify-end">
 
                     {/* Image 1: (Lower Left) */}
-                    <div className="relative w-[45%] aspect-[3/4] rounded-[16px] overflow-hidden shadow-xl mt-12">
+                    <div className="relative w-[45%] aspect-3/4 rounded-[16px] overflow-hidden shadow-xl mt-12">
                         <Image
                             src="/about-baptism.jpg" // Make sure this file exists in public/
                             alt="Baptism Service"
@@ -64,7 +64,7 @@ export function About() {
                     {/* Image 2: (Upper Right - THE APOSTLE) 
              FIXED: Added '-scale-x-100' to horizontally flip the image so he looks left.
           */}
-                    <div className="relative w-[45%] aspect-[3/4] rounded-[16px] overflow-hidden shadow-xl mb-12">
+                    <div className="relative w-[45%] aspect-3/4 rounded-[16px] overflow-hidden shadow-xl mb-12">
                         <Image
                             src="/about-group.jpg" // Make sure this file exists in public/
                             alt="Apostle"
