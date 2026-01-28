@@ -8,7 +8,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "img.youtube.com",
+        hostname: "img.youtube.com", // For older YouTube thumbs
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com", // For new API thumbs
         port: "",
         pathname: "/**",
       },
