@@ -1,27 +1,28 @@
 import type { Metadata } from "next";
-// 1. Import Caveat
+// 1. Import both fonts
 import { Montserrat, Caveat } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const fontSans = Montserrat({
+// Configure Montserrat (Global font)
+const montserrat = Montserrat({
   subsets: ["latin"],
-  variable: "--font-sans",
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-// 2. Configure Caveat
-const fontCaveat = Caveat({
+// 2. Configure Caveat (Accent font)
+const caveat = Caveat({
   subsets: ["latin"],
   variable: "--font-caveat",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "True Salvation Church",
   icons: {
-    icon: "/logo.png",
+    icon: "/logo.png"
   },
-  description: "Welcome to True Salvation Church.",
+  description: "Welcome to True Salvation Church",
 };
 
 export default function RootLayout({
@@ -30,18 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased",
-          // 3. Add the variable here
-          fontSans.variable,
-          fontCaveat.variable
-        )}
-      >
-        <main className="relative flex min-h-screen flex-col">
-          {children}
-        </main>
+    <html lang="en">
+      {/* 3. Add BOTH font variables to the body class */}
+      <body className={`${montserrat.variable} ${caveat.variable} font-sans antialiased`}>
+        {children}
       </body>
     </html>
   );

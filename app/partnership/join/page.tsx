@@ -3,9 +3,9 @@
 import { useSearchParams } from "next/navigation";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/sections/Footer";
-import { ChevronLeft, Lock } from "lucide-react";
+import { ChevronLeft, Lock, Calendar } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { COUNTRIES } from "@/lib/constants";
 
 // 1. DEFINE THE DATA FOR LOOKUP
@@ -33,6 +33,9 @@ function JoinContent() {
     const tierName = searchParams.get("tier") || "Platinum";
     const tier = TIER_DATA[tierName] || TIER_DATA["Platinum"];
 
+    // State for Payment Timing Selection
+    const [paymentTiming, setPaymentTiming] = useState<"later" | "now">("now");
+
     return (
         <section className="min-h-screen pt-[140px] pb-20 px-4 md:px-8 bg-[#FDF2ED]">
             <div className="mx-auto max-w-[1100px] grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
@@ -50,7 +53,7 @@ function JoinContent() {
                             Monthly Covenant
                         </h2>
 
-                        {/* Price - Matches design: Big Red Text */}
+                        {/* Price */}
                         <div className="text-[64px] font-bold text-[#DD5F4C] leading-none tracking-tight">
                             ${tier.price}
                         </div>
@@ -108,9 +111,71 @@ function JoinContent() {
                             </select>
                         </div>
 
-                        {/* Submit Button */}
-                        <button className="w-full bg-[#DD5F4C] text-white font-bold py-4 rounded-[100px] hover:bg-[#c54e3d] transition-colors mt-4 text-[16px] shadow-xl shadow-[#DD5F4C]/20">
-                            Complete my Commitment
+                        {/* --- NEW SECTION: PAYMENT TIMING SELECTION --- */}
+                        <div className="flex flex-col gap-3 mt-2">
+                            <label className="text-[14px] font-medium text-gray-700">When would you like to commit?</label>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {/* Option 1: Commit Later */}
+                                <div
+                                    onClick={() => setPaymentTiming("later")}
+                                    className={`cursor-pointer rounded-[8px] p-4 border transition-all duration-200 flex flex-col gap-1 relative ${paymentTiming === "later"
+                                        ? "bg-[#FFF5F2] border-[#DD5F4C]"
+                                        : "bg-white border-gray-200 hover:border-gray-300"
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${paymentTiming === "later" ? "border-[#DD5F4C]" : "border-gray-300"
+                                            }`}>
+                                            {paymentTiming === "later" && <div className="w-2.5 h-2.5 rounded-full bg-[#DD5F4C]" />}
+                                        </div>
+                                        <span className="font-bold text-gray-900 text-[15px]">Commit Later</span>
+                                    </div>
+                                    <span className="text-[13px] text-gray-500 pl-7">${tier.price}/Month</span>
+                                </div>
+
+                                {/* Option 2: Commit Now */}
+                                <div
+                                    onClick={() => setPaymentTiming("now")}
+                                    className={`cursor-pointer rounded-[8px] p-4 border transition-all duration-200 flex flex-col gap-1 relative ${paymentTiming === "now"
+                                        ? "bg-[#FFF5F2] border-[#DD5F4C]"
+                                        : "bg-white border-gray-200 hover:border-gray-300"
+                                        }`}
+                                >
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${paymentTiming === "now" ? "border-[#DD5F4C]" : "border-gray-300"
+                                            }`}>
+                                            {paymentTiming === "now" && <div className="w-2.5 h-2.5 rounded-full bg-[#DD5F4C]" />}
+                                        </div>
+                                        <span className="font-bold text-gray-900 text-[15px]">Commit Now</span>
+                                    </div>
+                                    <span className="text-[13px] text-gray-500 pl-7">${tier.price}/Month</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        {/* --- CONDITIONAL DATE PICKER (Only if 'later' is selected) --- */}
+                        {paymentTiming === "later" && (
+                            <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                                <label className="text-[14px] font-medium text-gray-700">Choose your commitment date</label>
+                                <div className="relative">
+                                    <input
+                                        type="date"
+                                        className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C] appearance-none"
+                                    />
+                                    <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Submit Button - Dynamic Text */}
+                        <button className={`w-full text-white font-bold py-4 rounded-[100px] hover:opacity-90 transition-all mt-4 text-[16px] shadow-xl ${paymentTiming === "now"
+                            ? "bg-[#DD5F4C] shadow-[#DD5F4C]/20" // Primary Color for Payment
+                            : "bg-[#E07E6C] shadow-[#E07E6C]/20" // Slightly softer color for Sign Up
+                            }`}>
+                            {paymentTiming === "now" ? "Complete my Commitment" : "Sign Up"}
                         </button>
 
                         <div className="flex items-center justify-center gap-2 text-gray-400 text-[12px] mt-2">
@@ -130,7 +195,6 @@ export default function JoinPage() {
     return (
         <main className="relative min-h-screen flex flex-col bg-[#FDF2ED]">
             <Navbar />
-            {/* Suspense is required for using useSearchParams in Next.js */}
             <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
                 <JoinContent />
             </Suspense>

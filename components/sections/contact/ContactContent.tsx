@@ -72,7 +72,7 @@ export function ContactContent() {
                         </div>
                         <div className="flex flex-col overflow-hidden">
                             <h3 className="text-[16px] md:text-[18px] font-bold text-gray-900">Email us</h3>
-                            <p className="text-[14px] md:text-[15px] text-gray-600 break-all">truesalvationchurch@protonmail.com</p>
+                            <p className="text-[14px] md:text-[15px] text-gray-600 break-all">info@truesalvationchurch.com</p>
                         </div>
                     </div>
 
@@ -84,6 +84,7 @@ export function ContactContent() {
                         <div className="flex flex-col">
                             <h3 className="text-[16px] md:text-[18px] font-bold text-gray-900">Call us</h3>
                             <p className="text-[14px] md:text-[15px] text-gray-600">+(256) 742401012</p>
+                            <p className="text-[14px] md:text-[15px] text-gray-600">+(250) 788293932</p>
                         </div>
                     </div>
 
@@ -94,7 +95,7 @@ export function ContactContent() {
                         </div>
                         <div className="flex flex-col">
                             <h3 className="text-[16px] md:text-[18px] font-bold text-gray-900">Our Location</h3>
-                            <p className="text-[14px] md:text-[15px] text-gray-600">Muganzirwazza, Kampala-Uganda</p>
+                            <p className="text-[14px] md:text-[15px] text-gray-600">Muganzirwazza, Katwe Kampala-Uganda</p>
                         </div>
                     </div>
                 </div>
@@ -167,7 +168,8 @@ export function ContactContent() {
                                         >
                                             <option value="">Select a reason</option>
                                             <option value="Prayer Request">Prayer Request</option>
-                                            <option value="General Inquiry">General Inquiry</option>
+                                            <option value="Appointment with Apostle">Appointment with Apostle</option>
+                                            <option value="Join The Family">Join The Family</option>
                                             <option value="Partnership">Partnership</option>
                                             <option value="Other">Other</option>
                                         </select>
@@ -228,7 +230,7 @@ export function ContactContent() {
                     {/* RIGHT: Map Embed */}
                     <div id="map-location" className="w-full h-[300px] md:h-[400px] lg:h-full min-h-[300px] bg-gray-100 rounded-[16px] overflow-hidden">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.757371308333!2d32.57683937496459!3d0.2913504997063167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbce34091a1d9%3A0x6e8a4d40026604c2!2sMuganzirwazza%20Complex!5e0!3m2!1sen!2sug!4v1706606670000!5m2!1sen!2sug"
+                            src="https://maps.google.com/maps?q=Muganzirwazza%20Commercial%20Complex%2C%20Kampala&t=&z=15&ie=UTF8&iwloc=&output=embed"
                             width="100%"
                             height="100%"
                             style={{ border: 0 }}

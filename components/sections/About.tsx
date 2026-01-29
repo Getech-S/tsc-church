@@ -35,7 +35,7 @@ export function About() {
                     {/* FIXED BUTTON: Single line, pill shape */}
                     <Link href="/about#whoweare">
                         <button
-                            className="text-[#ffffff] bg-[#DD5F4C] font-bold text-[15px] rounded-[100px] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
+                            className="text-[#ffffff] bg-[#DD5F4C] font-bold text-[15px] rounded-[100px] flex items-center justify-center  transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer"
                             style={{
                                 paddingTop: '16px',
                                 paddingBottom: '16px',

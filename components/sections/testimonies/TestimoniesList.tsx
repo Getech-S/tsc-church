@@ -1,61 +1,94 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Play, X } from "lucide-react";
+import { Search, Play, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 
-// MOCK DATA - Categories matched to your tabs
+// MOCK DATA - Extended to 12 items to demonstrate "Load More"
 const ALL_TESTIMONIES = [
     {
         id: 1,
-        videoId: "pRPUeB6pvaY", // Video ID for Healed and Restored
+        videoId: "pRPUeB6pvaY",
         title: "God of Mighty Works! Come and See",
         category: "Spiritual Growth",
         duration: "33:30",
     },
     {
         id: 2,
-        videoId: "gOR0pFrOaXU", // Video ID for Child Provision from God
+        videoId: "gOR0pFrOaXU",
         title: "We miraculously gave birth to our first child after many years",
-        category: "Emotional",
+        category: "Deliverance",
         duration: "59:45",
     },
     {
         id: 3,
-        videoId: "Mp5kqVAksDw", // Testimony 3
+        videoId: "Mp5kqVAksDw",
         title: "Healed of Heart Disease, Bones, Liver and Kidneys",
         category: "Physical Healing",
         duration: "39:20",
     },
     {
         id: 4,
-        videoId: "KRpu1FSp8hQ", // Video ID for Healed of Stomach Tumors and Back Pain After 18 Years
+        videoId: "KRpu1FSp8hQ",
         title: "Powerful Delivrance",
-        category: "Physical Healing",
+        category: "Deliverance",
         duration: "09:00",
     },
     {
         id: 5,
-        videoId: "ffcRuAl3ySA", // Video ID for Completely Healed of Blood Cancer
+        videoId: "ffcRuAl3ySA",
         title: "Completely Healed of Blood Cancer",
         category: "Physical Healing",
         duration: "12:00",
     },
     {
         id: 6,
-        videoId: "f4-cRcxQVNk", // Video ID for God Restores His Legs
+        videoId: "f4-cRcxQVNk",
         title: "God Restores His Legs",
         category: "Physical Healing",
         duration: "18:00",
     },
+    // --- EXTRA VIDEOS ADDED FOR LOAD MORE TEST ---
+    {
+        id: 7,
+        videoId: "W2xwF5dLcPM", // Placeholder (Reuse)
+        title: "Young lady receives deliverance from bondage",
+        category: "Deliverance",
+        duration: "30:00",
+    },
+    {
+        id: 8,
+        videoId: "cAR8LDJhmKM", // Placeholder (Reuse)
+        title: "Young man receives deliverance from evil spirits",
+        category: "Deliverance",
+        duration: "30:00",
+    },
+    {
+        id: 9,
+        videoId: "Sd7y_s97CZM", // Placeholder (Reuse)
+        title: "Healed & deliverance from addictions",
+        category: "Physical Healing",
+        duration: "22:00",
+    },
+    {
+        id: 10,
+        videoId: "gwwfZxi32ow", // Placeholder (Reuse)
+        title: "Healed from throat cancer",
+        category: "Physical Healing",
+        duration: "16:00",
+    },
 ];
 
-const TABS = ["All", "Physical Healing", "Emotional", "Spiritual Growth"];
+const TABS = ["All", "Physical Healing", "Deliverance", "Spiritual Growth"];
+const ITEMS_PER_PAGE = 6; // How many to show initially
 
 export function TestimoniesList() {
     const [activeTab, setActiveTab] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
     const [activeVideo, setActiveVideo] = useState<string | null>(null);
+
+    // 👇 NEW: State to control how many videos are visible
+    const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
     // Filter Logic
     const filteredTestimonies = ALL_TESTIMONIES.filter((video) => {
@@ -63,6 +96,25 @@ export function TestimoniesList() {
         const matchesSearch = video.title.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesTab && matchesSearch;
     });
+
+    // 👇 NEW: Slice the filtered list to only show the visible count
+    const displayedTestimonies = filteredTestimonies.slice(0, visibleCount);
+
+    // 👇 NEW: Handle Load More Click
+    const handleLoadMore = () => {
+        setVisibleCount((prev) => prev + 3); // Load 3 more at a time
+    };
+
+    // Reset visible count when filters change (so user starts from top)
+    const handleFilterChange = (tab: string) => {
+        setActiveTab(tab);
+        setVisibleCount(ITEMS_PER_PAGE);
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+        setVisibleCount(ITEMS_PER_PAGE);
+    };
 
     return (
         <section className="bg-white py-20 px-6 md:px-12">
@@ -76,7 +128,7 @@ export function TestimoniesList() {
                         {TABS.map((tab) => (
                             <button
                                 key={tab}
-                                onClick={() => setActiveTab(tab)}
+                                onClick={() => handleFilterChange(tab)} // Updated handler
                                 className={`text-[15px] md:text-[16px] font-medium pb-2 transition-all relative whitespace-nowrap ${activeTab === tab
                                     ? "text-[#DD5F4C] font-bold"
                                     : "text-gray-500 hover:text-gray-900"
@@ -97,7 +149,7 @@ export function TestimoniesList() {
                             type="text"
                             placeholder="Search Specific testimony..."
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={handleSearchChange} // Updated handler
                             className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 bg-white text-[14px] focus:outline-none focus:border-[#DD5F4C] transition-colors"
                         />
                     </div>
@@ -105,7 +157,7 @@ export function TestimoniesList() {
 
                 {/* VIDEO GRID */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-                    {filteredTestimonies.map((video) => (
+                    {displayedTestimonies.map((video) => (
                         <div
                             key={video.id}
                             className="group cursor-pointer flex flex-col gap-4"
@@ -113,7 +165,7 @@ export function TestimoniesList() {
                         >
 
                             {/* CARD IMAGE CONTAINER */}
-                            <div className="relative h-[285px] w-full rounded-[16px] overflow-hidden shadow-sm">
+                            <div className="relative h-[285px] w-full rounded-[16px] overflow-hidden shadow-sm bg-gray-100">
                                 <Image
                                     src={`https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`}
                                     alt={video.title}
@@ -131,10 +183,10 @@ export function TestimoniesList() {
                                     </div>
                                 </div>
 
-                                {/* DURATION BADGE (Bottom Right) */}
+                                {/* DURATION BADGE */}
                                 <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full border border-white/20">
                                     <span className="text-white text-[12px] font-medium">
-                                        0:00 / {video.duration}
+                                        {video.duration}
                                     </span>
                                 </div>
                             </div>
@@ -148,11 +200,24 @@ export function TestimoniesList() {
                 </div>
 
                 {/* LOAD MORE BUTTON */}
-                <div className="flex justify-center mt-8">
-                    <button className="px-8 py-3 rounded-[100px] border border-[#DD5F4C] text-[#DD5F4C] font-bold text-[14px] hover:bg-[#DD5F4C] hover:text-white transition-all flex items-center gap-2">
-                        Load More +++
-                    </button>
-                </div>
+                {/* Only show if there are more items to see */}
+                {visibleCount < filteredTestimonies.length && (
+                    <div className="flex justify-center mt-8">
+                        <button
+                            onClick={handleLoadMore}
+                            className="px-8 py-3 rounded-[100px] border border-[#DD5F4C] text-[#DD5F4C] font-bold text-[14px] hover:bg-[#DD5F4C] hover:text-white transition-all flex items-center gap-2"
+                        >
+                            Load More ...
+                        </button>
+                    </div>
+                )}
+
+                {/* EMPTY STATE (If search returns nothing) */}
+                {filteredTestimonies.length === 0 && (
+                    <div className="text-center py-12 text-gray-400">
+                        No testimonies found matching your search.
+                    </div>
+                )}
 
             </div>
 

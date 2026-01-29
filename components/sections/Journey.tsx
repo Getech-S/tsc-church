@@ -28,7 +28,7 @@ export function Journey() {
                 </div>
 
                 {/* GRID LAYOUT */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-15">
 
                     {/* CARD 1: DIVINE HEALING (RED) */}
                     <div className="bg-[#DD5F4C] rounded-[16px] p-[40px] flex flex-col justify-between items-start min-h-[286px]">
@@ -88,14 +88,14 @@ export function Journey() {
                         <div className="hidden md:block absolute inset-0 bg-linear-to-r from-black via-black/70 to-black/40 z-10" />
 
                         {/* Content Layer (z-20) */}
-                        <div className="relative z-20 w-full max-w-[600px] flex flex-col items-start gap-8 p-6 pb-12 md:p-[40px]">
+                        <div className="relative z-20 w-full flex flex-col items-start gap-8 p-6 pb-12 md:p-[40px]">
 
                             {/* Text Block */}
                             <div className="flex flex-col gap-4">
                                 <span className="text-[18px] leading-[24px] font-normal text-white/90">
                                     Discipleship
                                 </span>
-                                <h3 className="text-[32px] font-bold leading-[1.2] text-white">
+                                <h3 className="text-[32px] font-bold leading-[1.2] text-white w-full">
                                     Live so they See Christ in you. Join a family committed to growing into His likeness in every word and every deed.
                                 </h3>
                             </div>

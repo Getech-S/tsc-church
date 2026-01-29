@@ -12,10 +12,19 @@ export function GiveFormSection() {
         country: "",
         offeringType: "Tithe",
         amount: "",
+        otherOffering: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+
+        setFormData((prev) => {
+            // If user changes the main dropdown away from "Other", clear the text box
+            if (name === "offeringType" && value !== "Other") {
+                return { ...prev, [name]: value, otherOffering: "" };
+            }
+            return { ...prev, [name]: value };
+        });
     };
 
     const getCurrency = () => {
@@ -39,7 +48,7 @@ export function GiveFormSection() {
     };
 
     return (
-        <section className="bg-[#FDF2ED] min-h-screen py-12 px-6 md:px-12 flex items-center justify-center">
+        <section className=" min-h-screen py-12 px-6 md:px-12 flex items-center justify-center">
             <div className="mx-auto max-w-[1280px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
 
                 {/* LEFT COLUMN (Text) */}
@@ -109,12 +118,26 @@ export function GiveFormSection() {
                                 className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px] bg-white cursor-pointer"
                                 onChange={handleChange}
                             >
+                                <option value="Choose your offering">Choose your offering</option>
                                 <option value="Tithe">Tithe</option>
-                                <option value="Offering">General Offering</option>
-                                <option value="Partnership">Partnership</option>
-                                <option value="Building">Building Fund</option>
+                                <option value="Offering">Love Offering (connecting to the Altar)</option>
+                                <option value="Thanksgiving">Thanksgiving</option>
+                                <option value="Seed Offering">Seed Offering</option>
+                                <option value="First Fruit">First Fruit</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
+                        {formData.offeringType === "Other" && (
+                            <input
+                                name="otherOffering"
+                                value={formData.otherOffering}
+                                onChange={handleChange}
+                                type="text"
+                                required
+                                placeholder="Please specify"
+                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px] mt-2 animate-in fade-in slide-in-from-top-2"
+                            />
+                        )}
 
                         <div className="flex flex-col gap-2">
                             <label className="text-[14px] font-medium text-gray-700">

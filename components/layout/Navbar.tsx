@@ -19,8 +19,8 @@ const navLinks = [
 
 const languages = [
   { name: "English", active: true },
-  { name: "Kinyarwanda", active: false },
-  { name: "French", active: false },
+  // { name: "Kinyarwanda", active: false },
+  // { name: "French", active: false },
 ];
 
 export function Navbar() {
@@ -57,10 +57,10 @@ export function Navbar() {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name}
+                key={link.name} // 👈 FIXED: changed from link.label to link.name
                 href={link.href}
                 className={cn(
-                  "text-[16px] font-bold transition-colors",
+                  "text-[16px] transition-colors",
                   isActive
                     ? "text-[#DD5F4C]"
                     : "text-gray-600 hover:text-[#DD5F4C]"
@@ -114,17 +114,15 @@ export function Navbar() {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/give">
-            <button
-              className="text-white font-bold text-[15px] rounded-[100px] flex items-center justify-center shadow-md transition-transform duration-300 hover:scale-105 active:scale-95"
-              style={{
-                backgroundColor: "#DD5F4C",
-                width: "116px",
-                height: "44px"
-              }}
-            >
-              Give Now
-            </button>
+          <Link href="/give" className="text-white font-bold text-[15px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+            style={{
+              backgroundColor: "#DD5F4C",
+              width: "116px",
+              height: "44px"
+            }}>
+
+            Give Now
+
           </Link>
         </div>
 
@@ -143,7 +141,7 @@ export function Navbar() {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name}
+                key={link.name} // 👈 FIXED: changed from link.label to link.name
                 href={link.href}
                 className={cn(
                   "text-lg font-bold py-2 border-b border-gray-100",
@@ -165,7 +163,7 @@ export function Navbar() {
             ))}
           </div>
 
-          {/* 👇 NEW: Mobile Give Button (Added this section) */}
+          {/* Mobile Give Button */}
           <Link href="/give" onClick={() => setIsOpen(false)} className="w-full mt-2">
             <button
               className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center shadow-md py-3"

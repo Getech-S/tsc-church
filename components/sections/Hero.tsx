@@ -66,7 +66,7 @@ export function Hero() {
           {/* "Welcome to" */}
           <motion.span
             variants={itemVariants}
-            className="block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-[linear-gradient(to_right,#FFFFFF_11.59%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
           >
             Welcome to
           </motion.span>
@@ -74,7 +74,7 @@ export function Hero() {
           {/* "True Salvation" */}
           <motion.span
             variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] mb-2 md:mb-4 tracking-tight text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-bold text-6xl md:text-8xl lg:text-[110px] mb-0 md:mb-1 tracking-tight text-transparent bg-clip-text bg-[linear-gradient(85deg,#FFFFFF_0%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
           >
             True Salvation
           </motion.span>
@@ -82,7 +82,7 @@ export function Hero() {
           {/* "Church" */}
           <motion.span
             variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]"
+            className="block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-[linear-gradient(85deg,#FFFFFF_0%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
           >
             Church
           </motion.span>

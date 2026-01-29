@@ -29,7 +29,13 @@ export function AboutGallery() {
                 {/* HEADER */}
                 <div className="flex flex-col items-center text-center gap-2">
                     {/* Eyebrow: Handwritten Style */}
-                    <span className="font-caveat text-[28px] leading-[27px] text-[#DD5F4C] tracking-[0.5px]">
+                    <span className="font-caveat text-[28px] leading-[27px] text-[#DD5F4C] tracking-[0.5px]"
+                        style={{
+                            fontVariantNumeric: "lining-nums tabular-nums",
+                            fontFeatureSettings: '"liga" off, "calt" off',
+                            fontFamily: "var(--font-caveat)",
+                        }}
+                    >
                         Moments of Grace
                     </span>
                     {/* Main Title */}

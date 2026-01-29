@@ -102,8 +102,8 @@ export function PartnershipTiers() {
                                             className={`
                         w-full flex items-center justify-between px-6 py-3 rounded-full text-[14px] font-bold transition-all
                         ${tier.isHighlight
-                                                    ? "bg-[#F5BE41] text-black hover:bg-[#dca62e]" // Solid Gold Button
-                                                    : "border border-[#F5BE41] text-[#F5BE41] hover:bg-[#F5BE41] hover:text-black" // Outline Button
+                                                    ? "bg-[#F5BE41] text-black hover:bg-[#dca62e] cursor-pointer" // Solid Gold Button
+                                                    : "border border-[#F5BE41] text-[#F5BE41] hover:bg-[#F5BE41] hover:text-black cursor-pointer" // Outline Button
                                                 }
                       `}
                                         >
