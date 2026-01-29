@@ -126,16 +126,16 @@ export function Footer() {
 
                         <div className="flex flex-col gap-4 text-[#FFFFFF]/80 text-[15px] leading-[1.6]">
                             <p>
-                                <strong className="text-white font-bold">Tuesday:</strong> Night of Beauty | 17:00 – 20:00
+                                <strong className="text-white font-bold">Monday - Thursday:</strong> Night of Beauty | 21:00 – 00:00
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Thursday:</strong> Deliverance Morning | 09:00 – 13:00
+                                <strong className="text-white font-bold">Friday:</strong> Prayer Flames | 21:00 – 00:00
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Friday:</strong> Worship Encounter | 20:00 – 23:00
+                                <strong className="text-white font-bold">Saturday:</strong> Bring Your Special Offering To Buid For God And Meet Apostle Privately In His Office Or Via Zoom | 11:00 – 16:00
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Sunday:</strong> The Family Encounter | 09:00 – 13:00
+                                <strong className="text-white font-bold">Sunday:</strong> Special Miracle Service | 15:00 – 19:00
                             </p>
                         </div>
                     </div>

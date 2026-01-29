@@ -9,20 +9,20 @@ const BELIEFS = [
   {
     id: "God",
     title: "About God",
-    description: "God is the creator and sovereign ruler of all things seen and un seen. He has eternally existed in three persons – the Father, the Son, and the Holy Spirit. These three are co-equal and are one God.",
+    description: "God is the creator and sovereign ruler of all things seen and unseen.",
     verses: ["Genesis 1:1-31", "Genesis 2:1-4"]
   },
   {
     id: "Jesus",
     title: "About Jesus Christ",
     description: "Jesus Christ is the sui generis mediator between Man and God, and that uniquely in him Man can be reconciled to God.",
-    verses: ["1 Timothy 2:5", "Isaiah 9:6"]
+    verses: ["1 Timothy 2:5", "Isaiah 61:1-3"]
   },
   {
     id: "Spirit",
     title: "About the Holy Spirit",
-    description: "The Holy Spirit is equal with the Father and the Son as God. He is present in the world to make men aware of their need for Jesus Christ. He also lives in every Christian from the moment of salvation. He provides the Christian with power for living, understanding of spiritual truth, and guidance in doing what is right. The Christian seeks to live under his control daily.",
-    verses: ["Genesis 1:1-2", "Acts1:8, 10:38"]
+    description: "The Holy Spirit is the leader of the church and the power of God that manifest his will.",
+    verses: ["John 16:13-14", "Acts1:8, 10:38"]
   },
   {
     id: "Salvation",
@@ -30,30 +30,7 @@ const BELIEFS = [
     description: "Salvation is by grace through faith in Jesus Christ, but the believer is expected to lead a holy life thereafter.",
     verses: ["John 3:16-17", "1 Peter 1:16"]
   },
-  {
-    id: "Bible",
-    title: "About the Bible",
-    description: "The Bible is God’s word to all men. It was written by human authors, under the supernatural guidance and inspiration of the Holy Spirit. It is the supreme source of truth for Christian beliefs and living. Because it is inspired by God, it is truth without any mixture of error, without adding or taking away what was written in it.",
-    verses: ["2 Timothy 3:16", "2 Peter 1:20, 21"]
-  },
-  {
-    id: "Church",
-    title: "About the Church",
-    description: "The church is a community of those who follow Christ in faith. We believe the church was envisioned by God, established by Jesus Christ and is energized by the Holy Spirit. God’s church exists to mediate His life-giving presence to a lost and decaying world. Its purpose is to reconcile people and nations to God, and to bring Him glory by carrying out the great commandment and the great commission.",
-    verses: ["Matthew 22:37-38", "Acts 2:42-47"]
-  },
-  {
-    id: "Sin",
-    title: "About the Sin",
-    description: "Sin is placing ourselves at the center of our existence and rejecting God’s purpose and blessing for our lives. It affects every human life – separating us from His presence, robbing us of our potential, and enslaving us to destructive and debilitating behavior. Without God’s intervention, we are incapable of knowing His love and experiencing satisfying life.",
-    verses: ["Romans 3:23", "Romans 7:18-25"]
-  },
-  {
-    id: "Future",
-    title: "About the Future",
-    description: "Jesus Christ will eventually return in person to judge the living and the dead. Those who have accepted Christ will receive the fullness of eternal life and will dwell with God forever. Those who persist in rebellion will be forever cut off from His presence and left to their own destruction. God will end this age with the complete eradication of evil and the final restoration of His creation.",
-    verses: ["John 14:2-3", "Revelations 21"]
-  }
+   
 ];
 
 export function AboutBeliefs() {
@@ -125,7 +102,7 @@ export function AboutBeliefs() {
 
                     {/* Verses Pills */}
                     <div className="flex flex-wrap gap-3">
-                      {belief.verses.map((verse) => (
+                      {belief.verses?.map((verse) => (
                         <div
                           key={verse}
                           className="bg-[#2E2E2E] px-4 py-2 rounded-[26px] text-[12px] font-bold text-white/90"
