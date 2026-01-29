@@ -1,8 +1,8 @@
 "use server";
 
 export async function getYoutubeVideos(pageToken: string = "", searchQuery: string = "", category: string = "All") {
-    const API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
-    const CHANNEL_ID = process.env.NEXT_PUBLIC_YOUTUBE_CHANNEL_ID;
+    const API_KEY = process.env.YOUTUBE_API_KEY;
+    const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
 
     // We fetch more items (50) to allow for filtering (removing shorts/live)
     // while still having enough left to fill the page (9).
