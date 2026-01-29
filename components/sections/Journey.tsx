@@ -28,7 +28,7 @@ export function Journey() {
                 </div>
 
                 {/* GRID LAYOUT */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6">
 
                     {/* CARD 1: DIVINE HEALING (RED) */}
                     <div className="bg-[#DD5F4C] rounded-[16px] p-[40px] flex flex-col justify-between items-start min-h-[286px]">
