@@ -126,16 +126,16 @@ export function Footer() {
 
                         <div className="flex flex-col gap-4 text-[#FFFFFF]/80 text-[15px] leading-[1.6]">
                             <p>
-                                <strong className="text-white font-bold">Monday - Thursday:</strong> Night of Beauty | 21:00 – 00:00
+                                <strong className="text-white font-bold">Monday - Thursday:</strong> Night of Glory | 21:00 – 00:00 EAT
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Friday:</strong> Prayer Flames | 21:00 – 00:00
+                                <strong className="text-white font-bold">Friday:</strong> Prayer Flames | 21:00 – 00:00 EAT
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Saturday:</strong> Bring Your Special Offering To Buid For God And Meet Apostle Privately In His Office Or Via Zoom | 11:00 – 16:00
+                                <strong className="text-white font-bold">Saturday:</strong> Bring Your Special Offering To Buid For God And Meet Apostle Privately In His Office Or Via Zoom | 11:00 – 16:00 EAT
                             </p>
                             <p>
-                                <strong className="text-white font-bold">Sunday:</strong> Special Miracle Service | 15:00 – 19:00
+                                <strong className="text-white font-bold">Sunday:</strong> Special Miracle Service | 15:00 – 19:00 EAT
                             </p>
                         </div>
                     </div>
@@ -146,11 +146,11 @@ export function Footer() {
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-[#FFFFFF]/40 text-[13px] font-medium">
 
                     <div className="flex items-center gap-6">
-                        <Link href="#" className="hover:text-white transition-colors">Terms of Use</Link>
+                        <Link href="/terms-of-use" className="hover:text-white transition-colors">Terms of Use</Link>
                         <span>|</span>
-                        <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <span>|</span>
-                        <Link href="#" className="hover:text-white transition-colors">Cookie Policy</Link>
+                        <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                        
+                        
                     </div>
 
                     <p>© 2026 TSC | Powered by GeTech Solutions</p>

@@ -6,6 +6,7 @@ import { Globe, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -26,10 +27,26 @@ const languages = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Close dropdown when clicking outside
+  // 1. Handle Scroll for Sticky Navbar
+  useEffect(() => {
+    const handleScroll = () => {
+      // Make navbar sticky after scrolling down 100px
+      if (window.scrollY > 100) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 2. Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -41,12 +58,30 @@ export function Navbar() {
   }, []);
 
   return (
-    <header className="fixed top-8 left-0 right-0 z-50 flex justify-center px-4">
-      <div className="bg-white rounded-[5px] shadow-lg px-8 py-3 w-full max-w-[1240px] flex items-center justify-between">
+    <header
+      className={clsx(
+        "fixed left-0 right-0 z-50 flex justify-center px-4 transition-all duration-300",
+        // Conditional styles based on scroll position
+        isSticky
+          ? "top-0 py-2 bg-white/90 backdrop-blur-md shadow-sm" // Sticky & frosted style
+          : "top-8 bg-transparent" // Original floating style
+      )}
+    >
+      <div
+        className={clsx(
+          "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
+          // Adjust inner container padding and style based on sticky state
+          isSticky
+            ? "px-6 py-2" // Slightly more compact when sticky
+            : "bg-white rounded-[5px] shadow-lg px-8 py-3" // Original floating box style
+        )}
+      >
 
         {/* Logo */}
         <Link href="/" className="shrink-0">
-          <div className="relative w-[96px] h-[78px] flex items-center justify-center">
+          <div className={clsx("relative flex items-center justify-center transition-all duration-300",
+              isSticky ? "w-[80px] h-[65px]" : "w-[96px] h-[78px]" // Slightly smaller logo on scroll
+          )}>
             <Image src="/logo.png" alt="TSC Logo" fill className="object-contain" priority />
           </div>
         </Link>
@@ -57,12 +92,12 @@ export function Navbar() {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name} // 👈 FIXED: changed from link.label to link.name
+                key={link.name}
                 href={link.href}
                 className={cn(
-                  "text-[16px] transition-colors",
+                  "text-[16px] font-regular transition-colors",
                   isActive
-                    ? "text-[#DD5F4C]"
+                    ? "text-[#DD5F4C] font-bold"
                     : "text-gray-600 hover:text-[#DD5F4C]"
                 )}
               >
@@ -82,7 +117,7 @@ export function Navbar() {
               onClick={() => setIsLangOpen(!isLangOpen)}
             >
               <Globe size={20} />
-              <span className="text-[16px] font-bold">EN</span>
+              <span className="text-[16px] font-regular">EN</span>
             </button>
 
             {/* Popup Overlay */}
@@ -141,10 +176,10 @@ export function Navbar() {
             const isActive = pathname === link.href;
             return (
               <Link
-                key={link.name} // 👈 FIXED: changed from link.label to link.name
+                key={link.name}
                 href={link.href}
                 className={cn(
-                  "text-lg font-bold py-2 border-b border-gray-100",
+                  "text-lg font-regular py-2 border-b border-gray-100",
                   isActive ? "text-[#DD5F4C]" : "text-gray-800"
                 )}
                 onClick={() => setIsOpen(false)}
@@ -157,7 +192,7 @@ export function Navbar() {
           {/* Mobile Language Options */}
           <div className="flex gap-4 py-2">
             {languages.map((lang) => (
-              <span key={lang.name} className={cn("text-sm", lang.active ? "text-[#DD5F4C] font-bold" : "text-gray-500")}>
+              <span key={lang.name} className={cn("text-sm", lang.active ? "text-[#DD5F4C] font-regular" : "text-gray-500")}>
                 {lang.name}
               </span>
             ))}

@@ -61,7 +61,7 @@ const GIVE_FAQS = [
         answer: (
             <div className="flex flex-col gap-4">
                 <p>
-                    At True Salvation Church, a love offering aka Kwihuza n’Igicaniro or connecting to the altar is a sacred seed- released with gratitude, compassion to honor the grace of God upon the apostle and connecting to the anointing upon to receive a miracle. It is offered as soon as the Apostle ascends the altar.
+                    At True Salvation Church, a love offering aka Kwihuza n’Igicaniro or connecting to the altar is a sacred seed- released with gratitude, compassion to honor the grace of God upon the Apostle and connecting to the anointing upon him to receive a miracle. It is offered as soon as Apostle ascends the altar.
                 </p>
                 <p>
                     <strong>“Honor the Lord with the first fruits of all your increase” Proverbs 3:9</strong>
