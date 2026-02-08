@@ -31,6 +31,9 @@ export const metadata: Metadata = {
     "Holy Spirit",
     "Holiness"
   ],
+  verification:{
+    google: "KpBOfMx2EYejp3NoUZhVfpyG2V_G3tVLHGrIq6g42vg",
+  },
   authors: [{ name: "True Salvation Church" }],
   creator: "True Salvation Church",
   publisher: "True Salvation Church",
