@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Caveat } from "next/font/google";
+import { GoogleTagManager } from '@next/third-parties/google'; // 👈 IMPORT THIS
 import "./globals.css";
 
 // Fonts (Keep your existing font setup)
@@ -26,7 +27,9 @@ export const metadata: Metadata = {
     "Katwe Road Church",
     "Online Service",
     "Sermons",
-    "Power of God"
+    "Power of God",
+    "Holy Spirit",
+    "Holiness"
   ],
   authors: [{ name: "True Salvation Church" }],
   creator: "True Salvation Church",
@@ -70,6 +73,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      {/* 👇 ADD THIS COMPONENT HERE */}
+      <GoogleTagManager gtmId="GTM-KVFLS22F" />
+      
       <body className={`${inter.variable} ${caveat.variable} font-sans`}>
         {children}
       </body>
