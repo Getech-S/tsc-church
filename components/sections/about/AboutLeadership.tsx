@@ -41,7 +41,7 @@ export function AboutLeadership() {
                             alt="Apostle Charles"
                             fill
                             /* Applied scale-110 for a subtle zoom effect */
-                            className="object-cover scale-180"
+                            className="object-cover scale-150"
                         />
                     </div>
 
