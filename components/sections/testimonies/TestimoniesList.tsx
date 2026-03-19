@@ -130,13 +130,13 @@ export function TestimoniesList() {
                                 key={tab}
                                 onClick={() => handleFilterChange(tab)} // Updated handler
                                 className={`text-[15px] md:text-[16px] font-medium pb-2 transition-all relative whitespace-nowrap ${activeTab === tab
-                                    ? "text-[#DD5F4C] font-bold"
+                                    ? "text-[#E8751A] font-bold"
                                     : "text-gray-500 hover:text-gray-900"
                                     }`}
                             >
                                 {tab}
                                 {activeTab === tab && (
-                                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#DD5F4C]" />
+                                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#E8751A]" />
                                 )}
                             </button>
                         ))}
@@ -150,7 +150,7 @@ export function TestimoniesList() {
                             placeholder="Search Specific testimony..."
                             value={searchQuery}
                             onChange={handleSearchChange} // Updated handler
-                            className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 bg-white text-[14px] focus:outline-none focus:border-[#DD5F4C] transition-colors"
+                            className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 bg-white text-[14px] focus:outline-none focus:border-[#E8751A] transition-colors"
                         />
                     </div>
                 </div>
@@ -178,7 +178,7 @@ export function TestimoniesList() {
 
                                 {/* CENTER PLAY BUTTON */}
                                 <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-[64px] h-[64px] bg-[#F5BE41] rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
+                                    <div className="w-[64px] h-[64px] bg-[#E8A020] rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
                                         <Play size={28} fill="black" className="text-black ml-1" />
                                     </div>
                                 </div>
@@ -192,7 +192,7 @@ export function TestimoniesList() {
                             </div>
 
                             {/* TITLE */}
-                            <h3 className="text-[18px] font-bold text-gray-900 group-hover:text-[#DD5F4C] transition-colors leading-tight">
+                            <h3 className="text-[18px] font-bold text-gray-900 group-hover:text-[#E8751A] transition-colors leading-tight">
                                 {video.title}
                             </h3>
                         </div>
@@ -205,7 +205,7 @@ export function TestimoniesList() {
                     <div className="flex justify-center mt-8">
                         <button
                             onClick={handleLoadMore}
-                            className="px-8 py-3 rounded-[100px] border border-[#DD5F4C] text-[#DD5F4C] font-bold text-[14px] hover:bg-[#DD5F4C] hover:text-white transition-all flex items-center gap-2"
+                            className="px-8 py-3 rounded-[100px] border border-[#E8751A] text-[#E8751A] font-bold text-[14px] hover:bg-[#E8751A] hover:text-white transition-all flex items-center gap-2"
                         >
                             Load More ...
                         </button>

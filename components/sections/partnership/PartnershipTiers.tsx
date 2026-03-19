@@ -1,5 +1,9 @@
+"use client";
+
+import MaintenanceModal from "@/components/MaintenanceModal";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+
 
 const TIERS = [
     {
@@ -26,15 +30,18 @@ const TIERS = [
 ];
 
 export function PartnershipTiers() {
+    
+    
+
     return (
         <section id="tiers" className="bg-white py-20 px-4 md:px-8">
             <div className="mx-auto max-w-[1280px] flex flex-col gap-12">
 
                 {/* 1. SECTION HEADER */}
-                <div className="flex flex-col items-center text-center gap-2">
+                <div className="flex flex-col items-center text-center gap-2" id="support-the-work">
                     {/* Eyebrow - Cursive Font */}
                     <span
-                        className="font-caveat text-[28px] text-[#DD5F4C]"
+                        className="font-caveat text-[28px] text-[#E8751A]"
                         style={{ fontFamily: "var(--font-caveat)" }}
                     >
                         Covenants
@@ -69,7 +76,7 @@ export function PartnershipTiers() {
                                 {/* TOP CONTENT */}
                                 <div className="flex flex-col items-start">
                                     {/* Tier Name */}
-                                    <span className={`text-[14px] font-bold uppercase tracking-wider mb-2 ${tier.isHighlight ? "text-[#F5BE41]" : "text-white"}`}>
+                                    <span className={`text-[14px] font-bold uppercase tracking-wider mb-2 ${tier.isHighlight ? "text-[#E8A020]" : "text-white"}`}>
                                         {tier.name}
                                     </span>
 
@@ -96,14 +103,16 @@ export function PartnershipTiers() {
 
                                 {/* BOTTOM BUTTON */}
                                 <div className="mt-8">
-                                    {/* 👇 NEW LINK: Points to /join and passes the tier name (e.g. ?tier=Gold) */}
-                                    <Link href={`/partnership/join?tier=${tier.name}`} className="w-full block">
+                                    {/* 👇 NEW LINK: Points to /join and passes the tier name (e.g. ?tier=Gold) 
+                                    <Link href={`/partnership/join?tier=${tier.name}`} className="w-full block"> */}
+                                    <Link href={`/support`} className="w-full block">
                                         <button
+                                       
                                             className={`
                         w-full flex items-center justify-between px-6 py-3 rounded-full text-[14px] font-bold transition-all
                         ${tier.isHighlight
-                                                    ? "bg-[#F5BE41] text-black hover:bg-[#dca62e] cursor-pointer" // Solid Gold Button
-                                                    : "border border-[#F5BE41] text-[#F5BE41] hover:bg-[#F5BE41] hover:text-black cursor-pointer" // Outline Button
+                                                    ? "bg-[#E8751A] text-white hover:bg-[#E8A020] cursor-pointer" // Solid Gold Button
+                                                    : "border border-[#E8751A] text-[#E8751A] hover:bg-[#E8A020] hover:text-white cursor-pointer" // Outline Button
                                                 }
                       `}
                                         >
@@ -111,6 +120,8 @@ export function PartnershipTiers() {
                                             <ChevronRight size={16} />
                                         </button>
                                     </Link>
+                                
+        
                                 </div>
 
                             </div>

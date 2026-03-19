@@ -1,89 +1,93 @@
+"use client";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
 
-const GALLERY_ITEMS = [
-    {
-        title: "Worship Team",
-        image: "/gallery-worship.jpg",
-    },
-    {
-        title: "Baptism",
-        image: "/gallery-baptism.jpg",
-    },
-    {
-        title: "Gathering",
-        image: "/gallery-gathering.jpg",
-    },
-    {
-        title: "Service",
-        image: "/gallery-service.jpg",
-    },
-];
+export default function LifeGallery() {
+  return (
+    <section className="bg-white py-20 px-6">
+      <div className="max-w-[1200px] mx-auto">
+        
+        {/* Header Section */}
+        <div className="text-center mb-16">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-[#E8751A] text-[25px] leading-[27px] tracking-[1px] block mb-2"
+            style={{ fontFamily: 'var(--font-caveat), cursive' }}
+          >
+            Moments of grace
+          </motion.span>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-[#1B1C1E] text-[36px] font-bold leading-[40px] tracking-[-1px] max-w-[658px] mx-auto"
+            style={{ fontFamily: 'Montserrat, sans-serif' }}
+          >
+            This Is What <br/> 
+            Life Here Looks Like.
+          </motion.h2>
+        </div>
 
-export function AboutGallery() {
-    return (
-        <section className="bg-white py-20 lg:py-28">
-
-            {/* CONTAINER: Max Width 1280px */}
-            <div className="mx-auto max-w-[1280px] px-6 md:px-12 flex flex-col gap-12">
-
-                {/* HEADER */}
-                <div className="flex flex-col items-center text-center gap-2">
-                    {/* Eyebrow: Handwritten Style */}
-                    <span className="font-caveat text-[28px] leading-[27px] text-[#DD5F4C] tracking-[0.5px]"
-                        style={{
-                            fontVariantNumeric: "lining-nums tabular-nums",
-                            fontFeatureSettings: '"liga" off, "calt" off',
-                            fontFamily: "var(--font-caveat)",
-                        }}
-                    >
-                        Moments of Grace
-                    </span>
-                    {/* Main Title */}
-                    <h2 className="text-[40px] md:text-[48px] font-bold text-gray-900 leading-tight">
-                        Life in the Atmosphere
-                    </h2>
-                </div>
-
-                {/* GALLERY GRID 
-           - 4 Columns on Desktop
-           - Gap: 24px
-        */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {GALLERY_ITEMS.map((item, index) => (
-                        <div
-                            key={index}
-                            className="group relative w-full h-[350px] rounded-[16px] overflow-hidden shadow-lg cursor-pointer"
-                        >
-
-                            {/* IMAGE BACKGROUND */}
-                            <Image
-                                src={item.image}
-                                alt={item.title}
-                                fill
-                                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-
-                            {/* GRADIENT OVERLAY 
-                 - From Black (0%) to Transparent
-                 - Ensures text legibility at bottom
-              */}
-                            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent" />
-
-                            {/* TEXT CONTENT 
-                 - Position: Absolute Bottom Left
-                 - Padding: 24px
-              */}
-                            <div className="absolute bottom-0 left-0 p-6">
-                                <h3 className="text-[24px] font-bold text-[#F5BE41] leading-tight drop-shadow-md">
-                                    {item.title}
-                                </h3>
-                            </div>
-
-                        </div>
-                    ))}
-                </div>
-
+        {/* Masonry-Style Image Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          {/* Top Left: Baptism (Portrait Frame) */}
+          <div className="film-frame">
+            <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
+               <Image src="/about-baptism.jpg" alt="Baptism" fill className="object-cover" />
+               <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
-        </section>
-    );
+          </div>
+
+          {/* Top Middle: Worship (Portrait Frame) */}
+          <div className="film-frame">
+            <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
+               <Image src="/TSC_5.JPG.jpeg" alt="Worship" fill className="object-cover" />
+               <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
+            </div>
+          </div>
+
+          {/* Top Right: Choir B&W (Portrait Frame) */}
+          <div className="film-frame">
+            <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm grayscale">
+               <Image src="/TSC_9.JPG.jpeg" alt="Choir" fill className="object-cover" />
+               <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
+            </div>
+          </div>
+
+          {/* Bottom Left/Middle: Apostle Preaching (Landscape - Gemini-svg 3 specs) */}
+          <div className="md:col-span-2 film-frame">
+            <div className="relative w-full aspect-[821/340] bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
+               <Image src="/TSC 2.jpg" alt="Preaching" fill className="object-cover" />
+               <div className="absolute top-1 left-4 text-[10px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
+            </div>
+          </div>
+
+          {/* Bottom Right: Community (Portrait Frame) */}
+          <div className="film-frame">
+            <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
+               <Image src="/gallery-gathering.jpg" alt="Community" fill className="object-cover" />
+               <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+      <style jsx>{`
+        .film-frame {
+          transition: transform 0.3s ease;
+        }
+        .film-frame:hover {
+          transform: scale(1.02);
+          z-index: 10;
+        }
+      `}</style>
+    </section>
+  );
 }

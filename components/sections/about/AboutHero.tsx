@@ -9,7 +9,7 @@ export function AboutHero() {
             {/* 1. BACKGROUND IMAGE */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/hero-bg.jpg')" }}
+                style={{ backgroundImage: "url('/TSC.jpg')" }}
             >
                 {/* Dark Overlay with Multiply for that deep studio look */}
                 <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
@@ -26,12 +26,9 @@ export function AboutHero() {
             "us" -> Linear Gradient Text
            
           */}
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#FFFFFF] to-[#F5BE40]">About </span>
-                    <span
-                        className="text-transparent bg-clip-text bg-linear-to-r from-[#FFFFFF] via-[#F5BE40] to-[#F5BE40]"
-                    >
-                        us
-                    </span>
+                    <span className="text-transparent bg-clip-text bg-[white]">We Exist For One Reason.<br/>
+                    To Heal And Save Souls. </span>
+                    
                 </h1>
             </div>
 

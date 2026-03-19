@@ -9,7 +9,7 @@ export function EventsHero() {
       */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/hero-bg.jpg')" }}
+                style={{ backgroundImage: "url('/tSC.jpg')" }}
             >
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
@@ -24,7 +24,7 @@ export function EventsHero() {
                 <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
                     {/* "Events" -> Gold Gradient */}
                     <span
-                        className="text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#F5BE40] to-[#FFFFFF]"
+                        className="text-transparent bg-clip-text bg-white"
                     >
                         Events
                     </span>

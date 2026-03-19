@@ -73,7 +73,7 @@ export default function TermsOfUsePage() {
               <p className="font-bold text-gray-900">True Salvation Church</p>
               <p>Muganzirwazza Commercial Complex</p>
               <p>Katwe, Kampala, Uganda</p>
-              <p className="mt-2">Email: <a href="mailto:info@truesalvationchurch.com" className="text-[#DD5F4C]">info@truesalvationchurch.com</a></p>
+              <p className="mt-2">Email: <a href="mailto:info@truesalvationchurch.com" className="text-[#E8751A]">info@truesalvationchurch.com</a></p>
               <p>Phone: +256 742 401 012</p>
             </div>
 

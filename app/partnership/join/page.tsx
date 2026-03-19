@@ -5,8 +5,9 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/sections/Footer";
 import { ChevronLeft, Lock, Calendar } from "lucide-react";
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { COUNTRIES } from "@/lib/constants";
+import MaintenanceModal from "@/components/MaintenanceModal";
 
 // 1. DEFINE THE DATA FOR LOOKUP
 const TIER_DATA: Record<string, { price: string; description: string; role: string }> = {
@@ -35,6 +36,17 @@ function JoinContent() {
 
     // State for Payment Timing Selection
     const [paymentTiming, setPaymentTiming] = useState<"later" | "now">("now");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+
+    // 👇 Trigger the modal immediately when the page loads
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(true);
+    }, 100); // Small 200ms delay for a smoother "arrival" feel
+
+    return () => clearTimeout(timer);
+  }, []);
 
     return (
         <section className="min-h-screen pt-[140px] pb-20 px-4 md:px-8 bg-[#FDF2ED]">
@@ -90,17 +102,17 @@ function JoinContent() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="flex flex-col gap-2">
                                 <label className="text-[14px] font-medium text-gray-700">Full Name</label>
-                                <input type="text" placeholder="Enter full name" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
+                                <input type="text" required placeholder="Enter full name" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <label className="text-[14px] font-medium text-gray-700">Email</label>
-                                <input type="email" placeholder="Enter email address" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
+                                <input type="email" required placeholder="Enter email address" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
                             </div>
                         </div>
 
                         <div className="flex flex-col gap-2">
                             <label className="text-[14px] font-medium text-gray-700">Phone Number</label>
-                            <input type="tel" placeholder="Enter phone number" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
+                            <input type="tel" required placeholder="Enter phone number" className="w-full px-4 py-3 rounded-[6px] border border-gray-200 text-[14px] focus:outline-none focus:border-[#DD5F4C]" />
                         </div>
 
                         <div className="flex flex-col gap-2">
@@ -171,12 +183,14 @@ function JoinContent() {
                         )}
 
                         {/* Submit Button - Dynamic Text */}
+                        <Link href={'/support'}>
                         <button className={`w-full text-white font-bold py-4 rounded-[100px] hover:opacity-90 transition-all mt-4 text-[16px] shadow-xl ${paymentTiming === "now"
                             ? "bg-[#DD5F4C] shadow-[#DD5F4C]/20" // Primary Color for Payment
                             : "bg-[#E07E6C] shadow-[#E07E6C]/20" // Slightly softer color for Sign Up
                             }`}>
                             {paymentTiming === "now" ? "Complete my Commitment" : "Sign Up"}
                         </button>
+                        </Link>
 
                         <div className="flex items-center justify-center gap-2 text-gray-400 text-[12px] mt-2">
                             <Lock size={12} />
@@ -185,6 +199,12 @@ function JoinContent() {
 
                     </form>
                 </div>
+
+                {/* The Auto-Popup 
+      <MaintenanceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />*/}
 
             </div>
         </section>

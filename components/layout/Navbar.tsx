@@ -14,7 +14,8 @@ const navLinks = [
   { name: "Sermons", href: "/sermons" },
   { name: "Testimonies", href: "/testimonies" },
   { name: "Events", href: "/events" },
-  { name: "Partnership", href: "/partnership" },
+  { name: "Give", href: "/give" },
+  //{ name: "Partnership", href: "/partnership" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -24,7 +25,11 @@ const languages = [
   // { name: "French", active: false },
 ];
 
-export function Navbar() {
+type NavbarProps = {
+  isFloating?: boolean;
+};
+
+export function Navbar({ isFloating = true }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
@@ -33,8 +38,9 @@ export function Navbar() {
 
   // 1. Handle Scroll for Sticky Navbar
   useEffect(() => {
+    if (!isFloating) return;
+
     const handleScroll = () => {
-      // Make navbar sticky after scrolling down 100px
       if (window.scrollY > 100) {
         setIsSticky(true);
       } else {
@@ -44,7 +50,7 @@ export function Navbar() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isFloating]);
 
   // 2. Close dropdown when clicking outside
   useEffect(() => {
@@ -60,20 +66,25 @@ export function Navbar() {
   return (
     <header
       className={clsx(
-        "fixed left-0 right-0 z-50 flex justify-center px-4 transition-all duration-300",
-        // Conditional styles based on scroll position
-        isSticky
-          ? "top-0 py-2 bg-white/90 backdrop-blur-md shadow-sm" // Sticky & frosted style
-          : "top-8 bg-transparent" // Original floating style
+        "z-50 flex justify-center px-4 transition-all duration-300",
+        isFloating
+          ? [
+              "fixed left-0 right-0",
+              isSticky
+                ? "top-0 py-2 bg-white backdrop-blur-md shadow-sm"
+                : "top-8 ",
+            ]
+          : "relative bg-white"
       )}
     >
       <div
         className={clsx(
           "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
-          // Adjust inner container padding and style based on sticky state
-          isSticky
-            ? "px-6 py-2" // Slightly more compact when sticky
-            : "bg-white rounded-[5px] shadow-lg px-8 py-3" // Original floating box style
+          isFloating
+            ? isSticky
+              ? "px-6 py-2"
+              : "bg-white rounded-[5px] shadow-lg px-8 py-3"
+            : "px-6 py-4 bg-white shadow-sm"
         )}
       >
 
@@ -97,8 +108,8 @@ export function Navbar() {
                 className={cn(
                   "text-[16px] font-regular transition-colors",
                   isActive
-                    ? "text-[#DD5F4C] font-bold"
-                    : "text-gray-600 hover:text-[#DD5F4C]"
+                    ? "text-[#E8751A] font-bold"
+                    : "text-gray-600 hover:text-[#E8751A]"
                 )}
               >
                 {link.name}
@@ -137,7 +148,7 @@ export function Navbar() {
                     className={cn(
                       "text-left text-[16px] leading-[24px] transition-colors",
                       lang.active
-                        ? "text-[#DD5F4C] font-normal"
+                        ? "text-[#E8751A] font-normal"
                         : "text-gray-600 hover:text-black font-normal"
                     )}
                   >
@@ -149,16 +160,16 @@ export function Navbar() {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/give" className="text-white font-bold text-[15px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+          <Link href="/support" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
             style={{
-              backgroundColor: "#DD5F4C",
-              width: "116px",
-              height: "44px"
+              backgroundColor: "#E8751A",
+              width: "150px",
+              height: "50px"
             }}>
 
-            Give Now
+            Request For Prayer
 
-          </Link>
+          </Link> 
         </div>
 
         {/* Mobile Toggle */}
@@ -180,7 +191,7 @@ export function Navbar() {
                 href={link.href}
                 className={cn(
                   "text-lg font-regular py-2 border-b border-gray-100",
-                  isActive ? "text-[#DD5F4C]" : "text-gray-800"
+                  isActive ? "text-[#E8751A]" : "text-gray-800"
                 )}
                 onClick={() => setIsOpen(false)}
               >
@@ -192,19 +203,19 @@ export function Navbar() {
           {/* Mobile Language Options */}
           <div className="flex gap-4 py-2">
             {languages.map((lang) => (
-              <span key={lang.name} className={cn("text-sm", lang.active ? "text-[#DD5F4C] font-regular" : "text-gray-500")}>
+              <span key={lang.name} className={cn("text-sm", lang.active ? "text-[#E8751A] font-regular" : "text-gray-500")}>
                 {lang.name}
               </span>
             ))}
           </div>
 
           {/* Mobile Give Button */}
-          <Link href="/give" onClick={() => setIsOpen(false)} className="w-full mt-2">
+          <Link href="/contact#contactform" onClick={() => setIsOpen(false)} className="w-full mt-2">
             <button
               className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center shadow-md py-3"
-              style={{ backgroundColor: "#DD5F4C" }}
+              style={{ backgroundColor: "#E8751A" }}
             >
-              Give Now
+              Request For Prayer
             </button>
           </Link>
 

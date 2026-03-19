@@ -39,7 +39,7 @@ export function Sermons() {
     };
 
     return (
-        <section className="bg-white py-20 lg:py-28">
+        <section className="bg-[#FDF6EC] py-20 lg:py-28">
 
             {/* CONTAINER: 1280px Max Width
          - FIXED: Changed 'md:px-0' to 'md:px-12' 
@@ -52,7 +52,7 @@ export function Sermons() {
 
                     {/* LEFT: Text Content */}
                     <div className="flex flex-col items-start gap-2">
-                        <span className="font-caveat text-[28px] leading-[27px] text-[#DD5F4C] tracking-[0.5px]"
+                        <span className="font-caveat text-[28px] leading-[27px] text-[#E8751A] tracking-[0.5px]"
                             style={{
                                 fontVariantNumeric: "lining-nums tabular-nums",
                                 fontFeatureSettings: '"liga" off, "calt" off',
@@ -64,14 +64,14 @@ export function Sermons() {
                         <h2 className="text-[40px] md:text-[48px] font-bold text-gray-900 leading-tight">
                             Feed Your Spirit.
                         </h2>
-                        <p className="text-[18px] text-gray-500 mt-2 max-w-xl">
+                        {/*<p className="text-[18px] text-gray-500 mt-2 max-w-xl">
                             Access the latest sermons and exclusive teachings to fuel your walk with God.
-                        </p>
+                        </p>*/}
                     </div>
 
                     {/* RIGHT: Button */}
                     <Link href="\sermons">
-                        <button className="group flex items-center gap-2 rounded-[100px] border border-[#DD5F4C] px-[24px] py-[12px] text-[14px] font-bold text-[#DD5F4C] transition-colors hover:bg-[#DD5F4C] hover:text-white shrink-0">
+                        <button className="group flex items-center gap-2 rounded-[100px] border border-[#E8751A] px-[24px] py-[12px] text-[14px] font-bold text-[#E8751A] transition-colors hover:bg-[#E8751A] hover:text-white shrink-0">
                             View All Sermons
                             <ChevronRight size={16} />
                         </button>
@@ -102,8 +102,8 @@ export function Sermons() {
                                 <div className="absolute bottom-6 left-6 flex items-center gap-4">
 
                                     {/* Yellow Circle */}
-                                    <div className="w-[50px] h-[50px] bg-[#F5BE41] rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
-                                        <Play size={20} fill="black" className="text-black ml-1" />
+                                    <div className="w-[50px] h-[50px] bg-[#E8A020] rounded-full flex items-center justify-center shadow-lg transition-transform group-hover:scale-110">
+                                        <Play size={20} fill="white" className="text-white ml-1" />
                                     </div>
 
                                     {/* "Watch Sermon" Label */}
@@ -121,7 +121,7 @@ export function Sermons() {
                             </div>
 
                             {/* TITLE */}
-                            <h3 className="text-[18px] font-bold leading-[24px] text-gray-900 group-hover:text-[#DD5F4C] transition-colors">
+                            <h3 className="text-[18px] font-bold leading-[24px] text-gray-900 group-hover:text-[#E8751A] transition-colors">
                                 {video.title}
                             </h3>
 

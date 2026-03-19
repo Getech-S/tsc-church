@@ -49,7 +49,7 @@ export function AboutBeliefs() {
 
         {/* HEADER */}
         <div className="flex flex-col items-center text-center gap-2">
-          <span className="font-caveat text-[28px] leading-[27px] text-[#F5BE41] tracking-[0.5px]"
+          <span className="font-caveat text-[28px] leading-[27px] text-[#E8751A] tracking-[0.5px]"
             style={{
               fontVariantNumeric: "lining-nums tabular-nums",
               fontFeatureSettings: '"liga" off, "calt" off',
@@ -83,7 +83,7 @@ export function AboutBeliefs() {
                     {belief.title}
                   </span>
                   {isOpen ? (
-                    <ChevronUp className="text-[#F5BE41]" size={24} />
+                    <ChevronUp className="text-[#E8751A]" size={24} />
                   ) : (
                     <ChevronDown className="text-white/50 group-hover:text-white" size={24} />
                   )}

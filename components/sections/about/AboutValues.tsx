@@ -19,19 +19,27 @@ export function AboutValues() {
     ];
 
     return (
-        <section className="bg-[#DD5F4C] py-20 lg:py-[100px]">
+        <section className="bg-[#FFFFFD] py-20 lg:py-[100px]">
 
             {/* CONTAINER: Max width 1280px to align with other sections */}
             <div className="mx-auto max-w-[1280px] px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8">
 
                 {/* LEFT COLUMN: Main Heading & Description (Span 4) */}
                 <div className="lg:col-span-4 flex flex-col gap-6">
-                    <h2 className="text-[40px] md:text-[48px] font-bold text-white leading-tight tracking-[-1px]">
-                        Our Values
+                <p className="font-caveat text-[28px] leading-[27px] tracking-[0.5px] text-[#E8751A] mb-[-10]"
+                 style={{
+                   fontVariantNumeric: "lining-nums tabular-nums",
+                   fontFeatureSettings: '"liga" off, "calt" off',
+                   fontFamily: "var(--font-caveat)",
+                 }}
+              >
+                What We Stand On
+              </p>
+                    <h2 className="text-[40px] md:text-[48px] font-bold text-black leading-tight tracking-[-1px]">
+                        Beyond Sunday. <br/>
+                        This Is Our Life.
                     </h2>
-                    <p className="text-[16px] leading-[26px] text-white/90 font-normal">
-                        Beyond church, we are a community dedicated to healing and saving souls, reflecting the character of Christ in everything we do.
-                    </p>
+                    
                 </div>
 
                 {/* RIGHT COLUMN: Values Grid (Span 8) 
@@ -45,8 +53,8 @@ export function AboutValues() {
                    - Border Left: 2px solid white/50
                    - Padding Left: 16px
                 */}
-                            <div className="border-l-2 border-white/40 pl-4">
-                                <h3 className="text-[20px] font-bold text-white">
+                            <div className="border-l-2 border-black/40 pl-4">
+                                <h3 className="text-[20px] font-bold text-black">
                                     {value.title}
                                 </h3>
                             </div>
@@ -55,7 +63,7 @@ export function AboutValues() {
                    - Added pl-4 + border-transparent to keep alignment with title
                 */}
                             <div className="pl-[18px]">
-                                <p className="text-[15px] leading-[24px] text-white/80">
+                                <p className="text-[15px] leading-[24px] text-black/80">
                                     {value.desc}
                                 </p>
                             </div>

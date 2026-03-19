@@ -9,11 +9,11 @@ export function PartnershipHero() {
       */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/partnership-bg.jpg')" }}
+                style={{ backgroundImage: "url('/TSC.jpg')" }}
             >
                 {/* Dark Blue Overlay to match the contrast in design */}
-                <div className="absolute inset-0 bg-[#0F172A]/40 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-linear-to-t from-[#0F172A]/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
             </div>
 
             {/* 2. NAVBAR */}
@@ -32,10 +32,10 @@ export function PartnershipHero() {
              - Layout: Stacked (Block)
           */}
                     <h1 className="flex flex-col items-center font-bold tracking-[-2px] drop-shadow-xl">
-                        <span className="text-[42px] leading-[48px] md:text-[56px] md:leading-[62px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40]">
+                        <span className="text-[42px] leading-[48px] md:text-[56px] md:leading-[62px] text-transparent bg-clip-text bg-white">
                             Partner with
                         </span>
-                        <span className="text-[42px] leading-[48px] md:text-[56px] md:leading-[62px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40]">
+                        <span className="text-[42px] leading-[48px] md:text-[56px] md:leading-[62px] text-transparent bg-clip-text bg-white">
                             God&apos;s Mission
                         </span>
                     </h1>

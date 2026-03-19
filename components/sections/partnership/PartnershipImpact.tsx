@@ -1,6 +1,6 @@
 export function PartnershipImpact() {
     return (
-        <section className="bg-[#DD5F4C] py-20 px-6 md:px-12 text-white">
+        <section className="bg-[#E8751A] py-20 px-6 md:px-12 text-white">
             <div className="mx-auto max-w-[1280px] grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
 
                 {/* LEFT COLUMN: Main Title & Intro 

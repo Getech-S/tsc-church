@@ -1,59 +1,92 @@
 "use client";
 
-import Image from "next/image";
-//import { motion } from "framer-motion";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
-export function MeetApostle() {
+export default function MeetApostle() {
+  return (
+    <section className="bg-white py-20 px-6">
+      <div className="max-w-[1240px] mx-auto">
+        
+        {/* THE CARD */}
+        <div className="relative bg-[#1B1C1E] rounded-[16px] overflow-hidden flex flex-col lg:flex-row items-stretch min-h-[500px]">
+          
+          {/* THE SEAMLESS GRADIENT */}
+          <div
+            className="absolute right-0 top-0 w-full lg:w-[60%] h-full opacity-60 blur-[100px] pointer-events-none z-0"
+            style={{
+              background: "radial-gradient(circle at 75% 75%, rgba(232,117,26,0.35) 0%, rgba(0,0,0,0) 75%)"
+            }}
+          />
 
-    return (
-        // 1. CONTAINER: Added min-h-[750px] for Mobile height, changed flex-col to items-end
-        <section className="bg-black relative overflow-hidden flex items-end md:block min-h-[750px] md:min-h-0">
-
-            {/* 2. IMAGE CONTAINER 
-          - Mobile: Changed to 'absolute inset-0' to cover background.
-          - Desktop: Kept exactly as you had it (right aligned, 75% width).
-      */}
-            <div className="absolute inset-0 w-full h-full md:w-[75%] md:left-auto md:right-0 md:z-10 overflow-hidden"
-
+          {/* TEXT & MOBILE IMAGE CONTENT */}
+          <div className="relative z-20 w-full lg:w-[55%] flex flex-col justify-center p-8 md:p-14 text-white">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-                <div className="relative h-full w-full">
-                    <Image
-                        src="/apostle.jpeg"
-                        alt="Apostle Charles"
-                        fill
-                        // Mobile: scale-[1.4] origin-top (Zoomed on face).
-                        // Desktop: scale-[1.4] origin-top (Matches your desktop preference).
-                        className="object-cover object-top scale-[1.4] origin-top"
-                        priority
-                    />
+              <p className="font-caveat text-[28px] leading-[27px] tracking-[0.5px] text-[#E8751A] mb-2"
+                 style={{
+                   fontVariantNumeric: "lining-nums tabular-nums",
+                   fontFeatureSettings: '"liga" off, "calt" off',
+                   fontFamily: "var(--font-caveat)",
+                 }}
+              >
+                Meet Apostle Charles
+              </p>
 
-                    {/* NEW: Mobile Gradient (Bottom Up) for text readability */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[80%] bg-linear-to-t from-black via-black/80 to-transparent md:hidden" />
+              <h3 className="text-3xl md:text-5xl font-bold tracking-tighter  mb-6 lg:mb-4">
+                A humble vessel loved <br className="hidden md:block"/>
+                by Jesus, sent to you.
+              </h3>
 
-                    {/* Studio Blend Gradient - DESKTOP ONLY (Unchanged) */}
-                    <div
-                        className="hidden md:block absolute inset-y-0 left-0 w-[50%] bg-linear-to-r from-black via-black/80 to-transparent"
-                    />
-                </div>
-            </div>
+              {/* MOBILE ONLY IMAGE: Focused on upper part only */}
+              <div className="lg:hidden w-full h-[250px] mb-4 overflow-hidden flex justify-center relative rounded-2xl">
+                 <img
+                  src="/apostle_no_bg.png"
+                  alt="Apostle Charles"
+                  /* object-cover + object-top ensures only the upper body/head 
+                     is visible, cutting off the rest for a tight fit.
+                  */
+                  className="w-full h-full object-cover object-right scale-95"
+                />
+              </div>
 
-            {/* 3. TEXT CONTAINER 
-          - Mobile: Removed 'bg-black', added 'pb-16' to lift text slightly.
-          - Desktop: Unchanged.
-      */}
-            <div className="relative z-20 w-full bg-transparent md:max-w-[1440px] md:min-h-[600px] md:mx-auto md:px-[80px] md:flex md:items-end pointer-events-none">
+              <p className="text-white/70 text-sm md:text-base leading-normal mb-8 max-w-max">
+                Apostle Charles serves as a minister of the Gospel of Jesus Christ, entrusted with shepherding, teaching, and guiding the church in accordance with biblical doctrine. His calling is to point people to Christ and pastoral leadership.
+              </p>
 
-                {/* Inner Content Wrapper */}
-                <div className="pointer-events-auto px-6 pb-16 pt-32 md:py-20 md:pb-[60px] md:px-0 max-w-[485px] flex flex-col gap-[24px]">
-                    <h2 className="font-bold text-[36px] leading-[42px] md:text-[45px] md:leading-[52px] text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#ffffff] to-[#F5BE40] tracking-[-2px] drop-shadow-lg">
-                        Our Spiritual Leadership
-                    </h2>
-                    <p className="font-normal text-[16px] leading-[26px] text-white/90 drop-shadow-md">
-                        Apostle Charles serves as a minister of the Gospel of Jesus Christ, entrusted with shepherding, teaching, and guiding the church in accordance with biblical doctrine. His calling is to point people to Christ, encourage repentance, discipleship, and faithful Christian living through prayer, teaching, and pastoral leadership.
-                    </p>
-                </div>
-            </div>
+              <Link href="/apostle-bio">
+                <button className="group flex items-center gap-3 bg-[#E8751A] hover:bg-[#E8A020] px-6 py-3 rounded-full transition-all">
+                  <span className="text-white text-xs font-bold tracking-widest cursor-pointer">Read More</span>
+                  <div className="bg-white/20 rounded-full p-1 group-hover:scale-110 transition-transform">
+                    <ArrowRight size={14} className="text-white " />
+                  </div>
+                </button>
+              </Link>
+            </motion.div>
+          </div>
 
-        </section>
-    );
+          {/* DESKTOP ONLY IMAGE SECTION */}
+          <div className="hidden lg:flex relative w-full lg:w-[45%] h-[400px] lg:h-auto overflow-hidden pt-8 lg:pt-12">
+            <motion.div
+              initial={{ opacity: 0, scale: 1.1 }}
+              whileInView={{ opacity: 1, scale: 1.2 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0 z-10 w-full h-full flex justify-center lg:justify-end"
+            >
+              <img
+                src="/apostle_no_bg.png"
+                alt="Apostle Charles"
+                className="h-full w-auto object-fill scale-[1.0] lg:scale-[1.6] origin-bottom-right translate-y-45"
+              />
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
 }

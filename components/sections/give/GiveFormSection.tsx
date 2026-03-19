@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Lock } from "lucide-react";
 import { COUNTRIES } from "@/lib/constants";
+import MaintenanceModal from "@/components/MaintenanceModal";
+import Link from "next/link";
 
 export function GiveFormSection() {
     const [formData, setFormData] = useState({
@@ -46,6 +48,17 @@ export function GiveFormSection() {
         console.log("Form Submitted:", formData);
         alert(`Thank you, ${formData.fullName}! Your details have been received.`);
     };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+
+    // 👇 Trigger the modal immediately when the page loads
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsModalOpen(true);
+    }, 100); 
+    return () => clearTimeout(timer);
+  }, []);
 
     return (
         <section className=" min-h-screen py-12 px-6 md:px-12 flex items-center justify-center">
@@ -93,7 +106,7 @@ export function GiveFormSection() {
                         <div className="flex flex-col gap-2">
                             <label className="text-[14px] font-medium text-gray-700">Phone Number</label>
                             <input
-                                type="tel" name="phone" placeholder="Enter phone number"
+                                type="tel" name="phone" placeholder="Enter phone number" required
                                 className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px]"
                                 onChange={handleChange}
                             />
@@ -115,7 +128,7 @@ export function GiveFormSection() {
                             <label className="text-[14px] font-medium text-gray-700">Choose your Offering</label>
                             <select
                                 name="offeringType"
-                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px] bg-white cursor-pointer"
+                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#E8751A] text-[14px] bg-white cursor-pointer"
                                 onChange={handleChange}
                             >
                                 <option value="Choose your offering">Choose your offering</option>
@@ -135,7 +148,7 @@ export function GiveFormSection() {
                                 type="text"
                                 required
                                 placeholder="Please specify"
-                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px] mt-2 animate-in fade-in slide-in-from-top-2"
+                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#E8751A] text-[14px] mt-2 animate-in fade-in slide-in-from-top-2"
                             />
                         )}
 
@@ -145,17 +158,20 @@ export function GiveFormSection() {
                             </label>
                             <input
                                 type="number" name="amount" placeholder="Enter amount" required
-                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#DD5F4C] text-[14px]"
+                                className="w-full px-4 py-3 rounded-[6px] border border-gray-200 focus:outline-none focus:border-[#E8751A] text-[14px]"
                                 onChange={handleChange}
                             />
                         </div>
 
+                        <Link href="/support"> 
+
                         <button
                             type="submit"
-                            className="w-full bg-[#DD5F4C] text-white font-bold py-4 rounded-[100px] hover:bg-[#c54e3d] transition-colors mt-4 text-[16px] shadow-xl shadow-[#DD5F4C]/20"
+                            className="w-full bg-[#DD5F4C] text-white font-bold py-4 rounded-[100px] hover:bg-[#E8751A] transition-colors mt-4 text-[16px] shadow-xl shadow-[#E8751A]/20"
                         >
                             Proceed to Give
                         </button>
+                        </Link>
 
                         <div className="flex items-center justify-center gap-2 text-gray-400 text-[12px] mt-2">
                             <Lock size={12} />
@@ -163,6 +179,11 @@ export function GiveFormSection() {
                         </div>
                     </form>
                 </div>
+                {/* The Auto-Popup 
+      <MaintenanceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      /> */}
             </div>
         </section>
     );

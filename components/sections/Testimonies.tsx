@@ -75,7 +75,7 @@ export function Testimonies() {
 
             {/* HEADER */}
             <div className="text-center mb-16 space-y-2">
-                <span className="font-caveat text-[28px] text-[#F5BE41] tracking-[0.5px]"
+                <span className="font-caveat text-[28px] text-[#E8751A] tracking-[0.5px]"
                     style={{
                         fontVariantNumeric: "lining-nums tabular-nums",
                         fontFeatureSettings: '"liga" off, "calt" off',
@@ -162,9 +162,9 @@ export function Testimonies() {
                                 {position === "active" && (
                                     <button
                                         onClick={() => handlePlay(video.videoId)}
-                                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80px] h-[80px] bg-[#F5BE41] rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg group cursor-pointer"
+                                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80px] h-[80px] bg-[#E8A020] rounded-full flex items-center justify-center hover:scale-110 transition-transform shadow-lg group cursor-pointer"
                                     >
-                                        <Play size={32} fill="black" className="text-black ml-1" />
+                                        <Play size={32} fill="white" className="text-white ml-1" />
                                     </button>
                                 )}
 

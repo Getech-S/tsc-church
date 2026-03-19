@@ -1,104 +1,100 @@
 "use client";
 
-// 1. Import 'Variants' type to fix the TypeScript error
-import { motion, Variants } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+
+const HERO_IMAGES = [
+  "/TSC.jpg",
+  "/TSC 2.jpg",
+  "/TSC 3.jpg",  
+];
 
 export function Hero() {
+  const [index, setIndex] = useState(0);
 
-  // 2. Define the types explicitly as ': Variants'
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.4, // Time delay between each line appearing
-        delayChildren: 0.3,   // Initial pause before starting
-      },
-    },
-  };
-
-  const itemVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 30,
-      filter: "blur(10px)" // Starts blurry (ethereal effect)
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)", // Becomes sharp
-      transition: {
-        duration: 1.2,
-        ease: "easeOut" // TypeScript now knows this is a valid animation type
-      },
-    },
-  };
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+    /* UPDATED: pt-[65vh] and md:pt-[75vh] to force content to the bottom third of the screen.
+       Added pb-12 to prevent it from sitting flush against the very bottom edge. */
+       <section className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-20 md:pb-32">
+      
+      {/* BACKGROUND LAYER */}
+      <div className="absolute inset-0 z-0">
+        <AnimatePresence >
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 3, ease: "linear" }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('${HERO_IMAGES[index]}')` }}
+          >
+           <div className="absolute inset-0 bg-black/40" />
 
-      {/* BACKGROUND IMAGE LAYER (Ken Burns Effect) */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.div
-          className="relative w-full h-full bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/hero-bg.jpg')" }}
-          // The Animation: Zoom out slowly from 115% to 100%
-          initial={{ scale: 1.15 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 10, ease: "easeOut" }}
-        >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-[#000000]/50 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
-        </motion.div>
+<div className="absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-transparent" />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* TEXT LAYER */}
-      <div className="relative z-20 flex flex-col items-center justify-center px-4 text-center mt-16 md:mt-24">
-
-        <motion.h1
-          className="leading-tight drop-shadow-2xl"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-
-          {/* "Welcome to" */}
-          <motion.span
-            variants={itemVariants}
-            className="block font-medium text-5xl md:text-7xl lg:text-[90px] mb-2 md:mb-4 text-transparent bg-clip-text bg-[linear-gradient(to_right,#FFFFFF_11.59%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
+      {/* CONTENT LAYER */}
+      <div className="relative z-20 w-full max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24">
+        <div className="flex flex-col items-start text-left max-w-4xl">
+          
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
           >
-            Welcome to
-          </motion.span>
+            <h1 className="flex flex-col items-start font-[700] tracking-tight leading-[1.1]">
+              <span className="text-white text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl">
+                You Belong Here.<br />
+                And You Always Did.
+              </span>
+            </h1>
+          </motion.div>
 
-          {/* "True Salvation" */}
-          <motion.span
-            variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] mb-0 md:mb-1 tracking-tight text-transparent bg-clip-text bg-[linear-gradient(85deg,#FFFFFF_0%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
+          {/* SECONDARY MESSAGE */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="mt-4 md:mt-6"
           >
-            True Salvation
-          </motion.span>
+            <p className="text-white/90 text-sm md:text-lg font-medium tracking-wide max-w-xl drop-shadow-md">
+              Whatever you are carrying, there is a room for it here.
+            </p>
+          </motion.div>
 
-          {/* "Church" */}
-          <motion.span
-            variants={itemVariants}
-            className="block font-bold text-6xl md:text-8xl lg:text-[110px] text-transparent bg-clip-text bg-[linear-gradient(85deg,#FFFFFF_0%,#F5BE40_33.33%,#FFFFFF_66.67%,#F5BE40_100%)]"
+          {/* BUTTONS - LINKED */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="mt-8 md:mt-10 flex flex-wrap gap-4"
           >
-            Church
-          </motion.span>
+            <Link href="/worship-online">
+              <button className="px-10 py-4 bg-[#E8751A] text-white font-semibold rounded-full text-xs tracking-widest hover:bg-[#E8A020] transition-all flex items-center gap-2 cursor-pointer shadow-xl">
+                Worship Online
+                <ChevronRight size={16} />
+              </button>
+            </Link>
 
-        </motion.h1>
-
-        {/* Optional: A subtle "Scroll Down" indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5, duration: 1.5 }}
-          className="absolute bottom-10"
-        >
-          <div className="w-[px] h-[60px] bg-linear-to-b from-transparent via-[#F5BE40] to-transparent opacity-60" />
-        </motion.div>
-
+            <Link href="/contact#ContactMap">
+              <button className="px-10 py-4 border-2 border-[#E8751A] bg-transparent hover:border-[#E8A020] text-[#E8751A] font-semibold rounded-full text-xs tracking-widest hover:text-[#E8A020] transition-all cursor-pointer shadow-xl">
+                Plan Your Visit
+              </button>
+            </Link>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

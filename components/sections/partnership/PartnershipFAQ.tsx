@@ -33,7 +33,7 @@ export function PartnershipFAQ() {
                 {/* 1. HEADER */}
                 <div className="flex flex-col items-center text-center gap-2">
                     <span
-                        className="font-caveat text-[28px] text-[#DD5F4C]"
+                        className="font-caveat text-[28px] text-[#E8751A]"
                         style={{ fontFamily: "var(--font-caveat)" }}
                     >
                         Answers to
@@ -53,11 +53,11 @@ export function PartnershipFAQ() {
                                 onClick={() => toggleFAQ(index)}
                                 className="w-full py-6 flex items-center justify-between text-left group"
                             >
-                                <span className="text-[18px] font-bold text-gray-900 group-hover:text-[#DD5F4C] transition-colors">
+                                <span className="text-[18px] font-bold text-gray-900 group-hover:text-[#E8751A] transition-colors">
                                     {faq.question}
                                 </span>
                                 <div className={`transition-transform duration-300 ${openIndex === index ? "rotate-180" : "rotate-0"}`}>
-                                    <ChevronDown className="text-gray-400 group-hover:text-[#DD5F4C]" size={20} />
+                                    <ChevronDown className="text-gray-400 group-hover:text-[#E8751A]" size={20} />
                                 </div>
                             </button>
 

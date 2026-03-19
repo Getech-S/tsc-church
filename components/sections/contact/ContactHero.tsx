@@ -9,7 +9,7 @@ export function ContactHero() {
       */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/hero-bg.jpg')" }}
+                style={{ backgroundImage: "url('/TSC.jpg')" }}
             >
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
@@ -23,11 +23,11 @@ export function ContactHero() {
             <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
                 <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
                     {/* "Contact" -> White */}
-                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#F5BE40] to-[#FFFFFF]">Contact </span>
+                    <span className="text-transparent bg-clip-text bg-white">Contact </span>
 
                     {/* "Us" -> Gold Gradient */}
                     <span
-                        className="text-transparent bg-clip-text bg-linear-to-r from-[#F5BE40] via-[#F5BE40] to-[#FFFFFF]"
+                        className="text-transparent bg-clip-text bg-white"
                     >
                         Us
                     </span>
