@@ -9,7 +9,7 @@ export function GiveHero() {
       */}
             <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/tSC.jpg')" }}
+                style={{ backgroundImage: "url('/TSC.jpg')" }}
             >
                 {/* Dark Overlay */}
                 <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
