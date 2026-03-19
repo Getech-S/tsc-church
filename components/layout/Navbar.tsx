@@ -160,7 +160,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/support" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
             style={{
               backgroundColor: "#E8751A",
               width: "150px",

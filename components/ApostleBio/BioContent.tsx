@@ -46,10 +46,23 @@ export function BioContent() {
             >
               {activeTab === "The Calling" && (
                 <>
-                  <p>Apostle Charles Muhizi serves as the legal representative and founding leader of True Salvation Church. His calling, as he has described it, is not to be admired or followed for his own sake, but to stand as a signpost pointing every heart away from the weight of the world and toward the freedom found only in Jesus Christ.</p>
-                  <p>His ministry is built on three pillars that have remained constant from the beginning. The first is prayer, a conviction that nothing of eternal value happens without it. The second is the Word, a belief that the Bible is not merely a religious text but a living truth that changes people when they encounter it honestly. The third is personal encounter, the understanding that healing and transformation rarely happen from a distance. They happen when someone who carries the presence of God gets close enough to another human life to let that presence do its work.</p>
-                  <p>This is why he meets people personally. Why the church he leads is structured around encounter, in the daily gatherings, in the prayer sessions, in the one on one appointments where he sits with individuals and believes God for the specific thing that specific person needs. It is not a method. It is a conviction.</p>
-                  <p>True Salvation Church began in Kigali, Rwanda, and has since established its home in Kampala, Uganda, a movement, not a monument. Wherever it has gone, the same thing has followed: people encountering God in ways they did not expect, leaving changed in ways they cannot fully explain, and returning because something in them recognises that what happened here was real.</p>
+                  <p><strong>Apostle Charles</strong> is a devoted minister of the Gospel of Jesus Christ, called and entrusted with the responsibility of shepherding, teaching, and guiding the Church in alignment with sound biblical doctrine. His ministry is centered on leading people back to Christ through truth, transformation, and a life fully surrendered to God.</p>
+
+                  <p>His divine calling began in <strong>2014</strong>, when God revealed Himself to him in a deeper way, calling him into apostolic ministry and commissioning him with a clear mandate: to restore <strong>repentance</strong> and <strong>righteousness</strong> among God’s people, and to teach the message of <strong>True Salvation</strong> as the foundation of a genuine relationship with Christ. Through this calling, he was named and set apart as an Apostle, carrying a message that challenges believers to return to the foundational truths of the Gospel.</p>
+
+<p>Apostle Charles’ teachings strongly emphasize <strong>Holiness</strong>, which he defines through his well-known declaration: <em>“Holiness is the way of life.”</em> His ministry also focuses on <strong>Repentance, Healing, and Deliverance</strong>, calling individuals to experience true spiritual freedom and transformation through Christ.</p>
+
+<p>Central to his message is the concept of <strong>“Shalom”</strong>, which he teaches as the inheritance of every child of God. According to Apostle Charles, Shalom consists of three essential dimensions:</p>
+
+<ul>
+  <li>1. The guarantee of eternal life</li>
+  <li>2. Inner peace</li>
+  <li>3. A healthy and abundantly prosperous life</li>
+</ul>
+
+<p>Through his teachings, he seeks to raise believers who live in the fullness of God’s promises—spiritually, physically, and materially.</p>
+
+<p>His ministry continues to impact lives through preaching, teaching, and spiritual guidance, with a mission to prepare a holy and righteous generation ready for the return of Christ.</p>
                 </>
               )}
               {activeTab === "Family" && <p className="text-center italic py-10">Information about the family of Apostle Charles...</p>}
