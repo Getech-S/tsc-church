@@ -179,11 +179,24 @@ export function ContactContent() {
                                 className="w-full px-4 py-3 bg-gray-50/50 rounded-lg border border-gray-100 focus:outline-none focus:border-[#E8751A] focus:bg-white transition-all text-[14px]"
                             />
                         </div>
+                        <div className="flex flex-col gap-2">
+                            <label className="text-[14px] font-medium text-gray-700">Phone Number (e.g:+25078888888)</label>
+                            <input
+                                required
+                                type="phone"
+                                name="phone"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                placeholder="Your phone number"
+                                className="w-full px-4 py-3 bg-gray-50/50 rounded-lg border border-gray-100 focus:outline-none focus:border-[#E8751A] focus:bg-white transition-all text-[14px]"
+                            />
+                        </div>
 
                         <div className="flex flex-col gap-2">
                             <label className="text-[14px] font-medium text-gray-700">Reason for Contact</label>
                             <div className="relative">
                                 <select
+                                required
                                     name="reason"
                                     value={formData.reason}
                                     onChange={handleChange}
@@ -192,7 +205,7 @@ export function ContactContent() {
                                     <option value="">Select a reason</option>
                                     <option value="Prayer Request">Prayer Request</option>
                                     <option value="Appointment">Appointment With The Apostle</option>
-                                    <option value="Partnership">Partnership Inquiry</option>
+                                    <option value="Partnership">Support The Mission</option>
                                 </select>
                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
                             </div>
