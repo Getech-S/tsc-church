@@ -79,7 +79,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
     >
       <div
         className={clsx(
-          "flex items-center justify-between w-full max-w-[1280px] transition-all duration-300",
+          "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
           isFloating
             ? isSticky
               ? "px-6 py-2"
@@ -160,14 +160,12 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center transition-transform duration-300 hover:bg-[#E8A020] hover:scale-105 active:scale-95 cursor-pointer border-0"
             style={{
               backgroundColor: "#E8751A",
               padding: "12px 24px",
             }}>
-
-            Request For Prayer
-
+            Request a Prayer
           </Link> 
         </div>
 
@@ -209,12 +207,12 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Mobile Give Button */}
-          <Link href="/contact#contactform" onClick={() => setIsOpen(false)} className="w-full mt-2">
+          <Link href="/contact#contactform" onClick={() => setIsOpen(false)} className="w-full mt-2 text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center py-3">
             <button
-              className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center shadow-md py-3"
+              className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center py-3"
               style={{ backgroundColor: "#E8751A" }}
             >
-              Request For Prayer
+              Request a Prayer
             </button>
           </Link>
 

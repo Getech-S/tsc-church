@@ -1,3 +1,97 @@
+// "use client";
+
+// import { useState, useEffect } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { ChevronRight } from "lucide-react";
+// import Link from "next/link";
+
+// const HERO_IMAGES = [
+//   "/TSC.jpg",
+//   "/TSC 2.jpg",
+//   "/TSC 3.jpg",
+// ];
+
+// export function Hero() {
+//   const [index, setIndex] = useState(0);
+
+//   useEffect(() => {
+//     const timer = setInterval(() => {
+//       setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+//     }, 6000);
+//     return () => clearInterval(timer);
+//   }, []);
+
+//   return (
+//     /* UPDATED: pt-[65vh] and md:pt-[75vh] to force content to the bottom third of the screen.
+//        Added pb-12 to prevent it from sitting flush against the very bottom edge. */
+//        <section className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-20 md:pb-32">
+      
+//       {/* BACKGROUND LAYER */}
+//       <div className="absolute inset-0 z-0">
+//         <AnimatePresence >
+//           <motion.div
+//             key={index}
+//             initial={{ opacity: 0, scale: 1.1 }}
+//             animate={{ opacity: 1, scale: 1 }}
+//             exit={{ opacity: 0 }}
+//             transition={{ duration: 3, ease: "linear" }}
+//             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+//             style={{ backgroundImage: `url('${HERO_IMAGES[index]}')` }}
+//           >
+//            <div className="absolute inset-0 bg-black/40" />
+
+// <div className="absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-transparent" />
+//           </motion.div>
+//         </AnimatePresence>
+//       </div>
+
+//       {/* CONTENT LAYER */}
+//       <div className="relative z-20 w-full mx-auto px-5 md:px-5 lg:px-32">
+//           <motion.div
+//             initial={{ opacity: 0, x: -30 }}
+//             animate={{ opacity: 1, x: 0 }}
+//             transition={{ duration: 0.8 }}
+//           >
+//             <h1 className="flex flex-col items-start font-bold tracking-tight leading-[1.1]">
+//               <span className="text-white text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl">
+//                 You Belong Here.<br />
+//                 And You Always Did.
+//               </span>
+//             </h1>
+//           </motion.div>
+
+//           {/* SECONDARY MESSAGE */}
+//           <motion.div
+//             initial={{ opacity: 0, x: -30 }}
+//             animate={{ opacity: 1, x: 0 }}
+//             transition={{ delay: 0.2, duration: 0.8 }}
+//             className="mt-4 md:mt-6"
+//           >
+//             <p className="text-white/90 text-sm md:text-lg font-light tracking-wide max-w-xl">
+//               Whatever you are carrying, there is a room for it here.
+//             </p>
+//           </motion.div>
+
+//           {/* BUTTONS - LINKED */}
+//           <motion.div
+//             initial={{ opacity: 0, y: 20 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             transition={{ delay: 0.4, duration: 0.8 }}
+//             className="mt-8 md:mt-10 flex flex-wrap gap-4"
+//           >
+//             <Link href="/worship-online" className="w-full sm:w-auto px-10 py-4 bg-[#E8751A] text-white font-semibold rounded-full text-xs hover:bg-[#E8A020] transition-all flex items-center gap-2 cursor-pointer">
+//                 Worship Online
+//                 <ChevronRight size={16} />
+//             </Link>
+
+//             <Link href="/contact#ContactMap" className="w-full sm:w-auto px-10 py-4 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] font-semibold rounded-full text-xs hover:text-white hover:border-2 transition-all cursor-pointer">
+//                 Plan Your Visit
+//             </Link>
+//           </motion.div>
+//       </div>
+//     </section>
+//   );
+// }
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,95 +100,110 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const HERO_IMAGES = [
-  "/TSC.jpg",
-  "/TSC 2.jpg",
-  "/TSC 3.jpg",  
+  { src: "/TSC.jpg", position: "bg-center" },
+  { src: "/TSC 2.jpg", position: "bg-top" },
+  { src: "/TSC 3.jpg", position: "bg-center" },
 ];
 
 export function Hero() {
   const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [paused]);
 
   return (
-    /* UPDATED: pt-[65vh] and md:pt-[75vh] to force content to the bottom third of the screen.
-       Added pb-12 to prevent it from sitting flush against the very bottom edge. */
-       <section className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-20 md:pb-32">
-      
+    <section
+      className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-16 sm:pb-24 md:pb-16"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+
       {/* BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
-        <AnimatePresence >
-          <motion.div
+        <AnimatePresence>
+         <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 1.1 }}
+            initial={{ opacity: 0, scale: 1.05 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 3, ease: "linear" }}
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ backgroundImage: `url('${HERO_IMAGES[index]}')` }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className={`absolute inset-0 bg-cover bg-no-repeat ${HERO_IMAGES[index].position}`}
+            style={{ backgroundImage: `url('${HERO_IMAGES[index].src}')` }}
           >
-           <div className="absolute inset-0 bg-black/40" />
-
-<div className="absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* CONTENT LAYER */}
-      <div className="relative z-20 w-full max-w-[1400px] mx-auto px-6 md:px-16 lg:px-24">
-        <div className="flex flex-col items-start text-left max-w-4xl">
-          
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="flex flex-col items-start font-[700] tracking-tight leading-[1.1]">
-              <span className="text-white text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl">
-                You Belong Here.<br />
-                And You Always Did.
-              </span>
-            </h1>
-          </motion.div>
+      <div className="relative z-20 w-full mx-auto px-6 md:px-10 lg:px-32 flex flex-col items-center text-center sm:items-start sm:text-left">
 
-          {/* SECONDARY MESSAGE */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="mt-4 md:mt-6"
-          >
-            <p className="text-white/90 text-sm md:text-lg font-medium tracking-wide max-w-xl drop-shadow-md">
-              Whatever you are carrying, there is a room for it here.
-            </p>
-          </motion.div>
+        <motion.h1
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-bold tracking-tight leading-[1.1] text-white text-3xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
+        >
+          You Belong Here.<br />
+          And You Always Did.
+        </motion.h1>
 
-          {/* BUTTONS - LINKED */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mt-8 md:mt-10 flex flex-wrap gap-4"
-          >
-            <Link href="/worship-online">
-              <button className="px-10 py-4 bg-[#E8751A] text-white font-semibold rounded-full text-xs tracking-widest hover:bg-[#E8A020] transition-all flex items-center gap-2 cursor-pointer shadow-xl">
-                Worship Online
-                <ChevronRight size={16} />
-              </button>
-            </Link>
+        <motion.p
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.8 }}
+          className="mt-3 md:mt-6 text-white/85 text-xs sm:text-sm md:text-lg font-light tracking-wide max-w-xl"
+        >
+          Whatever you are carrying, there is room for it here.
+        </motion.p>
+        {/* BUTTONS */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4"
+        >
+        <Link
+          href="/worship-online"
+          className="w-full sm:w-auto text-center px-8 py-3 bg-[#E8751A] text-white text-[14px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+        >
+          Watch Online
+        </Link>
 
-            <Link href="/contact#ContactMap">
-              <button className="px-10 py-4 border-2 border-[#E8751A] bg-transparent hover:border-[#E8A020] text-[#E8751A] font-semibold rounded-full text-xs tracking-widest hover:text-[#E8A020] transition-all cursor-pointer shadow-xl">
-                Plan Your Visit
-              </button>
-            </Link>
-          </motion.div>
-        </div>
+        <Link
+          href="/contact#ContactMap"
+          className="w-full sm:w-auto text-center px-8 py-3 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] hover:text-white text-[14px] font-semibold rounded-full transition-all duration-300 ease-in-out"
+        >
+          Plan Your Visit
+        </Link>
+        </motion.div>
+        {/* SLIDE INDICATORS — right side on large, below buttons on mobile */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
+          className="mt-12 flex flex-row sm:flex-col gap-3 items-center justify-center sm:justify-start w-full sm:w-auto sm:absolute sm:right-8 sm:top-1/2 sm:-translate-y-1/2"
+        >
+          {HERO_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIndex(i)}
+              className={`rounded-full transition-all duration-500 ${
+                i === index
+                  ? "w-8 sm:w-[6px] sm:h-8 h-[6px] bg-white"
+                  : "w-[6px] h-[6px] bg-white/50 hover:bg-white/70"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </motion.div>
       </div>
     </section>
   );
