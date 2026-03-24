@@ -164,25 +164,25 @@ export function Hero() {
           Whatever you are carrying, there is room for it here.
         </motion.p>
         {/* BUTTONS */}
-        <motion.div
+       <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4"
+          className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
         >
-        <Link
-          href="/worship-online"
-          className="w-full sm:w-auto text-center px-8 py-3 bg-[#E8751A] text-white text-[14px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
-        >
-          Watch Online
-        </Link>
+          <Link
+            href="/worship-online"
+            className="w-full sm:w-auto text-center px-8 py-3 bg-[#E8751A] text-white text-[14px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+          >
+            Watch Online
+          </Link>
 
-        <Link
-          href="/contact#ContactMap"
-          className="w-full sm:w-auto text-center px-8 py-3 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] hover:text-white text-[14px] font-semibold rounded-full transition-all duration-300 ease-in-out"
-        >
-          Plan Your Visit
-        </Link>
+          <Link
+            href="/contact#ContactMap"
+            className="w-full sm:w-auto text-center px-8 py-3 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] hover:text-white text-[14px] font-semibold rounded-full transition-all duration-300 ease-in-out"
+          >
+            Plan Your Visit
+          </Link>
         </motion.div>
         {/* SLIDE INDICATORS — right side on large, below buttons on mobile */}
         <motion.div
