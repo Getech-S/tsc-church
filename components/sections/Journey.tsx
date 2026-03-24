@@ -35,7 +35,7 @@ export function Journey() {
         </motion.div>
 
         {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           {/* CARD 1: HEALING & PRAYER */}
           <motion.div
