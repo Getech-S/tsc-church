@@ -30,7 +30,7 @@ export function About() {
 
         {/* RIGHT COLUMN: Text Content */}
         <motion.div
-          className="flex flex-col items-center text-center sm:items-start sm:text-left gap-6 order-1 lg:order-2"
+          className="flex flex-col sm:items-start sm:text-left gap-5 order-1 lg:order-2"
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -49,7 +49,7 @@ export function About() {
           </span>
 
           {/* Heading — correct responsive sizing, small to large */}
-          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
+          <h2 className="text-[32px] sm:text-[36px] sm: mb-3 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
             A Place Where Broken <br />
             Things Become Whole.
           </h2>
@@ -79,7 +79,7 @@ export function About() {
           {/* BUTTON — Link styled directly, no nested button */}
           <Link
                 href="/about#whoweare"
-                className="text-white bg-[#E8751A] font-semibold text-[14px] rounded-full px-8 py-3 flex items-center justify-center gap-2 hover:bg-[#E8A020] transition-colors duration-300 ease-in-out self-center sm:self-start"
+                className="text-white bg-[#E8751A] font-semibold text-[14px] rounded-full px-8 py-3 flex items-center justify-center gap-2 hover:bg-[#E8A020] transition-colors duration-300 ease-in-out sm:self-start"
                 >
                 Discover Our Story
                 {/* <ChevronRight size={16} className="mt-[1px]" /> */}
