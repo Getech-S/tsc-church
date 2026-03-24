@@ -128,14 +128,14 @@ export function Hero() {
       <div className="absolute inset-0 z-0">
         <AnimatePresence>
          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className={`absolute inset-0 bg-cover bg-no-repeat ${HERO_IMAGES[index].position}`}
-            style={{ backgroundImage: `url('${HERO_IMAGES[index].src}')` }}
-          >
+              key={index}
+              initial={{ opacity: index === 0 ? 1 : 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+              className={`absolute inset-0 bg-cover bg-no-repeat ${HERO_IMAGES[index].position}`}
+              style={{ backgroundImage: `url('${HERO_IMAGES[index].src}')` }}
+            >
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
           </motion.div>
@@ -159,7 +159,7 @@ export function Hero() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="mt-3 md:mt-6 text-white/85 text-xs sm:text-sm md:text-lg font-light tracking-wide max-w-xl"
+          className="mt-3 md:mt-6 text-white/85 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-xl"
         >
           Whatever you are carrying, there is room for it here.
         </motion.p>
