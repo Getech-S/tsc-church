@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export function About() {
   return (
-    <section className="bg-white pt-1 pb-24 lg:pt-10 lg:pb-24 overflow-hidden">
+    <section className="bg-white pt-1 pb-20 lg:pt-10 lg:pb-24 overflow-hidden">
       <div className="w-full mx-auto px-6 md:px-10 lg:px-32 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
         {/* DESKTOP IMAGE */}
@@ -49,7 +49,7 @@ export function About() {
           </span>
 
           {/* Heading — correct responsive sizing, small to large */}
-          <h2 className="text-[32px] sm:text-[36px] sm: mb-3 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
+          <h2 className="text-[32px] sm:text-[36px] sm:mb-3 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
             A Place Where Broken <br />
             Things Become Whole.
           </h2>
