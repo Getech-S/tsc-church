@@ -1,102 +1,8 @@
-// "use client";
-
-// import { useState, useEffect } from "react";
-// import { motion, AnimatePresence } from "framer-motion";
-// import { ChevronRight } from "lucide-react";
-// import Link from "next/link";
-
-// const HERO_IMAGES = [
-//   "/TSC.jpg",
-//   "/TSC 2.jpg",
-//   "/TSC 3.jpg",
-// ];
-
-// export function Hero() {
-//   const [index, setIndex] = useState(0);
-
-//   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-//     }, 6000);
-//     return () => clearInterval(timer);
-//   }, []);
-
-//   return (
-//     /* UPDATED: pt-[65vh] and md:pt-[75vh] to force content to the bottom third of the screen.
-//        Added pb-12 to prevent it from sitting flush against the very bottom edge. */
-//        <section className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-20 md:pb-32">
-      
-//       {/* BACKGROUND LAYER */}
-//       <div className="absolute inset-0 z-0">
-//         <AnimatePresence >
-//           <motion.div
-//             key={index}
-//             initial={{ opacity: 0, scale: 1.1 }}
-//             animate={{ opacity: 1, scale: 1 }}
-//             exit={{ opacity: 0 }}
-//             transition={{ duration: 3, ease: "linear" }}
-//             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-//             style={{ backgroundImage: `url('${HERO_IMAGES[index]}')` }}
-//           >
-//            <div className="absolute inset-0 bg-black/40" />
-
-// <div className="absolute inset-0 bg-linear-to-r from-black/60 via-transparent to-transparent" />
-//           </motion.div>
-//         </AnimatePresence>
-//       </div>
-
-//       {/* CONTENT LAYER */}
-//       <div className="relative z-20 w-full mx-auto px-5 md:px-5 lg:px-32">
-//           <motion.div
-//             initial={{ opacity: 0, x: -30 }}
-//             animate={{ opacity: 1, x: 0 }}
-//             transition={{ duration: 0.8 }}
-//           >
-//             <h1 className="flex flex-col items-start font-bold tracking-tight leading-[1.1]">
-//               <span className="text-white text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl">
-//                 You Belong Here.<br />
-//                 And You Always Did.
-//               </span>
-//             </h1>
-//           </motion.div>
-
-//           {/* SECONDARY MESSAGE */}
-//           <motion.div
-//             initial={{ opacity: 0, x: -30 }}
-//             animate={{ opacity: 1, x: 0 }}
-//             transition={{ delay: 0.2, duration: 0.8 }}
-//             className="mt-4 md:mt-6"
-//           >
-//             <p className="text-white/90 text-sm md:text-lg font-light tracking-wide max-w-xl">
-//               Whatever you are carrying, there is a room for it here.
-//             </p>
-//           </motion.div>
-
-//           {/* BUTTONS - LINKED */}
-//           <motion.div
-//             initial={{ opacity: 0, y: 20 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             transition={{ delay: 0.4, duration: 0.8 }}
-//             className="mt-8 md:mt-10 flex flex-wrap gap-4"
-//           >
-//             <Link href="/worship-online" className="w-full sm:w-auto px-10 py-4 bg-[#E8751A] text-white font-semibold rounded-full text-xs hover:bg-[#E8A020] transition-all flex items-center gap-2 cursor-pointer">
-//                 Worship Online
-//                 <ChevronRight size={16} />
-//             </Link>
-
-//             <Link href="/contact#ContactMap" className="w-full sm:w-auto px-10 py-4 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] font-semibold rounded-full text-xs hover:text-white hover:border-2 transition-all cursor-pointer">
-//                 Plan Your Visit
-//             </Link>
-//           </motion.div>
-//       </div>
-//     </section>
-//   );
-// }
 "use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight } from "lucide-react";
+// import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 const HERO_IMAGES = [
@@ -108,7 +14,22 @@ const HERO_IMAGES = [
 export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
+  // Preload all images on mount
+  useEffect(() => {
+    let loaded = 0;
+    HERO_IMAGES.forEach(({ src }) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        loaded++;
+        if (loaded === HERO_IMAGES.length) setImagesLoaded(true);
+      };
+    });
+  }, []);
+
+  // Slideshow timer
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(() => {
@@ -123,7 +44,6 @@ export function Hero() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
-
       {/* BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence>
