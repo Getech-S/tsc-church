@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@layer base {
+  /* Apply Montserrat to all text by default */
+  body {
+    @apply font-sans;
+  }
+
+  /* Caveat for decorative text - can be applied with font-caveat class */
+}
+
 @layer utilities {
     .no-scrollbar::-webkit-scrollbar {
       display: none;

@@ -10,7 +10,8 @@ const config: Config = {
     extend: {
       // 1. Set the Font Family
       fontFamily: {
-        sans: ["montserrat", "sans-serif"], // We will set this variable in Step 2
+        sans: ["var(--font-montserrat)", "sans-serif"],
+        caveat: ["var(--font-caveat)", "cursive"],
       },
       // 2. Set the Fluid Font Sizes (from your doc)
       fontSize: {

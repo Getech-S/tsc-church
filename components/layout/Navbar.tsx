@@ -79,7 +79,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
     >
       <div
         className={clsx(
-          "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
+          "flex items-center justify-between w-full max-w-[1280px] transition-all duration-300",
           isFloating
             ? isSticky
               ? "px-6 py-2"
@@ -160,11 +160,10 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
             style={{
               backgroundColor: "#E8751A",
-              width: "150px",
-              height: "50px"
+              padding: "12px 24px",
             }}>
 
             Request For Prayer
