@@ -18,7 +18,7 @@ export function Journey() {
           transition={{ duration: 0.6 }}
         >
           <span
-            className="text-[24px] lg:text-[28px] leading-[8px] tracking-[0.5px] text-[#E8751A]"
+            className="text-[24px] lg:text-[28px] leading-[12px] tracking-[0.5px] text-[#E8751A]"
             style={{
               fontVariantNumeric: "lining-nums tabular-nums",
               fontFeatureSettings: '"liga" off, "calt" off',
