@@ -35,7 +35,7 @@ export function Journey() {
         </motion.div>
 
         {/* GRID LAYOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4 lg:px-8">
 
           {/* CARD 1: HEALING & PRAYER */}
           <motion.div
@@ -105,7 +105,7 @@ export function Journey() {
 
           {/* CARD 3: DISCIPLESHIP (VIDEO) */}
           <motion.div
-            className="relative col-span-1 md:col-span-2 rounded-[16px] overflow-hidden flex items-end md:items-center min-h-[500px] md:min-h-[400px] md:h-[400px]"
+            className="relative col-span-1 md:col-span-2 rounded-[16px] overflow-hidden flex items-end min-h-[500px] md:min-h-[400px] md:h-[400px]"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -129,7 +129,7 @@ export function Journey() {
                 <span className="text-[16px] leading-[24px] font-normal text-white/90">
                   Discipleship
                 </span>
-                <h3 className="text-[20px] sm:text-[24px] md:text-[28px] lg:text-[32px] font-bold leading-[1.2] text-white md:max-w-[60%]">
+                <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-bold leading-[1.2] text-white md:max-w-[60%]">
                   Live so they See Christ in you. Join a family committed to growing into His likeness in every word and every deed.
                 </h3>
               </div>
