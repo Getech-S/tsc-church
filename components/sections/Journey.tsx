@@ -57,7 +57,7 @@ export function Journey() {
               <span className="text-[16px] leading-[24px] font-normal text-white/90">
                 Healing & Prayer
               </span>
-              <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-bold leading-[1.4] text-white">
+              <h3 className="text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-[1.4] text-white">
                 A safe place to bring your burdens, receive prayer, and trust God for healing and renewal.
               </h3>
               <Link
@@ -90,7 +90,7 @@ export function Journey() {
               <span className="text-[16px] leading-[24px] font-normal text-white/90">
                 Total Deliverance
               </span>
-              <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-bold leading-[1.4] text-white">
+              <h3 className="text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-[1.4] text-white">
                 Break free from spiritual chains and experience the freedom Christ gives.
               </h3>
               <Link
@@ -129,7 +129,7 @@ export function Journey() {
                 <span className="text-[16px] leading-[24px] font-normal text-white/90">
                   Discipleship
                 </span>
-                <h3 className="text-[18px] sm:text-[20px] md:text-[24px] font-bold leading-[1.2] text-white md:max-w-[60%]">
+                <h3 className="text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-[1.2] text-white md:max-w-[60%]">
                   Live so they See Christ in you. Join a family committed to growing into His likeness in every word and every deed.
                 </h3>
               </div>
