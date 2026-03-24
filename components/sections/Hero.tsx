@@ -37,6 +37,12 @@ export function Hero() {
     }, 6000);
     return () => clearInterval(timer);
   }, [paused]);
+  useEffect(() => {
+    HERO_IMAGES.forEach(({ src }) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   return (
     <section
