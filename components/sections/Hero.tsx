@@ -4,32 +4,22 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+
+import tsc1 from "../../public/TSC.jpg";
+import tsc2 from "../../public/TSC 2.jpg";
+import tsc3 from "../../public/TSC 3.jpg";
 
 const HERO_IMAGES = [
-  { src: "/TSC.jpg", position: "bg-center" },
-  { src: "/TSC 2.jpg", position: "bg-top" },
-  { src: "/TSC 3.jpg", position: "bg-center" },
+  { src: tsc1, position: "object-center" },
+  { src: tsc2, position: "object-top" },
+  { src: tsc3, position: "object-center" },
 ];
 
 export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  // Preload all images on mount
-  useEffect(() => {
-    let loaded = 0;
-    HERO_IMAGES.forEach(({ src }) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => {
-        loaded++;
-        if (loaded === HERO_IMAGES.length) setImagesLoaded(true);
-      };
-    });
-  }, []);
-
-  // Slideshow timer
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(() => {
@@ -37,33 +27,37 @@ export function Hero() {
     }, 6000);
     return () => clearInterval(timer);
   }, [paused]);
-  useEffect(() => {
-    HERO_IMAGES.forEach(({ src }) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
 
   return (
     <section
-      className="relative h-screen w-full overflow-hidden bg-black flex items-end justify-start pb-16 sm:pb-24 md:pb-16"
+      className="relative h-screen w-full overflow-hidden bg-[#1B1C1E] flex items-end justify-start pb-16 sm:pb-24 md:pb-16"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
+
       {/* BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence>
-         <motion.div
-              key={index}
-              initial={{ opacity: index === 0 ? 1 : 0, scale: 1.05 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5, ease: "easeInOut" }}
-              className={`absolute inset-0 bg-cover bg-no-repeat ${HERO_IMAGES[index].position}`}
-              style={{ backgroundImage: `url('${HERO_IMAGES[index].src}')` }}
-            >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+          <motion.div
+            key={index}
+            initial={{ opacity: index === 0 ? 1 : 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={HERO_IMAGES[index].src}
+              alt="Church service"
+              fill
+              placeholder="blur"
+              priority={index === 0}
+              className={`${HERO_IMAGES[index].position} object-cover`}
+              sizes="100vw"
+            />
+            {/* Gradients travel with each image — no flash during transitions */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -75,12 +69,13 @@ export function Hero() {
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="font-bold tracking-tight leading-[1.1] text-white text-3xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
+          className="font-bold tracking-tight leading-[1.1] text-white text-4xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
         >
           You Belong Here.<br />
           And You Always Did.
         </motion.h1>
 
+        {/* SUBTEXT */}
         <motion.p
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -89,8 +84,9 @@ export function Hero() {
         >
           Whatever you are carrying, there is room for it here.
         </motion.p>
+
         {/* BUTTONS */}
-       <motion.div
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
@@ -110,7 +106,8 @@ export function Hero() {
             Plan Your Visit
           </Link>
         </motion.div>
-        {/* SLIDE INDICATORS — right side on large, below buttons on mobile */}
+
+        {/* SLIDE INDICATORS — below buttons on mobile, right side on desktop */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -130,6 +127,7 @@ export function Hero() {
             />
           ))}
         </motion.div>
+
       </div>
     </section>
   );
