@@ -26,16 +26,16 @@ export function Footer() {
                 />
 
                 {/* CTA Content Container */}
-                <div className="mx-auto max-w-[1280px] relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 border-b border-white/10 p-8 md:p-16">
-                    <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-tight max-w-4xl">
-                        Your generosity fuels our mission; to impact <br className="hidden md:block" />
+                <div className="mx-auto max-w-[1280px] relative z-10 flex flex-col md:flex-row justify-between items-center gap-8 border-b border-white/10 p-8 md:p-16">
+                    <h2 className="text-[24px] lg:text-[36px] font-bold text-white leading-tight max-w-4xl text-center md:text-left">
+                        Your generosity fuels our mission, to impact <br className="hidden md:block" />
                         lives and advance the Gospel with integrity.
                     </h2>
                     
                     {/* Fixed Link-as-a-button */}
                     <Link 
                         href="/give"
-                        className="bg-[#E8751A] text-white font-bold px-8 py-3.5 rounded-full transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer text-[15px] shadow-2xl inline-block text-center shrink-0"
+                        className="w-full md:w-auto block md:inline-block bg-[#E8751A] text-white font-semibold px-6 py-3 rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out text-[14px] text-center shrink-0"
                     >
                         Support the Work
                     </Link>

@@ -70,7 +70,7 @@ export function Sermons() {
           {/* Right: button — hidden on mobile, shown on desktop */}
           <Link
             href="/sermons"
-            className="hidden md:inline-flex items-center gap-2 rounded-full border border-[#E8A020] px-5 py-2 text-[14px] font-semibold text-[#E8A020] transition-all duration-300 hover:bg-[#E8A020] hover:text-white shrink-0"
+            className="hidden md:inline-flex items-center gap-2 rounded-full border border-[#E8751A] px-5 py-2 text-[14px] font-semibold text-[#E8751A] transition-all duration-300 hover:bg-[#E8751A] hover:text-white shrink-0"
           >
             View All Sermons
             {/* <ChevronRight size={16} className="mt-1"/> */}
@@ -135,7 +135,7 @@ export function Sermons() {
         >
           <Link
             href="/sermons"
-            className="w-full flex items-center justify-center gap-2 rounded-full bg-[#E8A020]  px-6 py-3 text-[14px] font-bold text-white transition-all duration-300 hover:bg-[#E8A020] hover:text-white"
+            className="w-full flex items-center justify-center gap-2 rounded-full bg-[#E8751A]  px-6 py-3 text-[14px] font-bold text-white transition-all duration-300 hover:bg-[#E8751A] hover:text-white"
           >
             View All Sermons
             {/* <ChevronRight size={16} /> */}
