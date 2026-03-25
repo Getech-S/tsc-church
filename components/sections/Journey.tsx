@@ -91,7 +91,7 @@ export function Journey() {
                 Total Deliverance
               </span>
               <h3 className="text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-[1.4] text-white">
-                Break free from spiritual chains and experience the freedom Christ gives.
+                Break free from spiritual chains and experience the freedom Christ gives.<br/>
               </h3>
               <Link
                 href="/contact#contactform"
@@ -105,7 +105,7 @@ export function Journey() {
 
           {/* CARD 3: DISCIPLESHIP (VIDEO) */}
           <motion.div
-            className="relative col-span-1 md:col-span-2 rounded-[16px] overflow-hidden flex items-end min-h-[500px] md:min-h-[400px] md:h-[400px]"
+            className="relative col-span-1 md:col-span-2 rounded-[16px] overflow-hidden flex items-end md:items-center min-h-[500px] md:min-h-[400px] md:h-[400px]"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -130,7 +130,8 @@ export function Journey() {
                   Discipleship
                 </span>
                 <h3 className="text-[18px] sm:text-[24px] md:text-[28px] font-bold leading-[1.2] text-white md:max-w-[60%]">
-                  Live so they See Christ in you. Join a family committed to growing into His likeness in every word and every deed.
+                  Grow in Christ with a community 
+                  committed to living His Word.
                 </h3>
               </div>
 
