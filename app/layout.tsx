@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Montserrat, Caveat } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google'; // 👈 IMPORT THIS
-import "./globals.css";
+import "./global.css";
 
-// Fonts - Responsive and optimized
-const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
-const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 
 // 👇 UPDATED METADATA FOR SEO
 export const metadata: Metadata = {
