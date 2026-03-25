@@ -33,7 +33,7 @@ const gatherings = [
 export default function WeeklyAgenda() {
   return (
     <section className="bg-[#1B1C1E] py-20 lg:py-28 text-white overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="w-full mx-auto px-6 md:px-10 lg:px-32">
 
         {/* HEADER */}
         <motion.div

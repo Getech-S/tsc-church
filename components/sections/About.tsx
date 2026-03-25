@@ -30,7 +30,7 @@ export function About() {
 
         {/* RIGHT COLUMN: Text Content */}
         <motion.div
-          className="flex flex-col sm:items-start sm:text-left gap-5 order-1 lg:order-2"
+          className="flex flex-col sm:items-start sm:text-left gap-3 order-1 lg:order-2"
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -38,7 +38,7 @@ export function About() {
         >
           {/* Eyebrow */}
           <span
-            className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[8px] tracking-[0.5px] font-normal text-left"
+            className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left"
             style={{
               fontVariantNumeric: "lining-nums tabular-nums",
               fontFeatureSettings: '"liga" off, "calt" off',
