@@ -8,25 +8,25 @@ const gatherings = [
     day: "MONDAY – THURSDAY",
     title: "Kingdom Verdict",
     description: "Nightly teaching and spiritual verdicts through the Word.",
-    time: "9:00 PM · EAT",
+    time: "21:00 – 00:00 · EAT",
   },
   {
     day: "FRIDAY",
     title: "Prayer Flames",
     description: "A focused hour of prayer and intercession.",
-    time: "9:00 PM · EAT",
+    time: "21:00 – 00:00 · EAT",
   },
   {
     day: "SATURDAY",
     title: "One on One With Apostle",
     description: "Personal spiritual guidance and ministry.",
-    time: "11:00 AM · EAT",
+    time: "11:00 – 16:00 · EAT",
   },
   {
     day: "SUNDAY SERVICE",
     title: "Raw Miracles",
     description: "A powerful gathering of worship, Word, and miracles.",
-    time: "3:00 PM · EAT",
+    time: "15:00 – 19:00 · EAT",
   },
 ];
 
