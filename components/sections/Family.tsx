@@ -12,7 +12,7 @@ export function Family() {
 
         {/* HEADER */}
         <motion.div
-          className="flex flex-col items-center text-center gap-2"
+          className="flex flex-col items-center text-center gap-3"
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -29,14 +29,14 @@ export function Family() {
             Distance is No Barrier
           </span>
 
-          <h2 className="text-[28px] sm:text-[36px] md:text-[42px] lg:text-[48px] font-bold text-[#1B1C1E] leading-tight tracking-[-1px]">
-            However You Join Us, <br />
-            You Belong
+          <h2 className="text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] font-bold text-[#1B1C1E] leading-tight tracking-[-1px]">
+            Wherever You Are,<br/>
+            You Belong Here.
           </h2>
         </motion.div>
 
         {/* CARDS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-[45px] w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] w-full">
 
           {/* CARD 1: IN PERSON */}
           <motion.div
@@ -52,7 +52,8 @@ export function Family() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-black/40" />
+<div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10" />
 
             <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col items-start gap-4">
               <h3 className="text-[24px] font-bold leading-[32px] text-white">
@@ -82,7 +83,8 @@ export function Family() {
               fill
               className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+           <div className="absolute inset-0 bg-black/40" />
+<div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10" />
 
             <div className="absolute bottom-0 left-0 w-full p-8 flex flex-col items-start gap-4">
               <h3 className="text-[24px] font-bold leading-[32px] text-white">
@@ -93,7 +95,7 @@ export function Family() {
                 className="inline-flex items-center gap-2 rounded-full border border-[#E8A020] px-4 py-2 text-[14px] font-bold text-[#E8A020] transition-all duration-300 hover:bg-[#E8A020] hover:text-white hover:border-[#E8A020]"
               >
                 Worship Online
-                <ChevronRight size={16} />
+                <ChevronRight size={16} className="mt-1"/>
               </Link>
             </div>
           </motion.div>
