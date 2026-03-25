@@ -69,7 +69,7 @@ export default function WeeklyAgenda() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`
-                flex flex-col items-start px-6 md:px-4 py-4 md:py-6
+                flex flex-col items-start px-6 md:px-4 py-8
                 border-b border-white/10
                 ${index !== 0 ? "md:border-l border-white/10" : ""}
                 md:border-b-0
