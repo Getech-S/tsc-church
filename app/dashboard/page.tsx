@@ -12,6 +12,8 @@ import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 
+export const dynamic = "force-dynamic";
+
 export default function StaffDashboard() {
   const router = useRouter();
   const [filter, setFilter] = useState("Today");

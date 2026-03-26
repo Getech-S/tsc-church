@@ -4,6 +4,7 @@ import { SermonDetails } from "@/components/sections/sermons/SermonDetails";
 import { Footer } from "@/components/sections/Footer";
 import { getLiveOrLatestSermon } from "@/app/actions/getYoutubeVideos";
 import { MoreSermons } from "@/components/sections/sermons/MoreSermons";
+export const dynamic = "force-dynamic";
 
 export default async function WorshipOnlinePage() {
   const { videoId, isLive, title } = await getLiveOrLatestSermon();
