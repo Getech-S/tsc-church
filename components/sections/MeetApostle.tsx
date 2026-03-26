@@ -27,7 +27,7 @@ export default function MeetApostle() {
             <img
               src="/apostle_no_bg.png"
               alt="Apostle Charles"
-              className="relative z-10 w-full h-full object-cover object-top scale-[1.3] -translate-y-8"
+              className="relative z-10 w-full h-full object-cover object-top scale-[1.3] -translate-y-12"
             />
             <div className="absolute inset-0 z-20 bg-gradient-to-b from-transparent via-transparent to-[#1B1C1E]" />
           </div>
