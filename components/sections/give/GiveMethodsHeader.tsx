@@ -58,6 +58,7 @@ export function GiveMethodsHeader() {
                 <Image src="/momo-logo.webp" alt="MoMo Logo" width={40} height={40} className="object-contain" />
               </div>
               <h3 className="text-white font-bold text-2xl mb-1">MTN Mobile Money</h3>
+              <h3 className="text-white font-bold text-2xl mb-1">WorldRemit</h3>
               <p className="text-[#8E939A] text-sm mb-10 font-medium">Support the work via Mobile Money</p>
               <div className="w-full space-y-4 text-left">
                 <div className="flex items-center gap-5 bg-[#2D2E32] p-5 rounded-2xl border border-[#3F4044]">

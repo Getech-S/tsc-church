@@ -150,7 +150,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
 
           {/* Request a Prayer Button */}
           <Link
-            href="/contact#contactform"
+            href="/prayer-request"
             className="text-white font-semibold text-[14px] rounded-full px-6 py-3 bg-[#E8751A] hover:bg-[#E8A020] transition-colors duration-300 ease-in-out"
           >
             Request a Prayer
@@ -204,7 +204,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
 
           {/* Mobile Request a Prayer Button */}
           <Link
-            href="/contact#contactform"
+            href="/prayer-request"
             onClick={() => setIsOpen(false)}
             className="w-full mt-2 text-white font-bold text-[16px] rounded-full flex items-center justify-center py-3 bg-[#E8751A] hover:bg-[#E8A020] transition-colors duration-300 ease-in-out"
           >

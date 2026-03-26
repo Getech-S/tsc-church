@@ -61,7 +61,7 @@ export function Journey() {
                 A safe place to bring your burdens, receive prayer, and trust God for healing and renewal.
               </h3>
               <Link
-                href="/contact#contactform"
+                href="/prayer-request"
                 className="inline-flex items-center gap-2 self-start rounded-full border border-[#E8A020] px-4 py-2 text-[13px] font-bold text-[#E8A020] transition-all duration-300 hover:bg-[#E8A020] hover:text-white hover:border-[#E8A020]"
               >
                 Request Prayer
@@ -94,7 +94,7 @@ export function Journey() {
                 Break free from spiritual chains and experience the freedom Christ gives.<br/>
               </h3>
               <Link
-                href="/contact#contactform"
+                href="/prayer-request"
                 className="inline-flex items-center gap-2 self-start rounded-full border border-[#E8A020] px-4 py-2 text-[13px] font-bold text-[#E8A020] transition-all duration-300 hover:bg-[#E8A020] hover:text-white hover:border-[#E8A020]"
               >
                Find Freedom
