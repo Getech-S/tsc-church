@@ -1,108 +1,109 @@
+"use client";
+
 import { Clock } from "lucide-react";
+import { motion } from "framer-motion";
+
+const gatherings = [
+  {
+    day: "MONDAY – THURSDAY",
+    title: "Kingdom Verdict",
+    description: "Nightly teaching and spiritual verdicts through the Word.",
+    time: "21:00 – 00:00 · EAT",
+  },
+  {
+    day: "FRIDAY",
+    title: "Prayer Flames",
+    description: "A focused hour of prayer and intercession.",
+    time: "21:00 – 00:00 · EAT",
+  },
+  {
+    day: "SATURDAY",
+    title: "One on One With Apostle",
+    description: "Personal spiritual guidance and ministry.",
+    time: "11:00 – 16:00 · EAT",
+  },
+  {
+    day: "SUNDAY SERVICE",
+    title: "Raw Miracles",
+    description: "A powerful gathering of worship, Word, and miracles.",
+    time: "15:00 – 19:00 · EAT",
+  },
+];
 
 export default function WeeklyAgenda() {
-  const gatherings = [
-    {
-      day: "MONDAY – THURSDAY",
-      title: "Kingdom Verdict",
-      description: "Your Prayer is Answered.",
-      time: "9:00 PM · EAT",
-    },
-    {
-      day: "FRIDAY",
-      title: "Prayer Flames",
-      description: "A focused hour of prayer and intercession",
-      time: "9:00 PM · EAT",
-    },
-    {
-      day: "SATURDAY",
-      title: "One on One With Apostle",
-      description: "Personal spiritual guidance and ministry.",
-      time: "11:00 AM · EAT",
-    },
-    {
-      day: "SUNDAY SERVICE",
-      title: "Raw Miracle Sunday",
-      description: "A powerful gathering of worship, Word, and miracles.",
-      time: "3:00 PM · EAT",
-    },
-  ];
-
   return (
-    <section className="bg-[#1B1C1E] py-24 text-white relative overflow-hidden">
-      
-      {/* Background Decorative Dove 
-      <img
-        src="/dove.png"
-        alt=""
-        className="absolute right-[-5%] top-10 opacity-5 w-[500px] pointer-events-none select-none "
-      />*/}
+    <section className="bg-[#1B1C1E] py-20 lg:py-28 text-white overflow-hidden">
+      <div className="w-full mx-auto px-6 md:px-10 lg:px-32">
 
-      <div className="max-w-[1400px] mx-auto px-6">
-        
-        {/* Header Section */}
-        <div className="text-center mb-20">
-          <p className="font-caveat text-[28px] leading-[27px] tracking-[0.5px] text-[#E8751A]"
-                        style={{
-                            fontVariantNumeric: "lining-nums tabular-nums",
-                            fontFeatureSettings: '"liga" off, "calt" off',
-                            fontFamily: "var(--font-caveat)",
-                        }}
+        {/* HEADER */}
+        <motion.div
+          className="text-center mb-8 md:mb-24"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p
+            className="text-[24px] lg:text-[28px] leading-[12px] tracking-[0.5px] text-[#E8751A] mb-4"
+            style={{
+              fontVariantNumeric: "lining-nums tabular-nums",
+              fontFeatureSettings: '"liga" off, "calt" off',
+              fontFamily: "var(--font-caveat)",
+            }}
           >
-            Weekly Program
+            Weekly Gatherings
           </p>
-          <h2 className="text-[40px] md:text-[48px] font-bold text-[#1B1C1E] leading-tight tracking-[-1px]">
-            
-            <span className="text-white">Experience God <br />
-            With Us All Week Long</span>
+          <h2 className="text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] font-bold text-white leading-[1.1] tracking-[-1px]">
+            Experience God <br />
+            With Us All Week Long
           </h2>
-        </div>
+        </motion.div>
 
-        {/* HORIZONTAL LAYOUT LOGIC:
-          - grid-cols-1 for mobile (vertical)
-          - md:grid-cols-4 for desktop (horizontal)
-          - Borders create the column separation
-        */}
-        <div className="grid grid-cols-1 md:grid-cols-4  border-white/10">
+       {/* GRID — no border-top */}
+        <div className="grid grid-cols-1 md:grid-cols-4">
           {gatherings.map((item, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`group flex flex-col items-start px-8 py-16 transition-all duration-500 hover:bg-white/0.02
-                ${index !== 0 ? "md:border-l border-white/10" : ""} 
-                border-b md:border-b-0 border-white/10
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`
+                flex flex-col items-start px-6 md:px-4 py-8
+                border-b border-white/10
+                ${index !== 0 ? "md:border-l border-white/10" : ""}
+                md:border-b-0
               `}
             >
-              {/* Day Label */}
-              <p className="text-[11px] tracking-[0.2em] font-bold text-white mb-4 uppercase">
+              {/* Day Label — largest, most prominent */}
+              <p className="text-[16px] sm:text-[18px] tracking-[0.2em] font-bold text-white uppercase">
                 {item.day}
               </p>
 
-              {/* Minimalist Orange Line */}
-              <div className="w-8 h-[2px] bg-[#E8751A] mb-10 transition-all duration-500"></div>
+              {/* Orange Line */}
+              <div className="w-8 h-[2px] bg-[#E8751A] mt-3 mb-8 md:mb-10" />
 
-              {/* Title */}
-              <h3 className="text-2xl font-semibold mb-4 tracking-tight transition-colors">
+              {/* Program Title — second in hierarchy */}
+              <h3 className="text-[16px] md:text-[18px] font-semibold tracking-tight leading-[1.3] mb-3">
                 {item.title}
               </h3>
 
-              {/* Description */}
-              <p className="text-white/60 text-sm leading-relaxed mb-10 min-h-[60px]">
+              {/* Description — third */}
+              <p className="text-white/70 text-[14px] sm:text-sm leading-relaxed mb-8 md:mb-10 min-h-[48px]">
                 {item.description}
               </p>
 
-              {/* Time Section - Pushed to the bottom of the card */}
-              <div className="mt-auto flex items-center gap-1">
-                <Clock size={16} className="text-white" />
-                <span className="text-[12px] font-bold tracking-widest text-white/80 uppercase">
+              {/* Clock — last, smallest */}
+              <div className="mt-auto flex items-center gap-2">
+                <Clock size={20} className="text-white/70" />
+                <span className="text-[14px] font-bold tracking-widest text-white/70 uppercase">
                   {item.time}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-        
-        {/* Bottom Decorative Line */}
-        <div className="h-1px w-full bg-white/10"></div>
+
       </div>
     </section>
   );

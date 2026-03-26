@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Caveat } from "next/font/google";
+import { Montserrat, Caveat } from "next/font/google";
 import { GoogleTagManager } from '@next/third-parties/google'; // 👈 IMPORT THIS
-import "./globals.css";
+import "./global.css";
 
-// Fonts (Keep your existing font setup)
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
+const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 
 // 👇 UPDATED METADATA FOR SEO
 export const metadata: Metadata = {
@@ -79,7 +78,7 @@ export default function RootLayout({
       {/* 👇 ADD THIS COMPONENT HERE */}
       <GoogleTagManager gtmId="GTM-KVFLS22F" />
       
-      <body className={`${inter.variable} ${caveat.variable} font-sans`}>
+      <body className={`${montserrat.variable} ${caveat.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>
