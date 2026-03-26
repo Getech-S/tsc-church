@@ -69,7 +69,7 @@ export function Journey() {
         </h3>
     </div>
 
-    <Link href="/contact#contactform" className="relative z-10">
+    <Link href="/prayer-request" className="relative z-10">
         <button className="group mt-6 flex items-center gap-2 rounded-[109px] border border-[#E8A020] px-[12px] py-[8px] text-[14px] font-bold text-[#E8A020] transition-all hover:border-white hover:text-white">
             Request Prayer
             <ChevronRight size={16} />

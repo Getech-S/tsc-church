@@ -160,7 +160,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Give Now Button (Desktop) */}
-          <Link href="/contact#contactform" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
+          <Link href="/prayer-request" className="text-white font-semibold text-[14px] rounded-[100px] flex items-center justify-center hover:shadow-md transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer border-0"
             style={{
               backgroundColor: "#E8751A",
               width: "150px",
@@ -210,7 +210,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
 
           {/* Mobile Give Button */}
-          <Link href="/contact#contactform" onClick={() => setIsOpen(false)} className="w-full mt-2">
+          <Link href="/prayer-request" onClick={() => setIsOpen(false)} className="w-full mt-2">
             <button
               className="w-full text-white font-bold text-[16px] rounded-[100px] flex items-center justify-center shadow-md py-3"
               style={{ backgroundColor: "#E8751A" }}
