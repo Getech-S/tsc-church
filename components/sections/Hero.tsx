@@ -97,7 +97,7 @@ export function Hero() {
             href="/worship-online"
             className="w-full sm:w-auto text-center px-8 py-3 bg-[#E8751A] text-white text-[14px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
           >
-            Watch Online
+            Worship Online
           </Link>
 
           <Link

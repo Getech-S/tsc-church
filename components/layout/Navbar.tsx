@@ -6,7 +6,7 @@ import { Globe, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { header } from "framer-motion/client";
+//import { header } from "framer-motion/client";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -58,29 +58,29 @@ export function Navbar({ isFloating = true }: NavbarProps) {
   }, []);
 
   return (
-   <header
-        className={cn(
-          "z-50 flex justify-center px-2 sm:px-4 transition-all duration-300",
-          isFloating
-            ? [
-                "fixed left-0 right-0",
-                isSticky
-                  ? "top-0 py-2 bg-white shadow-sm"
-                  : "top-4 sm:top-8",
-              ]
-            : "relative bg-white"
-        )}
-      >
-      <div
-        className={cn(
-          "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
-          isFloating
-            ? isSticky
-              ? "px-4 sm:px-6 py-2"
-              : "bg-white rounded-[5px] shadow-lg px-4 sm:px-8 py-2"
-            : "px-4 sm:px-6 py-3 bg-white shadow-sm"
-        )}
-      >
+    <header
+    className={cn(
+      "z-50 flex justify-center px-2 sm:px-4 transition-all duration-300 w-full",
+      isFloating
+        ? [
+            "fixed left-0 right-0",
+            isSticky
+              ? "top-0 py-2 bg-white shadow-sm"
+              : "top-4 sm:top-8",
+          ]
+        : "relative bg-white"
+    )}
+  >
+    <div
+      className={cn(
+        "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
+        isFloating
+          ? isSticky
+            ? "px-4 sm:px-6 py-2"
+            : "bg-white rounded-[5px] shadow-lg px-4 sm:px-8 py-2 max-w-[calc(100vw-16px)] sm:max-w-[1240px]"
+          : "px-4 sm:px-6 py-3 bg-white shadow-sm"
+      )}
+    >
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <div className={cn(
@@ -217,6 +217,6 @@ export function Navbar({ isFloating = true }: NavbarProps) {
   );
 }
 
-function setIsOpen(arg0: boolean): void {
-  throw new Error("Function not implemented.");
-}
+// function setIsOpen(arg0: boolean): void {
+//   throw new Error("Function not implemented.");
+// }

@@ -60,10 +60,10 @@ export function Sermons() {
                 fontFamily: "var(--font-caveat)",
               }}
             >
-              Feed Your Spirit
+              Growth
             </span>
             <h2 className="text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-tight tracking-[-1px]">
-              Words That Change Things
+              Feed Your Spirit
             </h2>
           </div>
 

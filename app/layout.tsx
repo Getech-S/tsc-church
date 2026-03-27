@@ -78,7 +78,7 @@ export default function RootLayout({
       {/* 👇 ADD THIS COMPONENT HERE */}
       <GoogleTagManager gtmId="GTM-KVFLS22F" />
       
-      <body className={`${montserrat.variable} ${caveat.variable} font-sans antialiased`}>
+      <body className={`${montserrat.variable} ${caveat.variable} overflow-x-hidden antialiased`}>
         {children}
       </body>
     </html>

@@ -7,7 +7,7 @@ const gatherings = [
   {
     day: "MONDAY – THURSDAY",
     title: "Kingdom Verdict",
-    description: "Nightly teaching and spiritual verdicts through the Word.",
+    description: "Your prayer is answered.",
     time: "21:00 – 00:00 · EAT",
   },
   {
@@ -23,8 +23,8 @@ const gatherings = [
     time: "11:00 – 16:00 · EAT",
   },
   {
-    day: "SUNDAY SERVICE",
-    title: "Raw Miracles",
+    day: "SUNDAY",
+    title: "Raw Miracle Service",
     description: "A powerful gathering of worship, Word, and miracles.",
     time: "15:00 – 19:00 · EAT",
   },
@@ -51,7 +51,7 @@ export default function WeeklyAgenda() {
               fontFamily: "var(--font-caveat)",
             }}
           >
-            Weekly Gatherings
+            Weekly Program
           </p>
           <h2 className="text-[32px] sm:text-[36px] md:text-[40px] lg:text-[48px] font-bold text-white leading-[1.1] tracking-[-1px]">
             Experience God <br />
