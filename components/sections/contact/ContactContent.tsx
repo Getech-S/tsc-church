@@ -203,9 +203,10 @@ export function ContactContent() {
                                     className="w-full px-4 py-3 bg-gray-50/50 rounded-lg border border-gray-100 focus:outline-none focus:border-[#E8751A] appearance-none cursor-pointer text-[14px] text-gray-500"
                                 >
                                     <option value="">Select a reason</option>
-                                    <option value="Prayer Request">Prayer Request</option>
+                                
                                     <option value="Appointment">Appointment With The Apostle</option>
                                     <option value="Partnership">Support The Mission</option>
+                                    <option value="Other">Other</option>
                                 </select>
                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
                             </div>

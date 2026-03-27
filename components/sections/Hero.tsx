@@ -47,17 +47,18 @@ export function Hero() {
             className="absolute inset-0 w-full h-full"
           >
             <Image
-              src={HERO_IMAGES[index].src}
-              alt="Church service"
-              fill
-              placeholder="blur"
-              priority={index === 0}
-              className={`${HERO_IMAGES[index].position} object-cover`}
-              sizes="100vw"
-            />
+  src={HERO_IMAGES[index].src}
+  alt="Church service"
+  fill
+  placeholder="blur"
+  priority={index === 0}
+  className={`${HERO_IMAGES[index].position} object-cover`}
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+  quality={90}
+/>
             {/* Gradients travel with each image — no flash during transitions */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent pointer-events-none" />
           </motion.div>
         </AnimatePresence>
       </div>
