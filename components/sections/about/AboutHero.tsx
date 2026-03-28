@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/Navbar";
 
 export function AboutHero() {
     return (
-        <section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
+        <section className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
 
             {/* 1. BACKGROUND IMAGE */}
             <div
