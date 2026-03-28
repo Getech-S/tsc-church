@@ -64,14 +64,14 @@ export function Offerings() {
   return (
     <section className="bg-[#FDF6EC] py-[100px] px-6">
       <div className="max-w-[1440px] mx-auto text-center mb-12">
-        <span className="text-[#E8751A] font-caveat text-[25px] block mb-2"
+        <span className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left"
         style={{
             fontVariantNumeric: "lining-nums tabular-nums",
             fontFeatureSettings: '"liga" off, "calt" off',
             fontFamily: "var(--font-caveat)",
         }}
         >Offerings</span>
-        <h2 className="text-[#1B1C1E] font-montserrat font-bold text-[36px] tracking-[-1px]">
+        <h2 className="text-[32px] sm:text-[36px] sm:mb-3 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
           Honor the Covenant
         </h2>
       </div>

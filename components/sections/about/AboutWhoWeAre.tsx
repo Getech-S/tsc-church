@@ -38,7 +38,7 @@ export function AboutWhoWeAre() {
                 >
                     {/* Eyebrow */}
                     <span
-                        className="font-caveat text-[28px] text-[#E8751A] leading-[27px] tracking-[0.5px] font-normal text-left"
+                        className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left"
                         style={{
                             fontVariantNumeric: "lining-nums tabular-nums",
                             fontFeatureSettings: '"liga" off, "calt" off',
@@ -49,7 +49,7 @@ export function AboutWhoWeAre() {
                     </span>
 
                     {/* Heading */}
-                    <h2 className="text-[48px] md:text-[32px] sm:text-[24px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
+                    <h2 className="text-[32px] sm:text-[36px] sm:mb-3 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px]">
                     A Family Gathered <br/>
                     Around One Truth. 
                     </h2>

@@ -16,7 +16,7 @@ export default function LeadershipSection() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-[#E8751A] text-[25px] leading-[27px] tracking-[1px]"
+            className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left"
             style={{ fontFamily: 'var(--font-caveat), cursive' }}
           >
             Leadership
@@ -28,7 +28,7 @@ export default function LeadershipSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#FFFFFD] text-[36px] font-bold leading-[40px] tracking-[-1px]"
+            className="text-[32px] sm:text-[36px] sm:mb-3 md:text-[40px] lg:text-[48px] font-bold text-white leading-[1.1] tracking-[-2px]"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             Jesus Christ Is the Shepherd.

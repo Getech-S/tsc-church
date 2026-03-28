@@ -26,7 +26,7 @@ export function AboutValues() {
 
                 {/* LEFT COLUMN: Main Heading & Description (Span 4) */}
                 <div className="lg:col-span-4 flex flex-col gap-6">
-                <p className="font-caveat text-[28px] leading-[27px] tracking-[0.5px] text-[#E8751A] mb-[-10]"
+                <p className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left "
                  style={{
                    fontVariantNumeric: "lining-nums tabular-nums",
                    fontFeatureSettings: '"liga" off, "calt" off',
@@ -35,7 +35,7 @@ export function AboutValues() {
               >
                 What We Stand On
               </p>
-                    <h2 className="text-[40px] md:text-[48px] font-bold text-black leading-tight tracking-[-1px]">
+                    <h2 className="text-[32px] sm:text-[36px] sm:mb-8 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px] mb-8">
                         Beyond Sunday. <br/>
                         This Is Our Life.
                     </h2>

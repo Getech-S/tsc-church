@@ -13,7 +13,7 @@ export function BioContent() {
     <>
       {/* Navigation Tabs Bar */}
       <nav className="border-b border-gray-100 bg-[#1B1C1E]">
-        <div className="max-w-[1200px] mx-auto flex justify-center gap-8 md:gap-12">
+        <div className="max-w-[1200px] pb-4 mx-auto flex justify-center gap-8 md:gap-12">
           {tabs.map((tab) => (
             <button
               key={tab}

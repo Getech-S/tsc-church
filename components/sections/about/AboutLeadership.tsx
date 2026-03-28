@@ -18,7 +18,7 @@ export function AboutLeadership() {
                 <div className="flex flex-col items-start">
 
                     {/* Eyebrow: Handwritten Style */}
-                    <span className="font-caveat text-[28px] leading-[27px] text-[#E8751A] mb-4 block"
+                    <span className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left mb-3"
                         style={{
                             fontVariantNumeric: "lining-nums tabular-nums",
                             fontFeatureSettings: '"liga" off, "calt" off',
@@ -29,7 +29,7 @@ export function AboutLeadership() {
                     </span>
 
                     {/* Main Heading */}
-                    <h2 className="text-[40px] md:text-[48px] font-bold text-gray-900 leading-[1.1] mb-6 tracking-[-1px]">
+                    <h2 className="text-[32px] sm:text-[36px] sm:mb-8 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px] mb-8">
                         A humble vessel <br />
                         loved by Jesus, sent to you.
                     </h2>
@@ -56,13 +56,8 @@ export function AboutLeadership() {
                     {/* BUTTON */}
                     <Link href="/apostle-bio">
                         <button
-                            className="text-[#ffffff] bg-[#E8751A] font-bold text-[15px] rounded-[100px] flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-                            style={{
-                                paddingTop: '16px',
-                                paddingBottom: '16px',
-                                paddingLeft: '32px',
-                                paddingRight: '32px'
-                            }}
+                            className="w-full sm:w-auto text-center px-8 py-3 bg-[#E8751A] text-white text-[14px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+                            
                         >
                             Read More
                         </button>
@@ -77,7 +72,7 @@ export function AboutLeadership() {
                         alt="Apostle Charles"
                         fill
                         /* Applied scale-110 for a subtle zoom effect */
-                        className="object-cover scale-110"
+                        className="object-cover scale-140"
                     />
                 </div>
 

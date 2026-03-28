@@ -1,37 +1,42 @@
-// Removed the internal Navbar import because Navbar is now usually in the layout.tsx
-// But if you are placing it manually in pages, keep it here.
+"use client";
+
+import { motion } from "framer-motion";
+import Image from "next/image";
 import { Navbar } from "@/components/layout/Navbar";
 
 export function AboutHero() {
-    return (
-        <section className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
+  return (
+    <section className="relative h-[60vh] min-h-[600px] w-full overflow-hidden">
 
-            {/* 1. BACKGROUND IMAGE */}
-            <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
-                style={{ backgroundImage: "url('/TSC.jpg')" }}
-            >
-                {/* Dark Overlay with Multiply for that deep studio look */}
-                <div className="absolute inset-0 bg-[#000000]/60 mix-blend-multiply" />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
-            </div>
+      {/* BACKGROUND IMAGE */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/TSC.jpg"
+          alt="TSC Church"
+          fill
+          className="object-cover object-center"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/60 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+      </div>
 
-            {/* 2. NAVBAR (If you are manually mounting it here) */}
-            <Navbar />
+      {/* NAVBAR */}
+      <Navbar />
 
-            {/* 3. CENTER TEXT CONTENT */}
-            <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
-                <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
-                    {/* "About" -> White
-            "us" -> Linear Gradient Text
-           
-          */}
-                    <span className="text-transparent bg-clip-text bg-[white]">We Exist For One Reason.<br/>
-                    To Heal And Save Souls. </span>
-                    
-                </h1>
-            </div>
+      {/* CENTER TEXT CONTENT */}
+      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 pt-40">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="font-bold tracking-tight leading-[1.1] text-white text-4xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
+        >
+          We Exist For One Reason.
+          To Heal And Save Souls.
+        </motion.h1>
+      </div>
 
-        </section>
-    );
+    </section>
+  );
 }

@@ -49,7 +49,7 @@ export function AboutBeliefs() {
 
         {/* HEADER */}
         <div className="flex flex-col items-center text-center gap-2">
-          <span className="font-caveat text-[28px] leading-[27px] text-[#E8751A] tracking-[0.5px]"
+          <span className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left mb-3"
             style={{
               fontVariantNumeric: "lining-nums tabular-nums",
               fontFeatureSettings: '"liga" off, "calt" off',
@@ -58,7 +58,7 @@ export function AboutBeliefs() {
           >
             What we Believe
           </span>
-          <h2 className="text-[40px] md:text-[48px] font-bold text-white leading-tight">
+          <h2 className="text-[32px] sm:text-[36px] sm:mb-8 md:text-[40px] lg:text-[48px] font-bold text-white leading-[1.1] tracking-[-2px] mb-8">
             Our Foundational Beliefs
           </h2>
         </div>

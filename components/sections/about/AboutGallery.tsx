@@ -14,7 +14,7 @@ export default function LifeGallery() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[#E8751A] text-[25px] leading-[27px] tracking-[1px] block mb-2"
+            className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[12px] tracking-[0.5px] font-normal text-left mb-3"
             style={{ fontFamily: 'var(--font-caveat), cursive' }}
           >
             Moments of grace
@@ -25,7 +25,7 @@ export default function LifeGallery() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-[#1B1C1E] text-[36px] font-bold leading-[40px] tracking-[-1px] max-w-[658px] mx-auto"
+            className="text-[32px] sm:text-[36px] sm:mb-8 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px] mb-8"
             style={{ fontFamily: 'Montserrat, sans-serif' }}
           >
             This Is What <br/> 

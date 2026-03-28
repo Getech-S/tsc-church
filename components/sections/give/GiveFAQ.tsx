@@ -43,12 +43,12 @@ export function GiveFAQ() {
                 {/* 1. HEADER */}
                 <div className="flex flex-col items-center text-center gap-2">
                     <span
-                        className="font-caveat text-[28px] text-[#E8751A]"
+                        className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[27px] tracking-[0.5px] font-normal text-left mb-1"
                         style={{ fontFamily: "var(--font-caveat)" }}
                     >
                         Answers to
                     </span>
-                    <h2 className="text-[36px] md:text-[40px] font-bold text-gray-900">
+                    <h2 className="text-[32px] sm:text-[36px] sm:mb-12 md:text-[40px] lg:text-[48px] font-bold text-gray-900 leading-[1.1] tracking-[-2px] mb-12">
                         Common Questions
                     </h2>
                 </div>

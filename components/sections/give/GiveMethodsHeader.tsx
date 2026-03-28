@@ -16,7 +16,7 @@ export function GiveMethodsHeader() {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-[#E8751A] text-[25px] leading-[27px] tracking-[1px] block mb-4"
+          className="text-[24px] lg:text-[28px] text-[#E8751A] leading-[27px] tracking-[0.5px] font-normal text-left mb-1"
           style={{ fontFamily: 'var(--font-caveat), cursive' }}
         >
           Simple and secure
@@ -28,12 +28,10 @@ export function GiveMethodsHeader() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 0.6 }}
-          className="text-white font-bold tracking-tight mb-16"
+          className="text-[32px] sm:text-[36px] sm:mb-12 md:text-[40px] lg:text-[48px] font-bold text-white leading-[1.1] tracking-[-2px] mb-12"
           style={{
             fontFamily: "Montserrat, sans-serif",
-            fontSize: "56px",
-            lineHeight: "62px",
-            letterSpacing: "-2px"
+           
           }}
         >
           Support The Mission <br className="hidden md:block" /> 
@@ -50,7 +48,7 @@ export function GiveMethodsHeader() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="relative group w-full bg-[#252628] rounded-[32px] p-10 border border-[#3F4044] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.8)] overflow-hidden"
+            className="relative group w-full bg-[#252628] rounded-[16px] p-10 border border-[#FFCC00]/20 overflow-hidden"
           >
             <div className="absolute top-0 left-0 w-full h-2 bg-[#FFCC00]" />
             <div className="flex flex-col items-center text-center">

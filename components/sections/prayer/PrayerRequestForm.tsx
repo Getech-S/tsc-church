@@ -272,18 +272,18 @@ export function PrayerRequestForm() {
   if (!language) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center bg-[#FDF8F3] px-6">
-        <div className="bg-[#FFFFFD] w-full max-w-[600px] rounded-[32px] border border-gray-100 p-12 shadow-xl text-center">
-          <h2 className="text-[26px] font-bold text-[#1B1C1E] mb-10 font-montserrat tracking-tight">
-            Choose your language to continue <br/> Hitamo ururimi ukoresha
+        <div className="bg-[#FFFFFD] w-full max-w-[600px] rounded-[16px] border border-gray-100 p-12 shadow-sm text-center">
+          <h2 className="text-[24px] font-bold text-[#1B1C1E] mb-10 font-montserrat tracking-tight">
+            Choose your language to continue 
           </h2>
           <div className="grid grid-cols-2 gap-8">
-            <button onClick={() => setLanguage("en")} className="flex flex-col items-center p-12 rounded-[16px] border border-gray-100 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
-              <div className="mb-4 scale-125"><Image src="/eng-flag.png" alt="English" width={62} height={34} /></div>
+            <button onClick={() => setLanguage("en")} className="flex flex-col items-center p-12 rounded-[8px] border border-gray-500/20 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
+              <div className="mb-4 w-[30px] "><Image src="/eng-flag.png" alt="English" width={120} height={80} /></div>
               <span className="font-bold text-[#1B1C1E] text-lg">English</span>
             </button>
-            <button onClick={() => setLanguage("rw")} className="flex flex-col items-center p-12 rounded-[16px] border border-gray-100 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
-              <div className="mb-4 scale-125"><Image src="/rwanda-flag.png" alt="Ikinyarwanda" width={62} height={34} /></div>
-              <span className="font-bold text-[#1B1C1E] text-lg">Ikinyarwanda</span>
+            <button onClick={() => setLanguage("rw")} className="flex flex-col items-center p-12 rounded-[8px] border border-gray-500/20 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
+              <div className="mb-4 w-[30px]"><Image src="/rwanda-flag.png" alt="Ikinyarwanda" width={62} height={34} /></div>
+              <span className="font-bold text-[#1B1C1E] text-lg">kinyarwanda</span>
             </button>
           </div>
         </div>
@@ -298,8 +298,8 @@ export function PrayerRequestForm() {
       <div className="mx-auto max-w-[700px] bg-[#FFFFFD] rounded-[32px] border border-gray-100 p-8 md:p-16 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
         <div className="mb-12 text-left">
           <button onClick={() => {setLanguage(null); setPrayerCategory(""); setHasSeenDoctor("");}} className="text-[12px] text-[#E8751A] mb-6 hover:underline  tracking-widest">← Change Language</button>
-          <h2 className="text-[40px]  text-[#1B1C1E] mb-3 font-bold font-montserrat tracking-tight leading-tight">{t.title}</h2>
-          <p className="text-gray-400 text-[16px] font-medium">{t.subtitle}</p>
+          <h2 className="text-[24px]  text-[#1B1C1E] mb-3 font-bold font-montserrat tracking-tight leading-tight">{t.title}</h2>
+          <p className="text-gray-400 text-[16px] ">{t.subtitle}</p>
           <div className="h-[1px] bg-gray-100 w-full mt-8" />
         </div>
 
@@ -473,11 +473,11 @@ export function PrayerRequestForm() {
                 <button 
                 type="submit"
                 disabled={status === "submitting" || !agreedToTerms || (doctorYes && selectedFiles.length === 0)}
-                className="w-full md:w-fit bg-[#E8751A] text-white font-black py-5 px-16 rounded-2xl transition-all  active:scale-95 disabled:bg-gray-200 disabled:text-gray-400 shadow-2xl  tracking-widest text-[14px] flex items-center justify-center"
+                className="w-full md:w-fit bg-[#E8751A] text-white font-black py-5 px-16 rounded-[16px] transition-all  active:scale-95 disabled:bg-gray-200 disabled:text-gray-400 shadow-sm tracking-widest text-[14px] flex items-center justify-center"
                 >
                 {status === "submitting" ? <Loader2 className="animate-spin" /> : t.button}
                 </button>
-                {!agreedToTerms && <p className="text-[12px] text-red-400 font-bold italic animate-pulse tracking-tight">*{t.termsError}</p>}
+                {!agreedToTerms && <p className="text-[12px] text-gray-500 font-bold italic animate-pulse tracking-tight">*{t.termsError}</p>}
             </div>
           )}
         </form>

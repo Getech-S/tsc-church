@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/layout/Navbar";
+import { Navbar as FixedHeaderNavbar } from "@/components/layout/Navfixed";
 import { LiveStreamHero } from "@/components/sections/sermons/LiveStreamHero";
 import { SermonDetails } from "@/components/sections/sermons/SermonDetails";
 import { Footer } from "@/components/sections/Footer";
@@ -11,7 +11,7 @@ export default async function WorshipOnlinePage() {
 
   return (
     <main className="bg-[#1B1C1E] min-h-screen">
-      <Navbar isFloating={false} />
+      <FixedHeaderNavbar />
       <LiveStreamHero videoId={videoId} isLive={isLive} title={title} />
       <SermonDetails />
       <MoreSermons/>

@@ -20,11 +20,11 @@ export function GiveHero() {
             <Navbar />
 
             {/* 3. CENTER TEXT CONTENT */}
-            <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-20">
+            <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-40">
                 <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
                     {/* "Events" -> Gold Gradient */}
                     <span
-                        className="text-transparent bg-clip-text bg-white"
+                        className="font-bold tracking-tight leading-[1.1] text-white text-4xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
                     >
                         Sow. Believe. Receive.
                     </span>
