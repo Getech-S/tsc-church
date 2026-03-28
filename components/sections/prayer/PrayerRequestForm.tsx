@@ -142,7 +142,7 @@ export function PrayerRequestForm() {
     },
     rw: {
       title: "Saba Gusengerwa",
-      subtitle: "Uzuza iyi fomu hano hanyuma uze mu materaniro yacu.",
+      subtitle: "Uzuza iyi fishi hano hanyuma uze mu materaniro yacu.",
       nameLabel: "Izina Ryawe",
       namePlaceholder: "Andika amazina yawe yombi",
       whatsappLabel: "Nimero ya WhatsApp",

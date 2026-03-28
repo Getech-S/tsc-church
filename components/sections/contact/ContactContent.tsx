@@ -204,12 +204,27 @@ export function ContactContent() {
                                 >
                                     <option value="">Select a reason</option>
                                 
-                                    <option value="Appointment">Appointment With The Apostle</option>
                                     <option value="Partnership">Support The Mission</option>
+                                    <option value="Testimony">Give Your Testimony</option>
                                     <option value="Other">Other</option>
                                 </select>
                                 <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={16} />
                             </div>
+
+                            {/* CONDITIONAL RENDER FOR "OTHER" REASON */}
+                            {formData.reason === "Other" && (
+                                <div className="flex flex-col gap-2 mt-4">
+                                    <label className="text-[14px] font-medium text-gray-700">Please Specify</label>
+                                    <input
+                                        required
+                                        name="otherReason"
+                                        value={formData.otherReason}
+                                        onChange={handleChange}
+                                        placeholder="Briefly state your reason"
+                                        className="w-full px-4 py-3 bg-gray-50/50 rounded-lg border border-gray-100 focus:outline-none focus:border-[#E8751A] focus:bg-white transition-all text-[14px]"
+                                    />
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex flex-col gap-2">
