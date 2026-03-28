@@ -274,7 +274,7 @@ export function PrayerRequestForm() {
       <div className="min-h-[80vh] flex items-center justify-center bg-[#FDF8F3] px-6">
         <div className="bg-[#FFFFFD] w-full max-w-[600px] rounded-[16px] border border-gray-100 p-12 shadow-sm text-center">
           <h2 className="text-[24px] font-bold text-[#1B1C1E] mb-10 font-montserrat tracking-tight">
-            Choose your language to continue 
+            Choose your language to continue <br/> Hindura ururimi
           </h2>
           <div className="grid grid-cols-2 gap-8">
             <button onClick={() => setLanguage("en")} className="flex flex-col items-center p-12 rounded-[8px] border border-gray-500/20 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
