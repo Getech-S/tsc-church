@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Navbar } from "@/components/layout/Navbar";
+
 
 export function AboutHero() {
   return (
@@ -22,7 +22,7 @@ export function AboutHero() {
       </div>
 
       {/* NAVBAR */}
-      <Navbar />
+      
 
       {/* CENTER TEXT CONTENT */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 pt-40">

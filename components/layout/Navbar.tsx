@@ -6,7 +6,6 @@ import { Globe, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-//import { header } from "framer-motion/client";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -33,12 +32,10 @@ export function Navbar({ isFloating = true }: NavbarProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
-  // Handle scroll for sticky navbar
   useEffect(() => {
     if (!isFloating) return;
     const handleScroll = () => setIsSticky(window.scrollY > 100);
@@ -46,7 +43,6 @@ export function Navbar({ isFloating = true }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isFloating]);
 
-  // Close language dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -59,28 +55,29 @@ export function Navbar({ isFloating = true }: NavbarProps) {
 
   return (
     <header
-    className={cn(
-      "z-50 flex justify-center px-2 sm:px-4 transition-all duration-300 w-full",
-      isFloating
-        ? [
-            "fixed left-0 right-0",
-            isSticky
-              ? "top-0 py-2 bg-white shadow-sm"
-              : "top-4 sm:top-8",
-          ]
-        : "relative bg-white"
-    )}
-  >
-    <div
       className={cn(
-        "flex items-center justify-between w-full max-w-[1240px] transition-all duration-300",
+        "z-50 flex justify-center transition-all duration-300 w-full",
         isFloating
-          ? isSticky
-            ? "px-4 sm:px-6 py-2"
-            : "bg-white rounded-[5px] shadow-lg px-4 sm:px-8 py-2 max-w-[calc(100vw-16px)] sm:max-w-[1240px]"
-          : "px-4 sm:px-6 py-3 bg-white shadow-sm"
+          ? [
+              "fixed left-0 right-0",
+              isSticky
+                ? "top-0 py-2 bg-white shadow-sm px-4"
+                : "top-4 sm:top-8 px-4 sm:px-6",
+            ]
+          : "relative bg-white px-4"
       )}
     >
+      <div
+        className={cn(
+          "flex items-center justify-between w-full transition-all duration-300",
+          isFloating
+            ? isSticky
+              ? "max-w-[1240px] px-4 sm:px-6 py-2"
+              : "bg-white rounded-[5px] shadow-lg px-4 sm:px-8 py-2 max-w-[min(1240px,100%)]"
+            : "max-w-[1240px] px-4 sm:px-6 py-3 bg-white shadow-sm"
+        )}
+      >
+
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <div className={cn(
@@ -93,7 +90,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links */}
+        {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -153,7 +150,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
             href="/prayer-request"
             className="text-white font-semibold text-[14px] rounded-full px-6 py-3 bg-[#E8751A] hover:bg-[#E8A020] transition-colors duration-300 ease-in-out"
           >
-            Request for Prayer
+            Request a Prayer
           </Link>
         </div>
 
@@ -166,7 +163,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div className="absolute top-full left-4 right-4 bg-white rounded-xl shadow-2xl p-6 flex flex-col gap-4 lg:hidden z-50 animate-in slide-in-from-top-2 mt-2">
 
@@ -187,7 +184,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
             );
           })}
 
-          {/* Mobile Language Options */}
+          {/* Mobile Language */}
           <div className="flex gap-4 py-2">
             {languages.map((lang) => (
               <span
@@ -202,13 +199,13 @@ export function Navbar({ isFloating = true }: NavbarProps) {
             ))}
           </div>
 
-          {/* Mobile Request a Prayer Button */}
+          {/* Mobile Prayer Button */}
           <Link
             href="/prayer-request"
             onClick={() => setIsOpen(false)}
             className="w-full mt-2 text-white font-bold text-[16px] rounded-full flex items-center justify-center py-3 bg-[#E8751A] hover:bg-[#E8A020] transition-colors duration-300 ease-in-out"
           >
-            Request a Prayer
+            Request for Prayer
           </Link>
 
         </div>
@@ -216,7 +213,3 @@ export function Navbar({ isFloating = true }: NavbarProps) {
     </header>
   );
 }
-
-// function setIsOpen(arg0: boolean): void {
-//   throw new Error("Function not implemented.");
-// }

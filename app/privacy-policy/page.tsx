@@ -60,7 +60,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-6 space-y-2 mb-4">
               <li>Request access to the personal data we hold about you.</li>
               <li>Request correction of any incorrect data.</li>
-              <li>Request deletion of your personal data (subject to our legal obligations to maintain financial records).</li>
+              
             </ul>
 
             <h3 className="text-[20px] font-bold mt-8 mb-4">7. Contact Us</h3>

@@ -7,12 +7,14 @@ import  AboutGallery  from "@/components/sections/about/AboutGallery";
 import { Footer } from "@/components/sections/Footer";
 import AboutMission from "@/components/sections/about/AboutMission";
 import AboutDisciple from "@/components/sections/about/AboutDisciple";
+import { Navbar } from "@/components/layout/Navbar";
 
 
 export default function AboutPage() {
     return (
         <main className="relative min-h-screen flex flex-col bg-white">
             {/* Section 1: Hero */}
+            <Navbar/>
             <AboutHero />
             <AboutWhoWeAre />
             <AboutDisciple/>
@@ -21,10 +23,6 @@ export default function AboutPage() {
             <AboutValues/>        
             <AboutBeliefs/>
             <AboutGallery/>
-
-            {/* Placeholder for Section 2 (We will do this next) */}
-
-
             <Footer />
         </main>
     );

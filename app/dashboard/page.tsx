@@ -106,26 +106,27 @@ export default function StaffDashboard() {
   const openWhatsApp = (number: string, name: string, attendance?: string) => {
     const cleanNumber = number.replace(/\D/g, "");
     const isOnline = Boolean(attendance?.includes("Online"));
-    const message = encodeURIComponent(`Hello ${name}, this is True Salvation Church. 
-      [ENGLISH]
-We confirm that you are on the prayer list for today. Please follow these guidelines:
-1. IDENTIFICATION: State your Full Name and Location.
-2. THE REQUEST: Briefly explain your situation.
-3. POSTURE: Stand upright and raise your hands.
-4. RECEPTION: Keep your eyes OPEN and look at the Apostle. Do not pray; just receive.
-${isOnline ? '5. SETUP: Camera ON, no "blur", find a calm place (avoid sitting on a bed).' : ''}
-If you feel like falling or vomiting, do not resist—this is your deliverance. Answer the Apostle immediately when he asks you something.
+    const message = encodeURIComponent(`
+      Hello ${name}, this is True Salvation Church. 
+      *ENGLISH*
+      We are happy to tell you that your prayer request is approved and you are scheduled to be prayed for today.
+      When you come before the Apostle of the Lord Jesus, please follow these simple guidelines so he can help you:
+      1. Speak loudly and clearly so that you do not have to be asked to repeat yourself. Answer him right away if he asks a question.
+      2. Say your full name and where you live. Then explain the problem you need prayer for.
+      3. Raise your hands, stand upright, and look him directly in the eyes. Do not pray yourself; simply receive in faith.
+      ${isOnline ? '4. *ON ZOOM*: Turn on your camera and microphone. Stand where he can see you clearly' : ''}
+      If you feel the power causing you to fall or the urge to vomit, do not resist or hold it back, because that is your deliverance.
 
-[KINYARWANDA]
-Twemeje ko uri ku rutonde rw'abasengerwa uyu munsi. Kurikiza aya mabwiriza:
-1. KWIVUGA: Vuga Amazina yawe yombi n'aho uherereye.
-2. ICYIFUZO: Sobanura mu ncamake ikibazo cyawe.
-3. GUHAGARARA: Zamura amaboko yawe hejuru uhagarare neza.
-4. KWAKIRA: KANURA urebe Intumwa (Apostle) mu maso. Wowe ntugasenge, ahubwo akira mu kwizera.
-${isOnline ? '5. KURI ZOOM: Kamera IFUNGURE, ba ahantu hatuje (atari ku buriri).' : ''}
-Niwumva imbaraga zitumye ugwa cyangwa ushaka kuruka, we kubyirinda kuko ni ko gusubizwa kwawe. Subiza Intumwa vuba igihe cyose hari icyo akubajije.
+      *IKINYARWANDA*
+      Twishimiye kukumenyesha ko wahawe amahirwe yo gusengerwa uyu munsi,
+      mugihe ugeze imbere y'Intumwa y'Umwami Yesu witondere ibi bikurikira kugirango abashe kugufasha:
+      1. Vuga cyane uranguruye kuburyo bidasaba ko bagusubirishamo. Subiza Intumwa vuba igihe cyose hari icyo akubajije.
+      2. Vuga amazina yawe naho uherereye unasobanure ikibazo cyatumye uza gusengerwa.
+      3. Zamura amaboko yawe hejuru uhagarare neza umurebe mu maso. Wowe ntusenge, ahubwo wakire mu kwizera. 
+      ${isOnline ? '4. *KURI ZOOM*: Ufungure Camera yawe ukande kuri unmute, uhagarare aho akubona neza.' : ''}
+      Niwumva imbaraga zitumye ugwa cyangwa ushaka kuruka, we kubyibuza kuko ni ko gusubizwa kwawe. 
 
- Yesu ni Umwami!
+      Yesu ni Umwami!
       
       `);
     window.open(`https://wa.me/${cleanNumber}?text=${message}`, "_blank");
