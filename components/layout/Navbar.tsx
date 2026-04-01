@@ -114,7 +114,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
         {/* Desktop Right Actions */}
         <div className="hidden lg:flex items-center gap-6">
 
-          {/* Language Switcher */}
+          {/* Language Switcher 
           <div className="relative" ref={dropdownRef}>
             <button
               className="flex items-center gap-1 text-gray-500 hover:text-black transition-colors duration-200"
@@ -143,7 +143,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
                 ))}
               </div>
             )}
-          </div>
+          </div> */}
 
           {/* Request a Prayer Button */}
           <Link
@@ -184,7 +184,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
             );
           })}
 
-          {/* Mobile Language */}
+          {/* Mobile Language 
           <div className="flex gap-4 py-2">
             {languages.map((lang) => (
               <span
@@ -197,7 +197,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
                 {lang.name}
               </span>
             ))}
-          </div>
+          </div>*/}
 
           {/* Mobile Prayer Button */}
           <Link

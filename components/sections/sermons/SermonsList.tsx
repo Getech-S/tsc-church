@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { getYoutubeVideos } from "@/app/actions/getYoutubeVideos";
 import { Loader2, Play, Search, ChevronDown, BookOpen, Layers, Check } from "lucide-react";
 import Image from "next/image";
@@ -70,7 +70,7 @@ export function SermonsList() {
 
             const targetId = selectedPlaylist || (activeTab === "Teachings" ? TEACHINGS_PLAYLIST_ID : "");
             
-            // Passes searchText to the API action immediately on every state change
+            // Fetch videos from API
             const data = await getYoutubeVideos(token, searchText, activeTab, targetId);
             
             const fetchedVideos = data.videos as VideoItem[];
@@ -95,12 +95,24 @@ export function SermonsList() {
         }
     }, [activeTab, selectedPlaylist, searchText, allVideos, visibleCount]);
 
-    // This effect triggers the search instantly as searchText, activeTab, or selectedPlaylist changes
+    // Removed searchText from the dependency array so it doesn't trigger an API fetch on every keystroke
     useEffect(() => {
         loadVideos("", false);
-    }, [activeTab, selectedPlaylist, searchText]);
+    }, [activeTab, selectedPlaylist]);
 
-    const displayedVideos = allVideos.slice(0, visibleCount);
+    // PROPER SEARCH IMPLEMENTATION: Filter videos locally based on the search text
+    const filteredVideos = useMemo(() => {
+        if (!searchText.trim()) return allVideos;
+        
+        const lowercasedSearch = searchText.toLowerCase();
+        
+        return allVideos.filter((video) => 
+            video.title.toLowerCase().includes(lowercasedSearch)
+        );
+    }, [allVideos, searchText]);
+
+    // Slice the locally filtered videos for display
+    const displayedVideos = filteredVideos.slice(0, visibleCount);
 
     return (
         <section className="bg-white py-16 px-4 md:px-6">
@@ -127,13 +139,13 @@ export function SermonsList() {
                                 <div className="flex items-center gap-1.5 min-w-0 overflow-hidden">
                                     <ChevronDown size={16} className={`shrink-0 transition-transform duration-300 ${isSeriesOpen ? "rotate-180" : ""}`} />
                                     <span className="truncate text-left">
-                                        {selectedPlaylist ? SERMON_SERIES.find(p => p.id === selectedPlaylist)?.title : "Sermons"}
+                                        {selectedPlaylist ? SERMON_SERIES.find(p => p.id === selectedPlaylist)?.title : "Series"}
                                     </span>
                                 </div>
                             </button>
 
                             {isSeriesOpen && (
-                                <div className="absolute left-0 top-[110%] w-[280px] bg-white border border-gray-100 shadow-2xl rounded-2xl py-3 z-999 animate-in fade-in slide-in-from-top-1 duration-200">
+                                <div className="absolute left-0 top-[110%] w-[280px] bg-white border border-gray-100 shadow-2xl rounded-2xl py-3 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
                                     <div className="px-4 py-2 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-gray-50 mb-2">Choose a Serie</div>
                                     <div className="max-h-[280px] overflow-y-auto no-scrollbar">
                                         {filteredSeries.length > 0 ? (
@@ -191,7 +203,7 @@ export function SermonsList() {
                                         ) : (
                                             <>
                                                 <Image src={video.thumbnail} alt={video.title} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
-                                                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent" />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
                                                 <div className="absolute bottom-5 left-5 flex items-center gap-3">
                                                     <div className="w-10 h-10 bg-[#E8A020] rounded-full flex items-center justify-center pl-1 shadow-lg group-hover:scale-110 transition-transform"><Play fill="black" size={18} /></div>
                                                     <div className="flex flex-col">
@@ -214,7 +226,7 @@ export function SermonsList() {
                 )}
 
                 {/* LOAD MORE */}
-                {(nextPageToken || visibleCount < allVideos.length) && !loading && (
+                {(nextPageToken || visibleCount < filteredVideos.length) && !loading && (
                     <div className="flex justify-center mt-16 mb-10">
                         <button 
                             onClick={() => loadVideos(nextPageToken || "", true)} 
