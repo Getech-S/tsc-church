@@ -16,7 +16,7 @@ export default function GivePage() {
         */
         <main className="relative min-h-screen flex flex-col bg-white">
 
-            {/* <Navbar /> */}
+            <Navbar />
             
             {/* The Hero handles its own internal spacing and height */}
             <GiveHero />
