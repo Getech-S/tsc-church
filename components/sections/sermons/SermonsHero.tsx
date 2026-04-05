@@ -16,9 +16,6 @@ export function SermonsHero() {
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
             </div>
 
-            {/* 2. NAVBAR */}
-            <Navbar />
-
             {/* 3. CENTER TEXT CONTENT */}
             <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 pt-40">
                 <h1 className="text-[36px] sm:text-[48px] md:text-[72px] font-bold leading-tight tracking-tight drop-shadow-lg wrap-break-words max-w-full">
