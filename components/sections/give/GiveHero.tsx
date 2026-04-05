@@ -1,5 +1,3 @@
-import { Navbar } from "@/components/layout/Navbar";
-
 export function GiveHero() {
     return (
         <section className="relative h-[60vh] min-h-[500px] w-full overflow-hidden">
