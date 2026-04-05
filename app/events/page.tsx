@@ -1,11 +1,12 @@
+import { Navbar } from "@/components/layout/Navbar";
 import { EventsHero } from "@/components/sections/events/EventsHero";
-
 import { Footer } from "@/components/sections/Footer";
 
 export function EventsPage() {
     return (
         <main className="relative min-h-screen flex flex-col bg-white">
-
+             {/* 2. NAVBAR */}
+            <Navbar />
             {/* 1. Hero Section */}
             <EventsHero />
 
