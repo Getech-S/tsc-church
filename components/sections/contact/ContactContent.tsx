@@ -260,7 +260,7 @@ export function ContactContent() {
                         {status === "success" && (
                             <div className="flex items-center gap-2 text-green-600 animate-in fade-in zoom-in duration-300">
                                 <CheckCircle size={18} />
-                                <span className="text-sm font-medium">Sent! We'll get back to you shortly. For the appointment with the Apostle kindly Contact the Church Office for confirmation. Thank you!</span>
+                                <span className="text-sm font-normal">Thank you for reaching out!</span>
                             </div>
                         )}
                         {status === "error" && (
