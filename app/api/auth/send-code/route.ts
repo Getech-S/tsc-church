@@ -33,7 +33,7 @@ export async function POST(req: Request) {
     // 4. Send Email 
     // NOTE: Use onboarding@resend.dev if you haven't verified a domain yet
     await resend.emails.send({
-      from: 'True Salvation <onboarding@resend.dev>',
+      from: 'True Salvation Church <info@truesalvationchurch.com>',
       to: cleanEmail,
       subject: `${code} - Staff Login Code`,
       html: `

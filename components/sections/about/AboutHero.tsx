@@ -25,15 +25,16 @@ export function AboutHero() {
       
 
       {/* CENTER TEXT CONTENT */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6 pt-40">
+      {/* Changed justify-center to justify-end, removed pt-40, and added pb-12 to place it near the bottom */}
+      <div className="relative z-20 h-full flex flex-col items-center justify-end text-center px-6 pb-12">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="font-bold tracking-tight leading-[1.1] text-white text-4xl sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
         >
-          We Exist For One Reason.
-          To Heal And Save Souls.
+          We Exist For One Reason.<br />
+          <span className="text-[#E8A020]">To Heal And Save Souls.</span>
         </motion.h1>
       </div>
 
