@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { 
   LayoutGrid, Search, Bell, ChevronLeft, ChevronRight, 
   ExternalLink, Download, Calendar, Trash2, Loader2, 
-  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut
+  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut, ChevronDown
 } from "lucide-react";
 import Image from "next/image";
 import { db } from "@/lib/firebase";
@@ -26,6 +26,9 @@ export default function StaffDashboard() {
 
   const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
   const [detailTab, setDetailTab] = useState<"reason" | "uploads">("reason");
+  
+  // NEW: State to hold the specific date selected from the dropdown
+  const [selectedSlotDate, setSelectedSlotDate] = useState("");
 
   // --- ROUTE GUARD: Check if logged in ---
   useEffect(() => {
@@ -62,16 +65,32 @@ export default function StaffDashboard() {
     return () => unsubscribe();
   }, []);
 
-  // Calculate booked slots per date for the dashboard overview
-  const upcomingSlots = useMemo(() => {
+  // Split booked slots into Upcoming and Archived based on today's date
+  const { activeSlots, archivedSlots } = useMemo(() => {
     const summary: Record<string, number> = {};
     requests.forEach(req => {
       if (req.appointmentDate) {
         summary[req.appointmentDate] = (summary[req.appointmentDate] || 0) + 1;
       }
     });
-    // Sort dates ascending
-    return Object.entries(summary).sort((a, b) => a[0].localeCompare(b[0]));
+
+    const now = new Date();
+    // Format today as YYYY-MM-DD for accurate string comparison
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+
+    const active: [string, number][] = [];
+    const archived: [string, number][] = [];
+
+    // Sort dates ascending and split them
+    Object.entries(summary).sort((a, b) => a[0].localeCompare(b[0])).forEach(([date, count]) => {
+      if (date >= todayStr) {
+        active.push([date, count]);
+      } else {
+        archived.push([date, count]);
+      }
+    });
+
+    return { activeSlots: active, archivedSlots: archived };
   }, [requests]);
 
   const filteredRequests = useMemo(() => {
@@ -91,10 +110,13 @@ export default function StaffDashboard() {
         req.whatsapp?.includes(searchQuery) ||
         req.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         req.appointmentDate?.includes(searchQuery);
+        
+      // NEW: Filter strictly by the selected dropdown date if one is chosen
+      const matchSlot = selectedSlotDate ? req.appointmentDate === selectedSlotDate : true;
 
-      return matchDate && matchSearch;
+      return matchDate && matchSearch && matchSlot;
     });
-  }, [requests, filter, searchQuery]);
+  }, [requests, filter, searchQuery, selectedSlotDate]);
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage);
   const currentTableData = useMemo(() => {
@@ -103,7 +125,7 @@ export default function StaffDashboard() {
     return filteredRequests.slice(firstPageIndex, lastPageIndex);
   }, [currentPage, filteredRequests]);
 
-  useEffect(() => { setCurrentPage(1); }, [filter, searchQuery]);
+  useEffect(() => { setCurrentPage(1); }, [filter, searchQuery, selectedSlotDate]);
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this prayer request? This action is permanent.")) {
@@ -193,8 +215,7 @@ export default function StaffDashboard() {
         </nav>
       </aside>
 
-      {/* FIX: Added min-w-0 so the flex container doesn't stretch beyond the screen width */}
-      <main className="flex-1 ml-[277px] min-w-0">
+      <main className="flex-1 ml-[277px] min-w-0 max-w-[calc(100vw-277px)] overflow-x-hidden">
         <header className="h-[77px] bg-[#FFFFFD] border-b border-gray-100 flex items-center justify-between px-10 sticky top-0 z-10">
           <div className="relative w-full max-w-[400px]">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -224,31 +245,76 @@ export default function StaffDashboard() {
             <div className="p-6 md:p-8 border-b border-gray-50 flex flex-wrap gap-4 items-center justify-between">
               <div className="flex flex-wrap gap-2">
                 {["Today", "This Week", "This Month", "All"].map((t) => (
-                  <button key={t} onClick={() => setFilter(t)} className={`px-5 py-2 rounded-lg text-[14px] font-bold transition-all ${filter === t ? "bg-[#E8751A] text-white" : "bg-[#F8F9FA] text-gray-500"}`}>{t}</button>
+                  <button 
+                    key={t} 
+                    onClick={() => { setFilter(t); setSelectedSlotDate(""); }} 
+                    className={`px-5 py-2 rounded-lg text-[14px] font-bold transition-all ${filter === t && !selectedSlotDate ? "bg-[#E8751A] text-white" : "bg-[#F8F9FA] text-gray-500"}`}
+                  >
+                    {t}
+                  </button>
                 ))}
               </div>
               <button onClick={handleExport} className="flex items-center gap-2 px-5 py-2 border rounded-lg text-[14px] font-bold text-gray-600 hover:bg-gray-50 transition-colors whitespace-nowrap"><Download size={16} /> Export List</button>
             </div>
 
-            {/* FIX: Removed overflow-x-auto from this parent wrapper so the title stays pinned */}
             <div className="p-6 md:p-8">
               
-              <div className="flex flex-wrap items-end justify-between mb-6 gap-4">
+              <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
                 <h2 className="text-[24px] font-bold text-[#1B1C1E]">Prayer Requests</h2>
                 
-                {upcomingSlots.length > 0 && (
-                  <div className="flex gap-3 overflow-x-auto pb-2 w-full sm:w-auto max-w-full custom-scrollbar">
-                    {upcomingSlots.map(([date, count]) => (
-                      <div key={date} className="shrink-0 bg-[#FDF8F3] border border-[#E8751A]/20 px-4 py-2 rounded-lg flex flex-col items-center min-w-[120px]">
-                        <span className="text-[11px] text-gray-500 font-bold uppercase tracking-wider">{date}</span>
-                        <span className="text-[16px] font-bold text-[#E8751A]">{count} Booked</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {/* NEW: Dropdown filters for dates instead of horizontal boxes */}
+                <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+                  
+                  {activeSlots.length > 0 && (
+                    <div className="relative">
+                      <select 
+                        value={activeSlots.some(([d]) => d === selectedSlotDate) ? selectedSlotDate : ""} 
+                        onChange={(e) => {
+                          setSelectedSlotDate(e.target.value);
+                          if(e.target.value) setFilter("All");
+                        }}
+                        className="appearance-none bg-[#FDF8F3] border border-[#E8751A]/20 text-[#E8751A] px-4 py-2 pr-8 rounded-lg font-bold text-[14px] outline-none cursor-pointer w-full sm:w-auto"
+                      >
+                        <option value="">Upcoming Bookings</option>
+                        {activeSlots.map(([date, count]) => (
+                          <option key={date} value={date}>{date} ({count} Booked)</option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#E8751A] pointer-events-none" />
+                    </div>
+                  )}
+
+                  {archivedSlots.length > 0 && (
+                    <div className="relative">
+                      <select 
+                        value={archivedSlots.some(([d]) => d === selectedSlotDate) ? selectedSlotDate : ""} 
+                        onChange={(e) => {
+                          setSelectedSlotDate(e.target.value);
+                          if(e.target.value) setFilter("All");
+                        }}
+                        className="appearance-none bg-gray-50 border border-gray-200 text-gray-500 px-4 py-2 pr-8 rounded-lg font-bold text-[14px] outline-none cursor-pointer w-full sm:w-auto"
+                      >
+                        <option value="">Archived Bookings</option>
+                        {archivedSlots.map(([date, count]) => (
+                          <option key={date} value={date}>{date} ({count} Booked)</option>
+                        ))}
+                      </select>
+                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                    </div>
+                  )}
+
+                  {selectedSlotDate && (
+                    <button 
+                      onClick={() => setSelectedSlotDate("")}
+                      className="flex items-center gap-1 text-[12px] font-bold text-red-500 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors border border-red-100"
+                    >
+                      <X size={14} /> Clear Date
+                    </button>
+                  )}
+                </div>
+
               </div>
 
-              {/* FIX: Added overflow wrapper specifically for the table only */}
               <div className="w-full overflow-x-auto custom-scrollbar">
                 <table className="w-full text-left min-w-[1050px]">
                   <thead>
@@ -269,7 +335,7 @@ export default function StaffDashboard() {
                     {loading ? (
                       <tr><td colSpan={10} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-[#E8751A]" /></td></tr>
                     ) : currentTableData.length === 0 ? (
-                      <tr><td colSpan={10} className="py-20 text-center text-gray-400 italic">No prayer requests found.</td></tr>
+                      <tr><td colSpan={10} className="py-20 text-center text-gray-400 italic">No prayer requests found for this filter.</td></tr>
                     ) : currentTableData.map((req) => (
                       <tr key={req.id} className="hover:bg-gray-50/50 transition-colors">
                         <td className="py-6 px-2"><input type="checkbox" className="accent-[#E8751A]" /></td>
