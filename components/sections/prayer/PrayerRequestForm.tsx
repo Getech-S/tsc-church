@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { ChevronDown, Upload, CheckCircle, AlertCircle, X, HeartPulse, ShieldCheck, Loader2 } from "lucide-react";
+import { ChevronDown, Upload, CheckCircle, AlertCircle, X, HeartPulse, ShieldCheck, Loader2, Calendar as CalendarIcon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { db, storage } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // NEW IMPORTS for Global Countries and Phone Codes
@@ -85,15 +85,23 @@ const AgreementModal = ({ isOpen, onClose, lang }: { isOpen: boolean, onClose: (
 // --- 2. MAIN PRAYER REQUEST FORM COMPONENT ---
 export function PrayerRequestForm() {
   const [language, setLanguage] = useState<Language>(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [isSlotConfirmed, setIsSlotConfirmed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   
+  // Slot Tracking States
+  const [bookedCount, setBookedCount] = useState(0);
+  const [isCheckingSlots, setIsCheckingSlots] = useState(false);
+
   // Form State
   const [prayerCategory, setPrayerCategory] = useState("");
+  const [otherCategoryInfo, setOtherCategoryInfo] = useState("");
   const [hasSeenDoctor, setHasSeenDoctor] = useState("");
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const optionalFileInputRef = useRef<HTMLInputElement>(null);
 
   const [name, setName] = useState("");
   const [whatsapp, setWhatsapp] = useState<string | undefined>();
@@ -122,10 +130,13 @@ export function PrayerRequestForm() {
       prayerForLabel: "What would you like a prayer for?",
       prayerForPlaceholder: "Select a category",
       prayerForOptions: ["Sickness", "Family", "Finances", "Marriage", "Career/Business", "Other"],
+      otherSpecifyLabel: "Please specify",
+      otherSpecifyPlaceholder: "Enter your specific request",
       doctorVisitLabel: "Have you seen a doctor or visited a hospital for this condition?",
       doctorVisitOptions: ["Yes", "No"],
       doctorAdvice: "We truly care about your well-being. We kindly encourage you to first visit a doctor or hospital to understand your condition better. God often works through the wisdom of medical professionals. Please come back and request prayer once you have medical guidance, especially if what was tried did not work. We are standing with you in love.",
       uploadLabel: "Upload your medical documents",
+      optionalUploadLabel: "Upload supporting documents (Optional)",
       uploadRequired: "(Required for healing requests)",
       uploadSub: "Drag And Drop Files Or Click To Upload",
       uploadLimit: "Maximum 5 documents",
@@ -138,7 +149,15 @@ export function PrayerRequestForm() {
       button: "Send my Request",
       successTitle: "Sent Successfully!",
       successMessage: "Your prayer request has been received. Our team will get back to you shortly via whatsapp. Yesu ni Umwami.",
-      backBtn: "Done"
+      backBtn: "Done",
+      // Slot Selection Translations
+      slotTitle: "Select an Appointment Date",
+      slotSubtitle: "Choose a day for your prayer session.",
+      slotAvailable: "Slots remaining for this day:",
+      slotClosed: "No prayer slots available on Saturdays.",
+      slotFull: "This date is fully booked. Please choose another date.",
+      slotNextBtn: "Continue",
+      slotBackBtn: "← Change Language"
     },
     rw: {
       title: "Saba Gusengerwa",
@@ -158,10 +177,13 @@ export function PrayerRequestForm() {
       prayerForLabel: "Wifuza ko tugusengera ku ki?",
       prayerForPlaceholder: "Hitamo icyiciro",
       prayerForOptions: ["Uburwayi", "Umuryango", "Ubutunzi/Imari", "Urushako", "Akazi", "Ikindi"],
+      otherSpecifyLabel: "Sobanura",
+      otherSpecifyPlaceholder: "Andika icyo wifuza",
       doctorVisitLabel: "Waba waragiye kwa muganga kubera iki kibazo?",
       doctorVisitOptions: ["Yego", "Oya"],
       doctorAdvice: "Turagushishikariza kujya kwa muganga kugira ngo usobanukirwe neza uburwayi bwawe, kuko twemera ko Imana ijya ikoresha ubuhanga bw'abaganga. Turagusaba kuzagaruka gusaba gusengerwa umaze kubonana na muganga, ufite n'impapuro zo kwa muganga bigaragara ko ibyo bagerageje bitakunze.",
       uploadLabel: "Shyiraho impapuro za muganga",
+      optionalUploadLabel: "Shyiraho inyandiko zisobanura (Si itegeko)",
       uploadRequired: "(Ni itegeko kubafite ikibazo cy'uburwayi)",
       uploadSub: "Kanda hano ushyiremo impapuro",
       uploadLimit: "Nturenze impapuro 5",
@@ -174,14 +196,64 @@ export function PrayerRequestForm() {
       button: "Kohereza",
       successTitle: "Byoherejwe neza!",
       successMessage: "Ubusabe bwawe bwakiriwe. Itsinda ryacu riraza kukuvugisha vuba kuri whatsapp. Yesu ni Umwami.",
-      backBtn: "Byarangiye"
+      backBtn: "Byarangiye",
+      // Slot Selection Translations
+      slotTitle: "Hitamo Itariki",
+      slotSubtitle: "Hitamo umunsi wifuza gusengerwaho.",
+      slotAvailable: "Imyanya isigaye kuri uyu munsi ni:",
+      slotClosed: "Nta mwanya uhari kuwa Gatandatu.",
+      slotFull: "Iyi tariki yuzuye. Nyamuneka hitamo indi tariki.",
+      slotNextBtn: "Komeza",
+      slotBackBtn: "← Hindura ururimi"
     }
   };
 
   const t = language ? translations[language] : translations.en;
   const isSickness = prayerCategory === "Sickness" || prayerCategory === "Uburwayi";
+  const isOtherCategory = prayerCategory === "Other" || prayerCategory === "Ikindi";
   const doctorYes = hasSeenDoctor === "Yes" || hasSeenDoctor === "Yego";
   const doctorNo = hasSeenDoctor === "No" || hasSeenDoctor === "Oya";
+
+  // Handle Date Change & Fetch Booked Slots
+  const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateVal = e.target.value;
+    setSelectedDate(dateVal);
+    if (!dateVal) return;
+
+    setIsCheckingSlots(true);
+    try {
+      const q = query(collection(db, "prayer_requests"), where("appointmentDate", "==", dateVal));
+      const snapshot = await getDocs(q);
+      setBookedCount(snapshot.size); // The number of already booked slots for this date
+    } catch (error) {
+      console.error("Error fetching slots:", error);
+    } finally {
+      setIsCheckingSlots(false);
+    }
+  };
+
+  // Slot Logic Helper (Dynamic Based on Booked Count)
+  const getSlotInfo = (dateString: string) => {
+    if (!dateString) return null;
+    const [year, month, day] = dateString.split('-');
+    const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+    const dayOfWeek = dateObj.getDay(); 
+    
+    let totalSlots = 0;
+    if (dayOfWeek === 6) return { available: 0, isClosed: true, isFull: false }; // Saturday
+    if (dayOfWeek === 0) totalSlots = 30; // Sunday
+    else totalSlots = 10; // Monday - Friday
+
+    const remaining = Math.max(0, totalSlots - bookedCount);
+
+    return { 
+      available: remaining, 
+      isClosed: false,
+      isFull: remaining <= 0 
+    };
+  };
+
+  const slotInfo = getSlotInfo(selectedDate);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -216,6 +288,9 @@ export function PrayerRequestForm() {
         fileURLs = await Promise.all(uploadPromises);
       }
 
+      // Format the request Type if it's "Other"
+      const finalRequestType = isOtherCategory ? `Other: ${otherCategoryInfo}` : prayerCategory;
+
       // 2. Save document to Firestore
       await addDoc(collection(db, "prayer_requests"), {
         name,
@@ -223,10 +298,11 @@ export function PrayerRequestForm() {
         email: email || "Not Provided",
         location: `${city}, ${countries[country as keyof typeof countries]?.name || country}`,
         attendance: joiningMethod,
-        requestType: prayerCategory,
+        requestType: finalRequestType,
+        appointmentDate: selectedDate, // Saved Date for the Dashboard
         hasSeenDoctor,
         situation,
-        documents: fileURLs, // Saved URLs from storage
+        documents: fileURLs, 
         status: "New",
         createdAt: serverTimestamp(),
       });
@@ -269,6 +345,7 @@ export function PrayerRequestForm() {
     );
   }
 
+  // --- 4. STEP 1: LANGUAGE SELECTION ---
   if (!language) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center bg-[#FDF8F3] px-6">
@@ -291,15 +368,97 @@ export function PrayerRequestForm() {
     );
   }
 
+  // --- 5. STEP 2: SLOT SELECTION ---
+  if (language && !isSlotConfirmed) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center bg-[#FDF8F3] px-6">
+        <div className="bg-[#FFFFFD] w-full max-w-[600px] rounded-[16px] border border-gray-100 p-10 shadow-sm text-center">
+          <button 
+            onClick={() => setLanguage(null)} 
+            className="text-[12px] text-[#E8751A] mb-8 hover:underline tracking-widest text-left w-full"
+          >
+            {t.slotBackBtn}
+          </button>
+          
+          <div className="flex justify-center mb-4 text-[#E8751A]">
+            <CalendarIcon size={40} />
+          </div>
+          
+          <h2 className="text-[24px] font-bold text-[#1B1C1E] mb-2 font-montserrat tracking-tight">
+            {t.slotTitle}
+          </h2>
+          <p className="text-gray-500 text-[15px] mb-8">{t.slotSubtitle}</p>
+          
+          <div className="flex flex-col items-center gap-6">
+            <input 
+              type="date"
+              min={new Date().toISOString().split("T")[0]}
+              value={selectedDate}
+              onChange={handleDateChange}
+              className="w-full max-w-[300px] px-5 py-4 bg-gray-50/30 rounded-xl border border-gray-200 outline-none focus:border-[#E8751A] focus:bg-white transition-all text-[#1B1C1E] font-medium"
+            />
+
+            <AnimatePresence>
+              {isCheckingSlots ? (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-center py-2">
+                  <Loader2 className="animate-spin text-[#E8751A]" />
+                </motion.div>
+              ) : slotInfo && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -10 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  className="w-full"
+                >
+                  {slotInfo.isClosed ? (
+                    <div className="p-4 bg-red-50 text-red-600 rounded-xl border border-red-100 text-sm font-medium">
+                      {t.slotClosed}
+                    </div>
+                  ) : slotInfo.isFull ? (
+                    <div className="p-4 bg-orange-50 text-[#E8751A] rounded-xl border border-[#E8751A]/20 text-sm font-medium">
+                      {t.slotFull}
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-green-50 text-green-700 rounded-xl border border-green-100 text-sm font-medium">
+                      {t.slotAvailable} <span className="font-black text-lg ml-1">{slotInfo.available}</span>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <button 
+              onClick={() => setIsSlotConfirmed(true)}
+              disabled={!selectedDate || slotInfo?.isClosed || slotInfo?.isFull || isCheckingSlots}
+              className="w-full max-w-[300px] mt-4 bg-[#E8751A] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition-all disabled:bg-gray-300 disabled:text-gray-500 shadow-sm"
+            >
+              {t.slotNextBtn}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- 6. STEP 3: FINAL FORM ---
   return (
     <section className="min-h-screen bg-[#FDF8F3] py-20 px-6 relative">
       <AgreementModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} lang={language} />
 
       <div className="mx-auto max-w-[700px] bg-[#FFFFFD] rounded-[32px] border border-gray-100 p-8 md:p-16 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.05)]">
         <div className="mb-12 text-left">
-          <button onClick={() => {setLanguage(null); setPrayerCategory(""); setHasSeenDoctor("");}} className="text-[12px] text-[#E8751A] mb-6 hover:underline  tracking-widest">← Change Language</button>
+          <button 
+            onClick={() => { setIsSlotConfirmed(false); }} 
+            className="text-[12px] text-[#E8751A] mb-6 hover:underline  tracking-widest"
+          >
+            ← {language === 'rw' ? 'Hindura Itariki' : 'Change Date'}
+          </button>
           <h2 className="text-[24px]  text-[#1B1C1E] mb-3 font-bold font-montserrat tracking-tight leading-tight">{t.title}</h2>
-          <p className="text-gray-400 text-[16px] ">{t.subtitle}</p>
+          <p className="text-gray-400 text-[16px] ">
+            {t.subtitle} <br/> 
+            <span className="font-bold text-[#E8751A] text-sm mt-2 block">
+              📅 {language === 'rw' ? 'Itariki watoranyije:' : 'Selected Date:'} {selectedDate}
+            </span>
+          </p>
           <div className="h-[1px] bg-gray-100 w-full mt-8" />
         </div>
 
@@ -397,6 +556,21 @@ export function PrayerRequestForm() {
                 <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={18} />
                 </div>
             </div>
+
+            <AnimatePresence>
+                {isOtherCategory && (
+                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="flex flex-col gap-2 overflow-hidden">
+                        <label className="text-[14px] text-[#1B1C1E] tracking-wider">{t.otherSpecifyLabel}</label>
+                        <input
+                            required
+                            placeholder={t.otherSpecifyPlaceholder}
+                            value={otherCategoryInfo}
+                            onChange={(e) => setOtherCategoryInfo(e.target.value)}
+                            className="w-full px-5 py-4 bg-gray-50/30 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] focus:bg-white transition-all"
+                        />
+                    </motion.div>
+                )}
+            </AnimatePresence>
           </div>
 
           <AnimatePresence>
@@ -459,6 +633,32 @@ export function PrayerRequestForm() {
               className="w-full px-5 py-4 bg-gray-50/30 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] focus:bg-white transition-all resize-none"
             />
           </div>
+
+          {/* OPTIONAL FILE UPLOAD BLOCK */}
+          {!isSickness && (
+              <div className="flex flex-col gap-3 pt-2">
+                  <label className="text-[14px] text-[#1B1C1E] flex items-center gap-2">
+                      {t.optionalUploadLabel}
+                  </label>
+                  <input type="file" multiple hidden ref={optionalFileInputRef} onChange={handleFileChange} accept=".pdf,.jpg,.jpeg,.png" />
+                  <div onClick={() => optionalFileInputRef.current?.click()} className="border-2 border-dashed border-gray-200 rounded-2xl p-10 flex flex-col items-center justify-center bg-gray-50/30 cursor-pointer hover:bg-gray-50 transition-all">
+                      <Upload className="text-gray-400 mb-2" size={28} />
+                      <span className="text-[14px] text-gray-500">{t.uploadSub}</span>
+                      <span className="text-[12px] text-[#E8751A] font-black mt-2 uppercase">{selectedFiles.length} / 5 FILES</span>
+                  </div>
+                  {selectedFiles.length > 0 && (
+                      <div className="flex flex-wrap gap-2 pt-2">
+                          {selectedFiles.map((f, i) => (
+                              <div key={i} className="flex items-center gap-2 bg-white border border-gray-100 px-4 py-2 rounded-full text-[12px] text-gray-600 shadow-sm">
+                                  <span className="max-w-[120px] truncate">{f.name}</span>
+                                  <button type="button" onClick={() => removeFile(i)} className="text-red-500 hover:scale-125 transition-transform"><X size={14} /></button>
+                              </div>
+                          ))}
+                      </div>
+                  )}
+                  <span className="text-[11px] text-gray-400 tracking-widest">{t.uploadPrivacy}</span>
+              </div>
+          )}
 
           <div className="flex gap-4 p-6 bg-gray-50/50 rounded-2xl border border-gray-100 items-start">
             <input type="checkbox" id="consent" checked={agreedToTerms} onChange={(e) => setAgreedToTerms(e.target.checked)} className="w-6 h-6 mt-0.5 accent-[#E8751A] cursor-pointer shrink-0" />
