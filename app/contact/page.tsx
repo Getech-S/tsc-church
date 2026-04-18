@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/layout/Navbar";
 import { ContactHero } from "@/components/sections/contact/ContactHero";
 import { ContactContent } from "@/components/sections/contact/ContactContent";
 import { ContactMap } from "@/components/sections/contact/ContactMap";
@@ -6,7 +7,8 @@ import { Footer } from "@/components/sections/Footer";
 export default function ContactPage() {
     return (
         <main className="relative min-h-screen flex flex-col bg-white">
-
+            {/* 2. NAVBAR */}
+            <Navbar />
             {/* 1. Hero Section */}
             <ContactHero />
             <ContactContent />

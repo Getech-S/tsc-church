@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
-import { Globe, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react"; 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -17,69 +17,71 @@ const navLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-const languages = [
-  { name: "English", active: true },
-];
-
 type NavbarProps = {
   isFloating?: boolean;
 };
 
 export function Navbar({ isFloating = true }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLangOpen, setIsLangOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
+  // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
   }, [pathname]);
 
+  // Handle sticky scroll state
   useEffect(() => {
     if (!isFloating) return;
-    const handleScroll = () => setIsSticky(window.scrollY > 100);
-    window.addEventListener("scroll", handleScroll);
+    
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsSticky(window.scrollY > 100);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isFloating]);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsLangOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
     <header
       className={cn(
         "z-50 flex justify-center transition-all duration-300 w-full",
+        // --- MOBILE ONLY: Always sticky (in document flow), edge-to-edge, solid white ---
+        "sticky top-0 bg-white shadow-sm",
+        // --- DESKTOP ONLY: Your exact original conditional logic ---
         isFloating
           ? [
-              "fixed left-0 right-0",
+              "lg:fixed lg:left-0 lg:right-0 lg:bg-transparent lg:shadow-none",
               isSticky
-                ? "top-0 py-2 bg-white shadow-sm px-4"
-                : "top-4 sm:top-8 px-4 sm:px-6",
+                ? "lg:top-0 lg:py-2 lg:bg-white lg:shadow-sm lg:px-4"
+                : "lg:top-8 lg:px-6", 
             ]
-          : "relative bg-white px-4"
+          : "lg:relative lg:bg-white lg:px-4"
       )}
     >
       <div
         className={cn(
           "flex items-center justify-between w-full transition-all duration-300",
+          // Mobile: Standard padding, no inner backgrounds/shadows
+          "px-4 sm:px-6 py-3 lg:py-0 lg:px-0",
+          // Desktop: Your exact original conditional logic
           isFloating
             ? isSticky
-              ? "max-w-[1240px] px-4 sm:px-6 py-2"
-              : "bg-white rounded-[5px] shadow-lg px-4 sm:px-8 py-2 max-w-[min(1240px,100%)]"
-            : "max-w-[1240px] px-4 sm:px-6 py-3 bg-white shadow-sm"
+              ? "lg:max-w-[1280px] lg:px-6 lg:py-2"
+              : "lg:bg-white lg:rounded-[5px] lg:shadow-lg lg:px-8 lg:py-2 lg:max-w-[1280px]"
+            : "lg:max-w-[1280px] lg:px-6 lg:py-3 lg:bg-white lg:shadow-sm"
         )}
       >
-
         {/* Logo */}
-        <Link href="/" className="shrink-0">
+        <Link href="/" className="shrink-0" aria-label="Go to homepage">
           <div className={cn(
             "relative flex items-center justify-center transition-all duration-300",
             isSticky
@@ -98,6 +100,7 @@ export function Navbar({ isFloating = true }: NavbarProps) {
               <Link
                 key={link.name}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "text-[16px] font-normal transition-colors duration-200",
                   isActive
@@ -113,39 +116,6 @@ export function Navbar({ isFloating = true }: NavbarProps) {
 
         {/* Desktop Right Actions */}
         <div className="hidden lg:flex items-center gap-6">
-
-          {/* Language Switcher 
-          <div className="relative" ref={dropdownRef}>
-            <button
-              className="flex items-center gap-1 text-gray-500 hover:text-black transition-colors duration-200"
-              onClick={() => setIsLangOpen(!isLangOpen)}
-            >
-              <Globe size={20} />
-              <span className="text-[16px] font-normal">EN</span>
-            </button>
-
-            {isLangOpen && (
-              <div
-                className="absolute top-full right-0 mt-4 bg-white shadow-2xl flex flex-col gap-2 z-50 overflow-hidden animate-in fade-in zoom-in-95 duration-200"
-                style={{ width: "137px", padding: "16px", borderRadius: "0 0 8px 8px" }}
-              >
-                {languages.map((lang) => (
-                  <button
-                    key={lang.name}
-                    onClick={() => setIsLangOpen(false)}
-                    className={cn(
-                      "text-left text-[16px] leading-6 font-normal transition-colors duration-200",
-                      lang.active ? "text-[#E8751A]" : "text-gray-600 hover:text-black"
-                    )}
-                  >
-                    {lang.name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div> */}
-
-          {/* Request a Prayer Button */}
           <Link
             href="/prayer-request"
             className="text-white font-semibold text-[14px] rounded-full px-6 py-3 bg-[#E8751A] hover:bg-[#E8A020] transition-colors duration-300 ease-in-out"
@@ -158,6 +128,9 @@ export function Navbar({ isFloating = true }: NavbarProps) {
         <button
           className="lg:hidden p-2 text-gray-800"
           onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-label="Toggle navigation menu"
+          aria-controls="mobile-menu"
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
@@ -165,14 +138,18 @@ export function Navbar({ isFloating = true }: NavbarProps) {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="absolute top-full left-4 right-4 bg-white rounded-xl shadow-2xl p-6 flex flex-col gap-4 lg:hidden z-50 animate-in slide-in-from-top-2 mt-2">
-
+        <div 
+          id="mobile-menu"
+          // Removed left-4 right-4 and rounded corners so it perfectly fits edge-to-edge
+          className="absolute top-full left-0 right-0 bg-white shadow-2xl p-6 flex flex-col gap-4 lg:hidden z-50 animate-in slide-in-from-top-2 border-t border-gray-100"
+        >
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             return (
               <Link
                 key={link.name}
                 href={link.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "text-lg font-normal py-2 border-b border-gray-100 transition-colors duration-200",
                   isActive ? "text-[#E8751A]" : "text-gray-800 hover:text-[#E8751A]"
@@ -184,22 +161,6 @@ export function Navbar({ isFloating = true }: NavbarProps) {
             );
           })}
 
-          {/* Mobile Language 
-          <div className="flex gap-4 py-2">
-            {languages.map((lang) => (
-              <span
-                key={lang.name}
-                className={cn(
-                  "text-sm font-normal",
-                  lang.active ? "text-[#E8751A]" : "text-gray-500"
-                )}
-              >
-                {lang.name}
-              </span>
-            ))}
-          </div>*/}
-
-          {/* Mobile Prayer Button */}
           <Link
             href="/prayer-request"
             onClick={() => setIsOpen(false)}
@@ -207,7 +168,6 @@ export function Navbar({ isFloating = true }: NavbarProps) {
           >
             Request for Prayer
           </Link>
-
         </div>
       )}
     </header>
