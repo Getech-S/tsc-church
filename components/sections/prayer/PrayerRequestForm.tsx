@@ -154,7 +154,7 @@ export function PrayerRequestForm() {
       slotTitle: "Select an Appointment Date",
       slotSubtitle: "Choose a day for your prayer session.",
       slotAvailable: "Slots remaining for this day:",
-      slotClosed: "No prayer slots available on Saturdays.",
+      slotClosed: "Prayer slots are only available on Sundays.",
       slotFull: "This date is fully booked. Please choose another date.",
       slotNextBtn: "Continue",
       slotBackBtn: "← Change Language"
@@ -201,7 +201,7 @@ export function PrayerRequestForm() {
       slotTitle: "Hitamo Itariki",
       slotSubtitle: "Hitamo umunsi wifuza gusengerwaho.",
       slotAvailable: "Imyanya isigaye kuri uyu munsi ni:",
-      slotClosed: "Nta mwanya uhari kuwa Gatandatu.",
+      slotClosed: "Imyanya yo gusengerwa iboneka gusa ku Cyumweru.",
       slotFull: "Iyi tariki yuzuye. Nyamuneka hitamo indi tariki.",
       slotNextBtn: "Komeza",
       slotBackBtn: "← Hindura ururimi"
@@ -239,10 +239,12 @@ export function PrayerRequestForm() {
     const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
     const dayOfWeek = dateObj.getDay(); 
     
-    let totalSlots = 0;
-    if (dayOfWeek === 6) return { available: 0, isClosed: true, isFull: false }; // Saturday
-    if (dayOfWeek === 0) totalSlots = 30; // Sunday
-    else totalSlots = 10; // Monday - Friday
+    // ONLY SUNDAY ALLOWED (0 is Sunday)
+    if (dayOfWeek !== 0) {
+      return { available: 0, isClosed: true, isFull: false };
+    }
+
+    const totalSlots = 30; // Sunday
 
     const remaining = Math.max(0, totalSlots - bookedCount);
 
@@ -351,7 +353,7 @@ export function PrayerRequestForm() {
       <div className="min-h-[80vh] flex items-center justify-center bg-[#FDF8F3] px-6">
         <div className="bg-[#FFFFFD] w-full max-w-[600px] rounded-[16px] border border-gray-100 p-12 shadow-sm text-center">
           <h2 className="text-[24px] font-bold text-[#1B1C1E] mb-10 font-montserrat tracking-tight">
-            Choose your language to continue <br/> Hitamo ururimi
+            Choose your language to continue <br/> Hindura ururimi
           </h2>
           <div className="grid grid-cols-2 gap-8">
             <button onClick={() => setLanguage("en")} className="flex flex-col items-center p-12 rounded-[8px] border border-gray-500/20 bg-[#FFFFFD] hover:border-[#E8751A] hover:shadow-lg transition-all group">
