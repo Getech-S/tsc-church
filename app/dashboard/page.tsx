@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { 
   LayoutGrid, Search, Bell, ChevronLeft, ChevronRight, 
   ExternalLink, Download, Calendar, Trash2, Loader2, 
-  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut, ChevronDown
+  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut, ChevronDown, ShieldAlert
 } from "lucide-react";
 import Image from "next/image";
 import { db } from "@/lib/firebase";
-import { collection, query, orderBy, onSnapshot, doc, deleteDoc } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, doc, deleteDoc, getDoc, setDoc } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const dynamic = "force-dynamic";
@@ -21,21 +21,44 @@ export default function StaffDashboard() {
   const [requests, setRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // --- ADMIN SETTINGS STATE ---
+  const [adminSettings, setAdminSettings] = useState<{allowedDates: string[], blockedDates: string[], unlockAll: boolean}>({
+    allowedDates: [],
+    blockedDates: [],
+    unlockAll: false
+  });
+  
+  // State for the Admin Date Manager
+  const [manageDate, setManageDate] = useState("");
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
   const [selectedRequest, setSelectedRequest] = useState<any | null>(null);
   const [detailTab, setDetailTab] = useState<"reason" | "uploads">("reason");
   
-  // NEW: State to hold the specific date selected from the dropdown
+  // State to hold the specific date selected from the dropdown filter
   const [selectedSlotDate, setSelectedSlotDate] = useState("");
 
-  // --- ROUTE GUARD: Check if logged in ---
+  // --- ROUTE GUARD & FETCH SETTINGS ---
   useEffect(() => {
     const session = localStorage.getItem("staffSession");
     if (!session) {
       router.push("/login");
     }
+
+    const fetchSettings = async () => {
+      try {
+        const docRef = doc(db, "system_settings", "appointments");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setAdminSettings({ allowedDates: [], blockedDates: [], unlockAll: false, ...docSnap.data() });
+        }
+      } catch(e) {
+        console.error("Error fetching settings", e);
+      }
+    };
+    fetchSettings();
   }, [router]);
 
   const handleLogout = () => {
@@ -65,33 +88,104 @@ export default function StaffDashboard() {
     return () => unsubscribe();
   }, []);
 
+  // --- ADMIN CALENDAR CONTROLS ---
+  const toggleDateLock = async () => {
+    if (!manageDate) return;
+    
+    const [y, m, d] = manageDate.split('-');
+    const isSunday = new Date(Number(y), Number(m) - 1, Number(d)).getDay() === 0;
+    
+    let newSettings = { ...adminSettings };
+    
+    if (isSunday) {
+      const isBlocked = adminSettings.blockedDates?.includes(manageDate);
+      if (isBlocked) {
+        newSettings.blockedDates = adminSettings.blockedDates.filter((date: string) => date !== manageDate);
+      } else {
+        newSettings.blockedDates = [...(adminSettings.blockedDates || []), manageDate];
+      }
+    } else {
+      const isAllowed = adminSettings.allowedDates?.includes(manageDate);
+      if (isAllowed) {
+        newSettings.allowedDates = adminSettings.allowedDates.filter((date: string) => date !== manageDate);
+      } else {
+        newSettings.allowedDates = [...(adminSettings.allowedDates || []), manageDate];
+      }
+    }
+    
+    try {
+      await setDoc(doc(db, "system_settings", "appointments"), newSettings, { merge: true });
+      setAdminSettings(newSettings);
+      setManageDate(""); // Clear the input after success
+    } catch (err) {
+      console.error("Error saving settings", err);
+      alert("Failed to update calendar settings.");
+    }
+  };
+
+  const toggleUnlockAll = async () => {
+    const newSettings = { ...adminSettings, unlockAll: !adminSettings.unlockAll };
+    try {
+      await setDoc(doc(db, "system_settings", "appointments"), newSettings, { merge: true });
+      setAdminSettings(newSettings);
+    } catch (err) {
+      console.error("Error saving settings", err);
+      alert("Failed to update global settings.");
+    }
+  };
+
+  const isManageSunday = manageDate ? new Date(Number(manageDate.split('-')[0]), Number(manageDate.split('-')[1]) - 1, Number(manageDate.split('-')[2])).getDay() === 0 : false;
+
+  // --- SLOT LOGIC HELPER ---
+  const getSlotStatus = (dateString: string, count: number) => {
+    const [year, month, day] = dateString.split('-');
+    const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
+    const dayOfWeek = dateObj.getDay(); 
+    
+    const isExplicitlyAllowed = adminSettings.allowedDates?.includes(dateString);
+    const isExplicitlyBlocked = adminSettings.blockedDates?.includes(dateString);
+    const isAllUnlocked = adminSettings.unlockAll === true;
+
+    if (isExplicitlyBlocked) return "Locked by Admin";
+    if (dayOfWeek !== 0 && !isExplicitlyAllowed && !isAllUnlocked) return "Closed (Weekday)";
+    
+    const totalSlots = dayOfWeek === 0 ? 30 : 10; 
+    if (count >= totalSlots) return "Fully Booked";
+    
+    return "Open";
+  };
+
+
   // Split booked slots into Upcoming and Archived based on today's date
   const { activeSlots, archivedSlots } = useMemo(() => {
     const summary: Record<string, number> = {};
+    
     requests.forEach(req => {
       if (req.appointmentDate) {
         summary[req.appointmentDate] = (summary[req.appointmentDate] || 0) + 1;
       }
     });
 
+    adminSettings.allowedDates.forEach(d => { if (!summary[d]) summary[d] = 0; });
+    adminSettings.blockedDates.forEach(d => { if (!summary[d]) summary[d] = 0; });
+
     const now = new Date();
-    // Format today as YYYY-MM-DD for accurate string comparison
     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 
-    const active: [string, number][] = [];
-    const archived: [string, number][] = [];
+    const active: {date: string, count: number, status: string}[] = [];
+    const archived: {date: string, count: number, status: string}[] = [];
 
-    // Sort dates ascending and split them
     Object.entries(summary).sort((a, b) => a[0].localeCompare(b[0])).forEach(([date, count]) => {
+      const status = getSlotStatus(date, count);
       if (date >= todayStr) {
-        active.push([date, count]);
+        active.push({date, count, status});
       } else {
-        archived.push([date, count]);
+        archived.push({date, count, status});
       }
     });
 
     return { activeSlots: active, archivedSlots: archived };
-  }, [requests]);
+  }, [requests, adminSettings]);
 
   const filteredRequests = useMemo(() => {
     const now = new Date();
@@ -111,7 +205,6 @@ export default function StaffDashboard() {
         req.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         req.appointmentDate?.includes(searchQuery);
         
-      // NEW: Filter strictly by the selected dropdown date if one is chosen
       const matchSlot = selectedSlotDate ? req.appointmentDate === selectedSlotDate : true;
 
       return matchDate && matchSearch && matchSlot;
@@ -241,6 +334,63 @@ export default function StaffDashboard() {
             </div>
           </div>
 
+          {/* --- ADMIN CALENDAR MANAGEMENT PANEL --- */}
+          <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-[20px] font-bold text-[#1B1C1E] flex items-center gap-2">
+                <ShieldAlert size={20} className="text-[#E8751A]" /> Calendar & Slot Management
+              </h2>
+            </div>
+            
+            {adminSettings.unlockAll && (
+              <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-xl flex items-center gap-3 text-orange-700 text-sm font-bold shadow-sm">
+                WARNING: "Unlock All Dates" is currently ACTIVE. The public can book on any day of the week.
+              </div>
+            )}
+
+            <div className="flex flex-col md:flex-row gap-6 items-start md:items-end">
+              <div className="flex flex-col gap-2 w-full md:w-auto">
+                <label className="text-[13px] font-bold text-gray-400 uppercase tracking-wider">Select Date to Manage</label>
+                <input
+                  type="date"
+                  value={manageDate}
+                  onChange={(e) => setManageDate(e.target.value)}
+                  className="w-full md:w-[250px] px-4 py-3 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all font-medium text-[#1B1C1E]"
+                />
+              </div>
+
+              {manageDate && (
+                <div className="flex gap-3 w-full md:w-auto">
+                  {isManageSunday ? (
+                    <button 
+                      onClick={toggleDateLock}
+                      className={`px-6 py-3 font-bold rounded-xl transition-all whitespace-nowrap ${adminSettings.blockedDates?.includes(manageDate) ? "bg-green-500 text-white hover:bg-green-600" : "bg-red-500 text-white hover:bg-red-600"}`}
+                    >
+                      {adminSettings.blockedDates?.includes(manageDate) ? "✅ Unblock this Sunday" : "🚫 Block this Sunday"}
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={toggleDateLock}
+                      className={`px-6 py-3 font-bold rounded-xl transition-all whitespace-nowrap ${adminSettings.allowedDates?.includes(manageDate) ? "bg-red-500 text-white hover:bg-red-600" : "bg-[#1B1C1E] text-white hover:bg-black"}`}
+                    >
+                      {adminSettings.allowedDates?.includes(manageDate) ? "🔒 Lock this Weekday" : "🔓 Unlock this Weekday (10 Slots)"}
+                    </button>
+                  )}
+                </div>
+              )}
+
+              <div className="w-full md:w-auto ml-auto">
+                <button 
+                  onClick={toggleUnlockAll}
+                  className={`px-6 py-3 border font-bold rounded-xl transition-all whitespace-nowrap w-full ${adminSettings.unlockAll ? "border-[#E8751A] text-[#E8751A] bg-orange-50 hover:bg-orange-100" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                >
+                  {adminSettings.unlockAll ? "Revert to Sundays Only" : "Unlock ALL Weekdays"}
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* --- END ADMIN PANEL --- */}
+
           <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden w-full">
             <div className="p-6 md:p-8 border-b border-gray-50 flex flex-wrap gap-4 items-center justify-between">
               <div className="flex flex-wrap gap-2">
@@ -262,13 +412,13 @@ export default function StaffDashboard() {
               <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
                 <h2 className="text-[24px] font-bold text-[#1B1C1E]">Prayer Requests</h2>
                 
-                {/* NEW: Dropdown filters for dates instead of horizontal boxes */}
+                {/* Dropdown filters for dates */}
                 <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
                   
                   {activeSlots.length > 0 && (
                     <div className="relative">
                       <select 
-                        value={activeSlots.some(([d]) => d === selectedSlotDate) ? selectedSlotDate : ""} 
+                        value={activeSlots.some((s) => s.date === selectedSlotDate) ? selectedSlotDate : ""} 
                         onChange={(e) => {
                           setSelectedSlotDate(e.target.value);
                           if(e.target.value) setFilter("All");
@@ -276,8 +426,8 @@ export default function StaffDashboard() {
                         className="appearance-none bg-[#FDF8F3] border border-[#E8751A]/20 text-[#E8751A] px-4 py-2 pr-8 rounded-lg font-bold text-[14px] outline-none cursor-pointer w-full sm:w-auto"
                       >
                         <option value="">Upcoming Bookings</option>
-                        {activeSlots.map(([date, count]) => (
-                          <option key={date} value={date}>{date} ({count} Booked)</option>
+                        {activeSlots.map(({date, count, status}) => (
+                          <option key={date} value={date}>{date} ({count} Booked - {status})</option>
                         ))}
                       </select>
                       <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#E8751A] pointer-events-none" />
@@ -287,7 +437,7 @@ export default function StaffDashboard() {
                   {archivedSlots.length > 0 && (
                     <div className="relative">
                       <select 
-                        value={archivedSlots.some(([d]) => d === selectedSlotDate) ? selectedSlotDate : ""} 
+                        value={archivedSlots.some((s) => s.date === selectedSlotDate) ? selectedSlotDate : ""} 
                         onChange={(e) => {
                           setSelectedSlotDate(e.target.value);
                           if(e.target.value) setFilter("All");
@@ -295,8 +445,8 @@ export default function StaffDashboard() {
                         className="appearance-none bg-gray-50 border border-gray-200 text-gray-500 px-4 py-2 pr-8 rounded-lg font-bold text-[14px] outline-none cursor-pointer w-full sm:w-auto"
                       >
                         <option value="">Archived Bookings</option>
-                        {archivedSlots.map(([date, count]) => (
-                          <option key={date} value={date}>{date} ({count} Booked)</option>
+                        {archivedSlots.map(({date, count, status}) => (
+                          <option key={date} value={date}>{date} ({count} Booked - {status})</option>
                         ))}
                       </select>
                       <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />

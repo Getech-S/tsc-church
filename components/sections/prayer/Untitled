@@ -5,7 +5,7 @@ import { ChevronDown, Upload, CheckCircle, AlertCircle, X, HeartPulse, ShieldChe
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { db, storage } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, getDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, query, where, getDocs, doc, getDoc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // NEW IMPORTS for Global Countries and Phone Codes
@@ -90,7 +90,8 @@ export function PrayerRequestForm() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success">("idle");
   
-  // FETCH DASHBOARD SETTINGS STATE
+  // --- SECRET ADMIN STATES ---
+  const [isAdmin, setIsAdmin] = useState(false);
   const [adminSettings, setAdminSettings] = useState<{allowedDates: string[], blockedDates: string[], unlockAll: boolean}>({
     allowedDates: [],
     blockedDates: [],
@@ -223,8 +224,12 @@ export function PrayerRequestForm() {
   const doctorYes = hasSeenDoctor === "Yes" || hasSeenDoctor === "Yego";
   const doctorNo = hasSeenDoctor === "No" || hasSeenDoctor === "Oya";
 
-  // FETCH CUSTOM CALENDAR SETTINGS FROM DASHBOARD
+  // Check if User is Admin & Fetch Custom Calendar Settings
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsAdmin(localStorage.getItem("staffSession") === "true");
+    }
+    
     const fetchAdminSettings = async () => {
       try {
         const docRef = doc(db, "system_settings", "appointments");
@@ -238,6 +243,53 @@ export function PrayerRequestForm() {
     };
     fetchAdminSettings();
   }, []);
+
+  // Admin Override Functions
+  const toggleDateLock = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!selectedDate) return;
+    
+    const [y, m, d] = selectedDate.split('-');
+    const isSunday = new Date(Number(y), Number(m) - 1, Number(d)).getDay() === 0;
+    
+    let newSettings = { ...adminSettings };
+    
+    if (isSunday) {
+      const isBlocked = adminSettings.blockedDates?.includes(selectedDate);
+      if (isBlocked) {
+        newSettings.blockedDates = adminSettings.blockedDates.filter((d: string) => d !== selectedDate);
+      } else {
+        newSettings.blockedDates = [...(adminSettings.blockedDates || []), selectedDate];
+      }
+    } else {
+      const isAllowed = adminSettings.allowedDates?.includes(selectedDate);
+      if (isAllowed) {
+        newSettings.allowedDates = adminSettings.allowedDates.filter((d: string) => d !== selectedDate);
+      } else {
+        newSettings.allowedDates = [...(adminSettings.allowedDates || []), selectedDate];
+      }
+    }
+    
+    try {
+      await setDoc(doc(db, "system_settings", "appointments"), newSettings, { merge: true });
+      setAdminSettings(newSettings);
+    } catch (err) {
+      console.error("Error saving settings", err);
+      alert("Failed to update admin settings.");
+    }
+  };
+
+  const toggleUnlockAll = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    const newSettings = { ...adminSettings, unlockAll: !adminSettings.unlockAll };
+    try {
+      await setDoc(doc(db, "system_settings", "appointments"), newSettings, { merge: true });
+      setAdminSettings(newSettings);
+    } catch (err) {
+      console.error("Error saving settings", err);
+    }
+  };
+
 
   // Handle Date Change & Fetch Booked Slots
   const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -264,17 +316,16 @@ export function PrayerRequestForm() {
     const dateObj = new Date(Number(year), Number(month) - 1, Number(day));
     const dayOfWeek = dateObj.getDay(); 
     
-    // Read the settings from the dashboard
     const isExplicitlyAllowed = adminSettings.allowedDates?.includes(dateString);
     const isExplicitlyBlocked = adminSettings.blockedDates?.includes(dateString);
     const isAllUnlocked = adminSettings.unlockAll === true;
 
-    // 1. If admin specifically blocked it in the dashboard (like a Sunday off)
+    // 1. If admin specifically blocked it (like a Sunday they want off)
     if (isExplicitlyBlocked) {
       return { available: 0, isClosed: false, isBlocked: true, isFull: false };
     }
 
-    // 2. If it's a weekday and NOT allowed in the dashboard, and NOT "Unlock All"
+    // 2. If it's a weekday and NOT explicitly allowed, and NOT "Unlock All" is active
     if (dayOfWeek !== 0 && !isExplicitlyAllowed && !isAllUnlocked) {
       return { available: 0, isClosed: true, isBlocked: false, isFull: false };
     }
@@ -292,6 +343,8 @@ export function PrayerRequestForm() {
   };
 
   const slotInfo = getSlotInfo(selectedDate);
+  const isSundaySelection = selectedDate ? new Date(Number(selectedDate.split('-')[0]), Number(selectedDate.split('-')[1]) - 1, Number(selectedDate.split('-')[2])).getDay() === 0 : false;
+
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -477,6 +530,40 @@ export function PrayerRequestForm() {
             </button>
           </div>
         </div>
+
+        {/* SECRET ADMIN OVERRIDE UI - ONLY VISIBLE IF LOGGED INTO DASHBOARD */}
+        {isAdmin && selectedDate && !isCheckingSlots && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="w-full max-w-[600px] mt-6 p-6 bg-[#1B1C1E] text-white rounded-xl text-sm shadow-xl border border-gray-800">
+            <p className="text-[#E8751A] font-bold mb-4 flex items-center gap-2 text-base">
+              <ShieldCheck size={18} /> Admin Controls (Visible only to you)
+            </p>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {isSundaySelection ? (
+                <button 
+                  onClick={toggleDateLock}
+                  className="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  {adminSettings.blockedDates?.includes(selectedDate) ? "✅ Unblock this Sunday" : "🚫 Block this Sunday"}
+                </button>
+              ) : (
+                <button 
+                  onClick={toggleDateLock}
+                  className="w-full py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  {adminSettings.allowedDates?.includes(selectedDate) ? "🔒 Lock this Weekday" : "🔓 Unlock this Weekday (10 Slots)"}
+                </button>
+              )}
+
+              <button 
+                onClick={toggleUnlockAll}
+                className={`w-full py-3 border font-bold rounded-lg transition-colors ${adminSettings.unlockAll ? "border-[#E8751A] text-[#E8751A] hover:bg-[#E8751A]/10" : "border-gray-600 text-gray-300 hover:text-white hover:border-gray-400"}`}
+              >
+                {adminSettings.unlockAll ? "Revert to Sundays Only" : "Unlock ALL Dates"}
+              </button>
+            </div>
+          </motion.div>
+        )}
       </div>
     );
   }
