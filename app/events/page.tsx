@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { EventsHero } from "@/components/sections/events/EventsHero";
 import { Footer } from "@/components/sections/Footer";
+import { EventList } from "@/components/sections/events/EventList";
 
 export function EventsPage() {
     return (
@@ -14,11 +15,7 @@ export function EventsPage() {
          - Matches the simple centered look in your design
          - Padding: py-32 to give it plenty of white space
       */}
-            <div className="grow flex items-center justify-center py-32 md:py-48">
-                <h2 className="text-[32px] md:text-[40px] font-bold text-gray-900 tracking-tight">
-                    Coming soon..
-                </h2>
-            </div>
+            <EventList />
 
             {/* 3. Footer */}
             <Footer />
