@@ -45,12 +45,18 @@ export default function StaffDashboard() {
   const [isSubmittingEvent, setIsSubmittingEvent] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
-  const [eventTitle, setEventTitle] = useState("");
+  // Dual Language Event Fields
+  const [eventTitleEn, setEventTitleEn] = useState("");
+  const [eventTitleRw, setEventTitleRw] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const [eventSystemDate, setEventSystemDate] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [eventLocation, setEventLocation] = useState("");
-  const [eventFormLink, setEventFormLink] = useState("");
-  const [eventDescription, setEventDescription] = useState("");
+  const [eventFormLinkEn, setEventFormLinkEn] = useState("");
+  const [eventFormLinkRw, setEventFormLinkRw] = useState("");
+  const [eventFormLinkFr, setEventFormLinkFr] = useState(""); // Hidden input for DB
+  const [eventDescriptionEn, setEventDescriptionEn] = useState("");
+  const [eventDescriptionRw, setEventDescriptionRw] = useState("");
   const [eventFlyer, setEventFlyer] = useState<File | null>(null);
 
   // --- ROUTE GUARD & FETCH SETTINGS ---
@@ -89,7 +95,6 @@ export default function StaffDashboard() {
 
   // --- FETCH PRAYER REQUESTS & EVENTS ---
   useEffect(() => {
-    // Fetch Prayer Requests
     const qRequests = query(collection(db, "prayer_requests"), orderBy("createdAt", "desc"));
     const unsubRequests = onSnapshot(qRequests, (snapshot) => {
       const data = snapshot.docs.map(doc => ({
@@ -101,7 +106,6 @@ export default function StaffDashboard() {
       setLoading(false);
     });
 
-    // Fetch Events
     const qEvents = query(collection(db, "events"), orderBy("createdAt", "desc"));
     const unsubEvents = onSnapshot(qEvents, (snapshot) => {
       setEventsList(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
@@ -113,12 +117,10 @@ export default function StaffDashboard() {
   // --- ADMIN CALENDAR CONTROLS ---
   const toggleDateLock = async () => {
     if (!manageDate) return;
-    
     const [y, m, d] = manageDate.split('-');
     const isSunday = new Date(Number(y), Number(m) - 1, Number(d)).getDay() === 0;
     
     let newSettings = { ...adminSettings };
-    
     if (isSunday) {
       const isBlocked = adminSettings.blockedDates?.includes(manageDate);
       if (isBlocked) {
@@ -178,11 +180,8 @@ export default function StaffDashboard() {
 
   const { activeSlots, archivedSlots } = useMemo(() => {
     const summary: Record<string, number> = {};
-    
     requests.forEach(req => {
-      if (req.appointmentDate) {
-        summary[req.appointmentDate] = (summary[req.appointmentDate] || 0) + 1;
-      }
+      if (req.appointmentDate) summary[req.appointmentDate] = (summary[req.appointmentDate] || 0) + 1;
     });
 
     adminSettings.allowedDates.forEach(d => { if (!summary[d]) summary[d] = 0; });
@@ -241,12 +240,8 @@ export default function StaffDashboard() {
 
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this prayer request? This action is permanent.")) {
-      try {
-        await deleteDoc(doc(db, "prayer_requests", id));
-      } catch (error) {
-        console.error("Delete Error:", error);
-        alert("Error deleting request. Please check permissions.");
-      }
+      try { await deleteDoc(doc(db, "prayer_requests", id)); } 
+      catch (error) { alert("Error deleting request. Please check permissions."); }
     }
   };
 
@@ -255,10 +250,7 @@ export default function StaffDashboard() {
     const csvContent = [
       headers.join(","),
       ...filteredRequests.map(req => {
-        const docLinks = req.documents && req.documents.length > 0 
-          ? req.documents.join(" | ") 
-          : "No Documents";
-
+        const docLinks = req.documents && req.documents.length > 0 ? req.documents.join(" | ") : "No Documents";
         return [
           `"${req.name}"`, `"${req.whatsapp}"`, `"${req.email}"`, `"${req.location}"`, 
           `"${req.requestType}"`, `"${req.attendance}"`, `"${req.hasSeenDoctor || "N/A"}"`, 
@@ -326,26 +318,29 @@ export default function StaffDashboard() {
     
     setIsSubmittingEvent(true);
     try {
-      // 1. Upload Flyer to Storage
       const storageRef = ref(storage, `event_flyers/${Date.now()}-${eventFlyer.name}`);
       const snapshot = await uploadBytes(storageRef, eventFlyer);
       const flyerUrl = await getDownloadURL(snapshot.ref);
 
-      // 2. Save Event Details to Firestore
       await addDoc(collection(db, "events"), {
-        title: eventTitle,
+        titleEn: eventTitleEn,
+        titleRw: eventTitleRw,
         date: eventDate,
+        systemDate: eventSystemDate,
         time: eventTime,
         location: eventLocation,
-        description: eventDescription,
-        formLink: eventFormLink,
+        descriptionEn: eventDescriptionEn,
+        descriptionRw: eventDescriptionRw,
+        formLinkEn: eventFormLinkEn,
+        formLinkRw: eventFormLinkRw,
+        formLinkFr: eventFormLinkFr,
         image: flyerUrl,
         createdAt: serverTimestamp()
       });
 
-      // 3. Reset Form
-      setEventTitle(""); setEventDate(""); setEventTime(""); setEventLocation("");
-      setEventDescription(""); setEventFormLink(""); setEventFlyer(null);
+      setEventTitleEn(""); setEventTitleRw(""); setEventDate(""); setEventSystemDate(""); 
+      setEventTime(""); setEventLocation(""); setEventDescriptionEn(""); setEventDescriptionRw(""); 
+      setEventFormLinkEn(""); setEventFormLinkRw(""); setEventFormLinkFr(""); setEventFlyer(null);
       
       alert("Event successfully published to the website!");
     } catch (error) {
@@ -358,11 +353,8 @@ export default function StaffDashboard() {
 
   const handleDeleteEvent = async (id: string) => {
     if (confirm("Are you sure you want to permanently delete this event from the website?")) {
-      try {
-        await deleteDoc(doc(db, "events", id));
-      } catch (error) {
-        console.error("Delete Event Error:", error);
-      }
+      try { await deleteDoc(doc(db, "events", id)); } 
+      catch (error) { console.error("Delete Event Error:", error); }
     }
   };
 
@@ -422,7 +414,6 @@ export default function StaffDashboard() {
           {/* ========================================= */}
           {activeTab === "dashboards" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-              {/* --- ADMIN CALENDAR MANAGEMENT PANEL --- */}
               <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm p-6 md:p-8 mb-8">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-[20px] font-bold text-[#1B1C1E] flex items-center gap-2">
@@ -478,7 +469,6 @@ export default function StaffDashboard() {
                 </div>
               </div>
 
-              {/* --- PRAYER REQUESTS TABLE --- */}
               <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden w-full">
                 <div className="p-6 md:p-8 border-b border-gray-50 flex flex-wrap gap-4 items-center justify-between">
                   <div className="flex flex-wrap gap-2">
@@ -623,25 +613,35 @@ export default function StaffDashboard() {
           {activeTab === "events" && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               
-              {/* Event Creation Form */}
               <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm p-6 md:p-10 mb-10">
                 <h2 className="text-[24px] font-bold text-[#1B1C1E] mb-8">Publish New Event</h2>
                 
-                <form onSubmit={handleCreateEvent} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleCreateEvent} className="space-y-8">
+                  
+                  {/* TITLE SECTION */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-blue-50/50 rounded-2xl border border-blue-100">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Event Title</label>
-                      <input required value={eventTitle} onChange={e => setEventTitle(e.target.value)} placeholder="e.g. The Connect Conference" className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all" />
+                      <label className="text-[13px] font-bold text-blue-800 uppercase tracking-wider">Event Title (English)</label>
+                      <input required value={eventTitleEn} onChange={e => setEventTitleEn(e.target.value)} placeholder="e.g. The Connect Conference" className="w-full px-5 py-4 bg-white rounded-xl border border-gray-200 outline-none focus:border-[#E8751A] transition-all" />
                     </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[13px] font-bold text-blue-800 uppercase tracking-wider">Izina ry'Igikorwa (Kinyarwanda)</label>
+                      <input required value={eventTitleRw} onChange={e => setEventTitleRw(e.target.value)} placeholder="Kuramo izina mu Kinyarwanda..." className="w-full px-5 py-4 bg-white rounded-xl border border-gray-200 outline-none focus:border-[#E8751A] transition-all" />
+                    </div>
+                  </div>
+
+                  {/* LOGISTICS SECTION */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div className="flex flex-col gap-2">
                       <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Location</label>
                       <input required value={eventLocation} onChange={e => setEventLocation(e.target.value)} placeholder="e.g. Main Auditorium" className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all" />
                     </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex flex-col gap-2">
-                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Date</label>
+                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">System Date (For Sorting)</label>
+                      <input required type="date" value={eventSystemDate} onChange={e => setEventSystemDate(e.target.value)} className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all text-[#1B1C1E]" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Display Date on Site</label>
                       <input required value={eventDate} onChange={e => setEventDate(e.target.value)} placeholder="e.g. Sunday, June 14, 2026" className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all" />
                     </div>
                     <div className="flex flex-col gap-2">
@@ -650,16 +650,36 @@ export default function StaffDashboard() {
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Registration Form Link</label>
-                    <input required value={eventFormLink} onChange={e => setEventFormLink(e.target.value)} placeholder="Paste your Google Form or Typeform link here" className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all" />
+                  {/* FORM LINKS SECTION */}
+                  <div className="p-6 bg-orange-50/50 border border-orange-100 rounded-2xl space-y-4">
+                    <h3 className="text-[14px] font-bold text-orange-800 uppercase tracking-wider mb-2">Registration Forms</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[13px] font-bold text-gray-500 tracking-wider">English Form Link (Optional)</label>
+                        <input value={eventFormLinkEn} onChange={e => setEventFormLinkEn(e.target.value)} placeholder="Paste English link here..." className="w-full px-5 py-3 bg-white rounded-xl border border-gray-200 outline-none focus:border-[#E8751A] transition-all" />
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        <label className="text-[13px] font-bold text-gray-500 tracking-wider">Kinyarwanda Form Link (Optional)</label>
+                        <input value={eventFormLinkRw} onChange={e => setEventFormLinkRw(e.target.value)} placeholder="Paste Kinyarwanda link here..." className="w-full px-5 py-3 bg-white rounded-xl border border-gray-200 outline-none focus:border-[#E8751A] transition-all" />
+                      </div>
+                      {/* Hidden French input for database readiness */}
+                      <input type="hidden" value={eventFormLinkFr} onChange={e => setEventFormLinkFr(e.target.value)} />
+                    </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Description</label>
-                    <textarea required rows={4} value={eventDescription} onChange={e => setEventDescription(e.target.value)} placeholder="Write details about the event..." className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all resize-none" />
+                  {/* DESCRIPTION SECTION */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">About (English)</label>
+                      <textarea required rows={4} value={eventDescriptionEn} onChange={e => setEventDescriptionEn(e.target.value)} placeholder="Write details about the event..." className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all resize-none" />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Ibisobanuro (Kinyarwanda)</label>
+                      <textarea required rows={4} value={eventDescriptionRw} onChange={e => setEventDescriptionRw(e.target.value)} placeholder="Andika ibisobanuro by'igikorwa..." className="w-full px-5 py-4 bg-gray-50 rounded-xl border border-gray-100 outline-none focus:border-[#E8751A] transition-all resize-none" />
+                    </div>
                   </div>
 
+                  {/* FLYER UPLOAD SECTION */}
                   <div className="flex flex-col gap-2 pt-2">
                     <label className="text-[13px] font-bold text-gray-500 uppercase tracking-wider">Event Flyer Image</label>
                     <input type="file" hidden ref={fileInputRef} onChange={e => setEventFlyer(e.target.files ? e.target.files[0] : null)} accept="image/*" />
@@ -692,23 +712,27 @@ export default function StaffDashboard() {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {eventsList.map(event => (
-                      <div key={event.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-                        <div className="relative h-[200px] w-full bg-gray-100">
-                          <Image src={event.image} alt={event.title} fill className="object-cover" />
+                    {eventsList.map(event => {
+                      const isPast = event.systemDate && event.systemDate < new Date().toISOString().split("T")[0];
+                      return (
+                        <div key={event.id} className={`bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col ${isPast ? 'opacity-70' : ''}`}>
+                          <div className="relative h-[200px] w-full bg-gray-100">
+                            <Image src={event.image} alt={event.titleEn || event.title || "Event"} fill className="object-cover" />
+                            {isPast && <div className="absolute inset-0 bg-black/40 flex items-center justify-center"><span className="bg-black/60 text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Past Event</span></div>}
+                          </div>
+                          <div className="p-6 flex flex-col flex-1">
+                            <h3 className="font-bold text-[#1B1C1E] text-lg mb-1 line-clamp-1">{event.titleEn || event.titleRw || event.title}</h3>
+                            <p className="text-gray-500 text-sm mb-4">{event.date}</p>
+                            <button 
+                              onClick={() => handleDeleteEvent(event.id)}
+                              className="mt-auto flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-500 font-bold rounded-xl hover:bg-red-100 transition-colors"
+                            >
+                              <Trash2 size={16} /> Delete Event
+                            </button>
+                          </div>
                         </div>
-                        <div className="p-6 flex flex-col flex-1">
-                          <h3 className="font-bold text-[#1B1C1E] text-lg mb-1 line-clamp-1">{event.title}</h3>
-                          <p className="text-gray-500 text-sm mb-4">{event.date}</p>
-                          <button 
-                            onClick={() => handleDeleteEvent(event.id)}
-                            className="mt-auto flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-500 font-bold rounded-xl hover:bg-red-100 transition-colors"
-                          >
-                            <Trash2 size={16} /> Delete Event
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </div>
                 )}
               </div>
