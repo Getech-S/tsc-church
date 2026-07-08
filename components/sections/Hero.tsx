@@ -8,6 +8,7 @@ import Image from "next/image";
 import tsc1 from "../../public/TSC.jpg";
 import tsc2 from "../../public/TSC 2.jpg";
 import tsc3 from "../../public/TSC 3.jpg";
+import conferenceFlyer from "../../public/BTE.jpeg";
 
 const HERO_IMAGES = [
   { src: tsc1, position: "object-center" },
@@ -64,6 +65,53 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* ===================== CONFERENCE FLYER ===================== */}
+      {/* Pinned to the top-right corner over the photo, out of the way  */}
+      {/* of the heading, buttons and slide dots at every screen size.   */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
+        className="absolute top-3 right-3 sm:top-5 sm:right-5 lg:top-28 lg:right-10 xl:right-16 z-30"
+      >
+        {/* Gentle infinite float (separate layer so transforms don't clash) */}
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Link
+            href="/events"
+            aria-label="View conference details on the events page"
+            className="group block"
+          >
+            <motion.div
+              animate={{ rotate: 2 }}
+              whileHover={{ rotate: 0, scale: 1.05 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20 }}
+              className="relative w-24 sm:w-32 md:w-36 lg:w-48 xl:w-56 rounded-lg overflow-hidden ring-1 ring-white/30 shadow-[0_10px_35px_rgba(0,0,0,0.55)] transition-shadow duration-500 group-hover:ring-[#E8A020] group-hover:shadow-[0_10px_45px_rgba(232,160,32,0.35)]"
+            >
+              <Image
+                src={conferenceFlyer}
+                alt="Church conference flyer — tap to see event details"
+                placeholder="blur"
+                className="block w-full h-auto"
+                sizes="(max-width: 640px) 96px, (max-width: 1024px) 144px, 224px"
+                quality={90}
+              />
+
+              {/* "View details" hint — always visible on touch, reveals on hover for desktop */}
+              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 to-transparent pt-6 pb-1.5 lg:pb-2 text-center lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-[10px] lg:text-sm font-semibold text-[#E8A020]">
+                  View details →
+                </span>
+              </div>
+            </motion.div>
+          </Link>
+        </motion.div>
+      </motion.div>
+      {/* =================== END CONFERENCE FLYER =================== */}
 
       {/* CONTENT LAYER */}
       <div className="relative z-20 w-full mx-auto px-6 md:px-10 lg:px-32 flex flex-col items-center text-center lg:items-start lg:text-left">
