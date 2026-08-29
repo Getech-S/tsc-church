@@ -4,11 +4,12 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { db } from "@/lib/firebase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 
 import tsc1 from "../../public/TSC.jpg";
 import tsc2 from "../../public/TSC 2.jpg";
 import tsc3 from "../../public/TSC 3.jpg";
-import conferenceFlyer from "../../public/BTE.jpeg";
 
 const HERO_IMAGES = [
   { src: tsc1, position: "object-center" },
@@ -19,7 +20,9 @@ const HERO_IMAGES = [
 export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [heroEvent, setHeroEvent] = useState<any | null>(null);
 
+  // Background slider timer
   useEffect(() => {
     if (paused) return;
     const timer = setInterval(() => {
@@ -28,6 +31,30 @@ export function Hero() {
     return () => clearInterval(timer);
   }, [paused]);
 
+  // Automatically fetch the latest active event for the flyer
+  useEffect(() => {
+    const q = query(collection(db, "events"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      
+      // FIX: Explicitly typing as any[] stops the TypeScript "Property does not exist" error
+      const data: any[] = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      // Robust Local Date Generator (Prevents UTC timezone shifts)
+      const now = new Date();
+      const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      
+      // Find the most recently created event that has NOT passed yet
+      const upcoming = data.find(event => !event.systemDate || event.systemDate >= today);
+      
+      setHeroEvent(upcoming || null);
+    });
+    
+    return () => unsubscribe();
+  }, []);
+
   return (
     <section
       className="relative w-full overflow-hidden bg-[#1B1C1E] flex flex-col justify-end lg:flex-row lg:items-end pb-8 sm:pb-12 lg:pb-16 h-[calc(100dvh-80px)] lg:h-screen"
@@ -35,7 +62,6 @@ export function Hero() {
       onMouseLeave={() => setPaused(false)}
     >
       {/* BACKGROUND LAYER */}
-      {/* FIX 2: Height reduced to 55% on mobile for a wider image aspect ratio, maintaining full height on desktop */}
       <div className="absolute top-0 left-0 right-0 h-[55%] lg:h-full z-0">
         <AnimatePresence>
           <motion.div
@@ -57,66 +83,63 @@ export function Hero() {
               quality={90}
             />
             
-            {/* FIX 3: Aggressive gradient stops. The bottom 15% is incredibly dark, completely hiding the image seam. */}
             <div className="absolute inset-0 bg-linear-to-t from-[#1B1C1E] from-0% via-[#1B1C1E]/95 via-15% to-transparent to-60% lg:from-black/80 lg:from-0% lg:via-black/20 lg:via-30% lg:to-transparent pointer-events-none" />
             
-            {/* Desktop side-gradient */}
             <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent pointer-events-none hidden lg:block" />
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* ===================== CONFERENCE FLYER ===================== */}
-      {/* Pinned to the top-right corner over the photo, out of the way  */}
-      {/* of the heading, buttons and slide dots at every screen size.   */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
-        className="absolute top-3 right-3 sm:top-5 sm:right-5 lg:top-28 lg:right-10 xl:right-16 z-30"
-      >
-        {/* Gentle infinite float (separate layer so transforms don't clash) */}
+      {/* ===================== DYNAMIC CONFERENCE FLYER ===================== */}
+      {/* Only renders if there is an upcoming event found in the database   */}
+      {heroEvent && (
         <motion.div
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.8, ease: "easeOut" }}
+          className="absolute top-3 right-3 sm:top-5 sm:right-5 lg:top-28 lg:right-10 xl:right-16 z-30"
         >
-          <Link
-            href="/events"
-            aria-label="View conference details on the events page"
-            className="group block"
+          <motion.div
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           >
-            <motion.div
-              animate={{ rotate: 2 }}
-              whileHover={{ rotate: 0, scale: 1.05 }}
-              whileTap={{ scale: 0.96 }}
-              transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              className="relative w-24 sm:w-32 md:w-36 lg:w-48 xl:w-56 rounded-lg overflow-hidden ring-1 ring-white/30 shadow-[0_10px_35px_rgba(0,0,0,0.55)] transition-shadow duration-500 group-hover:ring-[#E8A020] group-hover:shadow-[0_10px_45px_rgba(232,160,32,0.35)]"
+            <Link
+              href="/events"
+              aria-label="View event details on the events page"
+              className="group block"
             >
-              <Image
-                src={conferenceFlyer}
-                alt="Church conference flyer — tap to see event details"
-                placeholder="blur"
-                className="block w-full h-auto"
-                sizes="(max-width: 640px) 96px, (max-width: 1024px) 144px, 224px"
-                quality={90}
-              />
+              <motion.div
+                animate={{ rotate: 2 }}
+                whileHover={{ rotate: 0, scale: 1.05 }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                className="relative w-24 sm:w-32 md:w-36 lg:w-48 xl:w-56 rounded-lg overflow-hidden ring-1 ring-white/30 shadow-[0_10px_35px_rgba(0,0,0,0.55)] transition-shadow duration-500 group-hover:ring-[#E8A020] group-hover:shadow-[0_10px_45px_rgba(232,160,32,0.35)]"
+              >
+                <Image
+                  src={heroEvent.image}
+                  alt={heroEvent.titleEn || "Upcoming Church Event"}
+                  width={400}
+                  height={500}
+                  className="block w-full h-auto"
+                  sizes="(max-width: 640px) 96px, (max-width: 1024px) 144px, 224px"
+                  quality={90}
+                />
 
-              {/* "View details" hint — always visible on touch, reveals on hover for desktop */}
-              <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 to-transparent pt-6 pb-1.5 lg:pb-2 text-center lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
-                <span className="text-[10px] lg:text-sm font-semibold text-[#E8A020]">
-                  View details →
-                </span>
-              </div>
-            </motion.div>
-          </Link>
+                <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/85 to-transparent pt-6 pb-1.5 lg:pb-2 text-center lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-[10px] lg:text-sm font-semibold text-[#E8A020]">
+                    View details →
+                  </span>
+                </div>
+              </motion.div>
+            </Link>
+          </motion.div>
         </motion.div>
-      </motion.div>
-      {/* =================== END CONFERENCE FLYER =================== */}
+      )}
+      {/* =================== END DYNAMIC CONFERENCE FLYER =================== */}
 
       {/* CONTENT LAYER */}
       <div className="relative z-20 w-full mx-auto px-6 md:px-10 lg:px-32 flex flex-col items-center text-center lg:items-start lg:text-left">
         
-        {/* FIX 1: Font size adjusted from text-4xl to text-[32px] strictly for mobile. Keeps it at 2 lines. */}
         <motion.h1
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -127,7 +150,6 @@ export function Hero() {
           And You Always Did.
         </motion.h1>
 
-        {/* SUBTEXT */}
         <motion.p
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -137,7 +159,6 @@ export function Hero() {
           Whatever you are carrying, there is room for it here.
         </motion.p>
 
-        {/* BUTTONS */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -159,7 +180,7 @@ export function Hero() {
           </Link>
         </motion.div>
 
-        {/* SLIDE INDICATORS */}
+        {/* SLIDE INDICATORS (Tailwind class syntax fixed) */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -172,8 +193,8 @@ export function Hero() {
               onClick={() => setIndex(i)}
               className={`rounded-full transition-all duration-500 ${
                 i === index
-                  ? "w-8 lg:w-[6px] lg:h-8 h-[6px] bg-white"
-                  : "w-[6px] h-[6px] bg-white/50 hover:bg-white/70"
+                  ? "w-8 lg:w-1.5 lg:h-8 h-1.5 bg-white"
+                  : "w-1.5 h-1.5 bg-white/50 hover:bg-white/70"
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />

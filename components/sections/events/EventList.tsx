@@ -31,7 +31,10 @@ export function EventList() {
 
   // Automatically split events into Upcoming and Past based on systemDate
   const { upcomingEvents, pastEvents } = useMemo(() => {
-    const today = new Date().toISOString().split("T")[0];
+    // Robust Local Date Generator
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    
     const upcoming: any[] = [];
     const past: any[] = [];
 
@@ -164,7 +167,6 @@ export function EventList() {
             {!selectedLanguage ? (
               // ==========================================
               // STEP 1: INTERACTIVE LANGUAGE PICKER MODAL
-              // Matches the screenshot perfectly
               // ==========================================
               <motion.div 
                 key="lang-picker"
@@ -289,7 +291,11 @@ export function EventList() {
                   </div>
 
                   {/* Dynamic Action Button Redirect */}
-                  {(!selectedEvent.systemDate || selectedEvent.systemDate >= new Date().toISOString().split("T")[0]) && (
+                  {(() => {
+                    const now = new Date();
+                    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+                    return (!selectedEvent.systemDate || selectedEvent.systemDate >= todayStr);
+                  })() && (
                     <div className="mt-auto pt-6 border-t border-gray-100">
                       <a 
                         href={selectedLanguage === "rw" 

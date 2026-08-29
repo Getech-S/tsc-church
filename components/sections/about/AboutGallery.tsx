@@ -39,7 +39,7 @@ export default function LifeGallery() {
           {/* Top Left: Baptism (Portrait Frame) */}
           <div className="film-frame">
             <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
-               <Image src="/about-baptism.jpg" alt="Baptism" fill className="object-cover" />
+               <Image src="/HUMR_3.jpg" alt="Baptism" fill className="object-cover" />
                <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function LifeGallery() {
           {/* Top Middle: Worship (Portrait Frame) */}
           <div className="film-frame">
             <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
-               <Image src="/TSC_5.JPG.jpeg" alt="Worship" fill className="object-cover" />
+               <Image src="/HUMR_28.jpg" alt="Worship" fill className="object-cover" />
                <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function LifeGallery() {
           {/* Top Right: Choir B&W (Portrait Frame) */}
           <div className="film-frame">
             <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm grayscale">
-               <Image src="/TSC_9.JPG.jpeg" alt="Choir" fill className="object-cover" />
+               <Image src="/HUMR_24.jpg" alt="Choir" fill className="object-cover" />
                <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
           </div>
@@ -63,7 +63,7 @@ export default function LifeGallery() {
           {/* Bottom Left/Middle: Apostle Preaching (Landscape - Gemini-svg 3 specs) */}
           <div className="md:col-span-2 film-frame">
             <div className="relative w-full aspect-[821/340] bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
-               <Image src="/TSC 2.jpg" alt="Preaching" fill className="object-cover" />
+               <Image src="/HUMR_59 (1).jpg" alt="Preaching" fill className="object-cover" />
                <div className="absolute top-1 left-4 text-[10px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function LifeGallery() {
           {/* Bottom Right: Community (Portrait Frame) */}
           <div className="film-frame">
             <div className="relative aspect-[4/3] w-full bg-black overflow-hidden border-[12px] border-[#1B1C1E] rounded-sm">
-               <Image src="/gallery-gathering.jpg" alt="Community" fill className="object-cover" />
+               <Image src="/HUMR_3 (1).jpg" alt="Community" fill className="object-cover" />
                <div className="absolute top-1 left-2 text-[8px] text-orange-400 font-mono">21 FRAME PORTRA 400 22</div>
             </div>
           </div>

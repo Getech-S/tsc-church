@@ -19,7 +19,7 @@ export function About() {
           transition={{ duration: 1.2, delay: 0.9, ease: "easeOut" }}
         >
           <Image
-            src="/about-group.jpg"
+            src="/HUMR_42.jpg"
             alt="Apostle Charles on Stage"
             width={557}
             height={408}
