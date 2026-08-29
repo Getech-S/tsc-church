@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation";
 import { 
   LayoutGrid, Search, Bell, ChevronLeft, ChevronRight, 
   ExternalLink, Download, Calendar, Trash2, Loader2, 
-  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut, ChevronDown, ShieldAlert, Ticket, Upload
+  MessageCircle, FileText, ArrowLeft, Mail, MapPin, Phone, X, LogOut, ChevronDown, ShieldAlert, Ticket, Upload, CheckCircle, XCircle
 } from "lucide-react";
 import Image from "next/image";
 import { db, storage } from "@/lib/firebase";
-import { collection, query, orderBy, onSnapshot, doc, deleteDoc, getDoc, setDoc, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, doc, deleteDoc, getDoc, setDoc, addDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -54,7 +54,7 @@ export default function StaffDashboard() {
   const [eventLocation, setEventLocation] = useState("");
   const [eventFormLinkEn, setEventFormLinkEn] = useState("");
   const [eventFormLinkRw, setEventFormLinkRw] = useState("");
-  const [eventFormLinkFr, setEventFormLinkFr] = useState(""); // Hidden input for DB
+  const [eventFormLinkFr, setEventFormLinkFr] = useState(""); 
   const [eventDescriptionEn, setEventDescriptionEn] = useState("");
   const [eventDescriptionRw, setEventDescriptionRw] = useState("");
   const [eventFlyer, setEventFlyer] = useState<File | null>(null);
@@ -113,6 +113,20 @@ export default function StaffDashboard() {
 
     return () => { unsubRequests(); unsubEvents(); };
   }, []);
+
+  // --- APPROVAL / REJECTION LOGIC ---
+  const handleUpdateStatus = async (id: string, status: "approved" | "rejected") => {
+    try {
+      await updateDoc(doc(db, "prayer_requests", id), { status });
+      // Instantly update the modal state if it's currently open
+      if (selectedRequest && selectedRequest.id === id) {
+        setSelectedRequest({ ...selectedRequest, status });
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+      alert("Failed to update status. Please try again.");
+    }
+  };
 
   // --- ADMIN CALENDAR CONTROLS ---
   const toggleDateLock = async () => {
@@ -246,14 +260,17 @@ export default function StaffDashboard() {
   };
 
   const handleExport = () => {
-    const headers = ["Name", "WhatsApp", "Email", "Location", "Request", "Attendance", "Doctor Visited", "Submitted Date", "Appointment Date", "Document Links"];
+    // Exclude rejected requests from the export list
+    const exportData = filteredRequests.filter(req => req.status !== "rejected");
+
+    const headers = ["Name", "WhatsApp", "Email", "Location", "Request", "Status", "Attendance", "Doctor Visited", "Submitted Date", "Appointment Date", "Document Links"];
     const csvContent = [
       headers.join(","),
-      ...filteredRequests.map(req => {
+      ...exportData.map(req => {
         const docLinks = req.documents && req.documents.length > 0 ? req.documents.join(" | ") : "No Documents";
         return [
           `"${req.name}"`, `"${req.whatsapp}"`, `"${req.email}"`, `"${req.location}"`, 
-          `"${req.requestType}"`, `"${req.attendance}"`, `"${req.hasSeenDoctor || "N/A"}"`, 
+          `"${req.requestType}"`, `"${req.status || "pending"}"`, `"${req.attendance}"`, `"${req.hasSeenDoctor || "N/A"}"`, 
           `"${req.date.toLocaleDateString()}"`, `"${req.appointmentDate || "N/A"}"`, `"${docLinks}"`
         ].join(",");
       })
@@ -550,6 +567,7 @@ export default function StaffDashboard() {
                           <th className="pb-4 whitespace-nowrap">Request Type</th>
                           <th className="pb-4 text-center whitespace-nowrap">Visited Doctor</th>
                           <th className="pb-4 text-center whitespace-nowrap">Docs</th>
+                          <th className="pb-4 text-center whitespace-nowrap">Status</th>
                           <th className="pb-4 whitespace-nowrap">Attendance</th>
                           <th className="pb-4 whitespace-nowrap">Appt. Date</th>
                           <th className="pb-4 text-right pr-4 whitespace-nowrap">Action</th>
@@ -557,9 +575,9 @@ export default function StaffDashboard() {
                       </thead>
                       <tbody className="divide-y divide-gray-50">
                         {loading ? (
-                          <tr><td colSpan={10} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-[#E8751A]" /></td></tr>
+                          <tr><td colSpan={11} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-[#E8751A]" /></td></tr>
                         ) : currentTableData.length === 0 ? (
-                          <tr><td colSpan={10} className="py-20 text-center text-gray-400 italic">No prayer requests found for this filter.</td></tr>
+                          <tr><td colSpan={11} className="py-20 text-center text-gray-400 italic">No prayer requests found for this filter.</td></tr>
                         ) : currentTableData.map((req) => (
                           <tr key={req.id} className="hover:bg-gray-50/50 transition-colors">
                             <td className="py-6 px-2"><input type="checkbox" className="accent-[#E8751A]" /></td>
@@ -572,6 +590,11 @@ export default function StaffDashboard() {
                             <td className="py-6 text-[14px] font-medium text-gray-600 whitespace-nowrap pr-4">{req.requestType}</td>
                             <td className="py-6 text-center text-[12px] font-bold text-gray-500 pr-4">{req.hasSeenDoctor || "No"}</td>
                             <td className="py-6 text-center pr-4">{req.documents?.length > 0 ? <FileText size={18} className="mx-auto text-[#E8751A]" /> : <span className="text-gray-300">-</span>}</td>
+                            <td className="py-6 text-center pr-4">
+                              <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase whitespace-nowrap ${req.status === 'approved' ? 'bg-green-50 text-green-600' : req.status === 'rejected' ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-orange-600'}`}>
+                                {req.status || 'Pending'}
+                              </span>
+                            </td>
                             <td className="py-6 pr-4">
                               <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase whitespace-nowrap ${req.attendance?.includes("Online") ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"}`}>{req.attendance}</span>
                             </td>
@@ -749,12 +772,38 @@ export default function StaffDashboard() {
       <AnimatePresence>
         {selectedRequest && (
           <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="fixed inset-y-0 right-0 w-full md:w-[850px] bg-white shadow-[-20px_0_50px_rgba(0,0,0,0.05)] z-[60] flex flex-col border-l border-gray-100">
-            <div className="p-6 md:p-10 border-b border-gray-50">
-              <div className="flex items-center justify-between mb-8">
-                <div className="flex items-center gap-2 text-gray-400 text-[13px]"><Calendar size={14} /> Submitted on {selectedRequest.date.toLocaleDateString()}</div>
-                <button onClick={() => setSelectedRequest(null)} className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg text-gray-600 font-bold text-[14px] hover:bg-gray-100"><ArrowLeft size={16} /> Back</button>
+            <div className="p-6 md:p-10 border-b border-gray-50 flex flex-col gap-4">
+              
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-gray-400 text-[13px]">
+                  <Calendar size={14} /> Submitted on {selectedRequest.date.toLocaleDateString()}
+                  <span className={`ml-3 px-3 py-1 rounded-full text-[10px] font-bold uppercase ${selectedRequest.status === 'approved' ? 'bg-green-50 text-green-600' : selectedRequest.status === 'rejected' ? 'bg-red-50 text-red-600' : 'bg-orange-50 text-orange-600'}`}>
+                    {selectedRequest.status || 'Pending'}
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                  <button 
+                    onClick={() => handleUpdateStatus(selectedRequest.id, 'approved')} 
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-[13px] transition-colors ${selectedRequest.status === 'approved' ? 'bg-green-500 text-white shadow-md' : 'bg-green-50 text-green-600 hover:bg-green-100'}`}
+                  >
+                    <CheckCircle size={16} /> {selectedRequest.status === 'approved' ? 'Approved' : 'Approve'}
+                  </button>
+                  <button 
+                    onClick={() => handleUpdateStatus(selectedRequest.id, 'rejected')} 
+                    className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold text-[13px] transition-colors ${selectedRequest.status === 'rejected' ? 'bg-red-500 text-white shadow-md' : 'bg-red-50 text-red-600 hover:bg-red-100'}`}
+                  >
+                    <XCircle size={16} /> {selectedRequest.status === 'rejected' ? 'Rejected' : 'Reject'}
+                  </button>
+                  <div className="hidden md:block w-[1px] h-6 bg-gray-200 mx-1"></div>
+                  <button onClick={() => setSelectedRequest(null)} className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-xl text-gray-600 font-bold text-[13px] hover:bg-gray-200">
+                    <ArrowLeft size={16} /> Back
+                  </button>
+                </div>
               </div>
-              <h2 className="text-[28px] md:text-[32px] font-bold text-[#1B1C1E] mb-6 font-montserrat">{selectedRequest.name}'s Request</h2>
+
+              <h2 className="text-[28px] md:text-[32px] font-bold text-[#1B1C1E] mt-2 mb-2 font-montserrat">{selectedRequest.name}'s Request</h2>
+              
               <div className="flex flex-wrap gap-4 md:gap-6 items-center">
                  <div className="flex items-center gap-2 text-[#E8751A] text-[14px] font-bold"><Calendar size={16} /> Appt: {selectedRequest.appointmentDate || "N/A"}</div>
                  <div className="flex items-center gap-2 text-gray-500 text-[14px] font-medium"><Mail size={16} /> {selectedRequest.email}</div>
