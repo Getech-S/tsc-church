@@ -3,15 +3,20 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { CrossoverHeroContent, CrossoverHeroImage } from "@/components/sections/events/CrossoverHeroSlide";
+import { isCrossoverEvent } from "@/components/sections/events/crossover";
 
 import tsc1 from "../../public/TSC.jpg";
 import tsc2 from "../../public/TSC 2.jpg";
 import tsc3 from "../../public/TSC 3.jpg";
 
-const HERO_IMAGES = [
+type HeroSlide = { src: StaticImageData; position: string } | { crossover: true };
+
+const HERO_IMAGES: HeroSlide[] = [
+  { crossover: true }, // 2026–2027 Crossover flyer, shown first. Remove after 20 Dec 2026.
   { src: tsc1, position: "object-center" },
   { src: tsc2, position: "object-top" },
   { src: tsc3, position: "object-center" },
@@ -21,6 +26,9 @@ export function Hero() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [heroEvent, setHeroEvent] = useState<any | null>(null);
+
+  const slide = HERO_IMAGES[index];
+  const isCrossoverSlide = "crossover" in slide;
 
   // Background slider timer
   useEffect(() => {
@@ -72,27 +80,35 @@ export function Hero() {
             transition={{ duration: 1.5, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full"
           >
-            <Image
-              src={HERO_IMAGES[index].src}
-              alt="Church service"
-              fill
-              placeholder="blur"
-              priority={index === 0}
-              className={`${HERO_IMAGES[index].position} object-cover w-full`}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-              quality={90}
-            />
-            
-            <div className="absolute inset-0 bg-linear-to-t from-[#1B1C1E] from-0% via-[#1B1C1E]/95 via-15% to-transparent to-60% lg:from-black/80 lg:from-0% lg:via-black/20 lg:via-30% lg:to-transparent pointer-events-none" />
-            
-            <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent pointer-events-none hidden lg:block" />
+            {"crossover" in slide ? (
+              <CrossoverHeroImage />
+            ) : (
+              <>
+                <Image
+                  src={slide.src}
+                  alt="Church service"
+                  fill
+                  placeholder="blur"
+                  priority={index === 0}
+                  className={`${slide.position} object-cover w-full`}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                  quality={90}
+                />
+
+                <div className="absolute inset-0 bg-linear-to-t from-[#1B1C1E] from-0% via-[#1B1C1E]/95 via-15% to-transparent to-60% lg:from-black/80 lg:from-0% lg:via-black/20 lg:via-30% lg:to-transparent pointer-events-none" />
+
+                <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-transparent pointer-events-none hidden lg:block" />
+              </>
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
 
       {/* ===================== DYNAMIC CONFERENCE FLYER ===================== */}
       {/* Only renders if there is an upcoming event found in the database   */}
-      {heroEvent && (
+      {/* Hidden on the Crossover slide (it would cover the flyer) and for    */}
+      {/* the Crossover event itself, which already has its own slide        */}
+      {heroEvent && !isCrossoverSlide && !isCrossoverEvent(heroEvent) && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -139,46 +155,73 @@ export function Hero() {
 
       {/* CONTENT LAYER */}
       <div className="relative z-20 w-full mx-auto px-6 md:px-10 lg:px-32 flex flex-col items-center text-center lg:items-start lg:text-left">
-        
-        <motion.h1
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="font-bold tracking-tight leading-[1.2] lg:leading-[1.1] text-white text-[32px] sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
-        >
-          You Belong Here.<br />
-          And You Always Did.
-        </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="mt-3 md:mt-5 text-white/85 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-xl"
-        >
-          Whatever you are carrying, there is room for it here.
-        </motion.p>
+        {/* Both blocks share one grid cell so they crossfade without the layout jumping */}
+        <div className="grid w-full">
+          <AnimatePresence>
+            {isCrossoverSlide ? (
+              <motion.div
+                key="crossover"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, transition: { duration: 0.3 } }}
+                transition={{ duration: 0.6 }}
+                className="col-start-1 row-start-1 self-end"
+              >
+                {/* Keeps the page's main heading for search engines and screen readers */}
+                <h1 className="sr-only">You Belong Here. And You Always Did.</h1>
+                <CrossoverHeroContent />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="welcome"
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="col-start-1 row-start-1 self-end flex flex-col items-center lg:items-start"
+              >
+                <motion.h1
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  className="font-bold tracking-tight leading-[1.2] lg:leading-[1.1] text-white text-[32px] sm:text-5xl md:text-7xl lg:text-[64px] drop-shadow-2xl max-w-3xl"
+                >
+                  You Belong Here.<br />
+                  And You Always Did.
+                </motion.h1>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="mt-6 md:mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
-        >
-          <Link
-            href="/worship-online"
-            className="w-full sm:w-auto text-center px-8 py-3.5 bg-[#E8751A] text-white text-[15px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
-          >
-            Worship Online
-          </Link>
+                <motion.p
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
+                  className="mt-3 md:mt-5 text-white/85 text-sm sm:text-base md:text-lg font-light tracking-wide max-w-xl"
+                >
+                  Whatever you are carrying, there is room for it here.
+                </motion.p>
 
-          <Link
-            href="/contact#ContactMap"
-            className="w-full sm:w-auto text-center px-8 py-3.5 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] hover:text-white text-[15px] font-semibold rounded-full transition-all duration-300 ease-in-out"
-          >
-            Plan Your Visit
-          </Link>
-        </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.8 }}
+                  className="mt-6 md:mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto"
+                >
+                  <Link
+                    href="/worship-online"
+                    className="w-full sm:w-auto text-center px-8 py-3.5 bg-[#E8751A] text-white text-[15px] font-semibold rounded-full hover:bg-[#E8A020] transition-colors duration-300 ease-in-out flex items-center justify-center gap-2"
+                  >
+                    Worship Online
+                  </Link>
+
+                  <Link
+                    href="/contact#ContactMap"
+                    className="w-full sm:w-auto text-center px-8 py-3.5 border-2 border-[#E8A020] bg-transparent hover:bg-[#E8A020] text-[#E8A020] hover:text-white text-[15px] font-semibold rounded-full transition-all duration-300 ease-in-out"
+                  >
+                    Plan Your Visit
+                  </Link>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* SLIDE INDICATORS (Tailwind class syntax fixed) */}
         <motion.div

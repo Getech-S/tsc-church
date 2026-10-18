@@ -118,7 +118,6 @@ export default function StaffDashboard() {
   const handleUpdateStatus = async (id: string, status: "approved" | "rejected") => {
     try {
       await updateDoc(doc(db, "prayer_requests", id), { status });
-      // Instantly update the modal state if it's currently open
       if (selectedRequest && selectedRequest.id === id) {
         setSelectedRequest({ ...selectedRequest, status });
       }
@@ -260,7 +259,6 @@ export default function StaffDashboard() {
   };
 
   const handleExport = () => {
-    // Exclude rejected requests from the export list
     const exportData = filteredRequests.filter(req => req.status !== "rejected");
 
     const headers = ["Name", "WhatsApp", "Email", "Location", "Request", "Status", "Attendance", "Doctor Visited", "Submitted Date", "Appointment Date", "Document Links"];
@@ -295,34 +293,43 @@ export default function StaffDashboard() {
     document.body.removeChild(link);
   };
 
-  const openWhatsApp = (number: string, name: string, attendance?: string, appointmentDate?: string) => {
+  // UPDATED AUTO-COPY WHATSAPP LOGIC
+  const openWhatsApp = async (number: string, name: string, attendance?: string, appointmentDate?: string) => {
     const cleanNumber = number.replace(/\D/g, "");
     const isOnline = Boolean(attendance?.includes("Online"));
     const apptDateStr = appointmentDate || "your selected date";
 
-    const message = encodeURIComponent(`
-      Hello ${name}, this is True Salvation Church. 
-      *ENGLISH*
-      We are happy to tell you that your prayer request is approved and you are scheduled to be prayed for on *${apptDateStr}*.
-      When you come before the Apostle of the Lord Jesus, please follow these simple guidelines so he can help you:
-      1. Speak loudly and clearly so that you do not have to be asked to repeat yourself. Answer him right away if he asks a question.
-      2. Say your full name and where you live. Then explain the problem you need prayer for.
-      3. Raise your hands, stand upright, and look him directly in the eyes. Do not pray yourself; simply receive in faith.
-      ${isOnline ? '4. *ON ZOOM*: Turn on your camera and microphone. Stand where he can see you clearly' : ''}
-      If you feel the power causing you to fall or the urge to vomit, do not resist or hold it back, because that is your deliverance.
+    const message = `Hello ${name}, this is True Salvation Church. 
+*ENGLISH*
+We are happy to tell you that your prayer request is approved and you are scheduled to be prayed for on *${apptDateStr}*.
+When you come before the Apostle of the Lord Jesus, please follow these simple guidelines so he can help you:
+1. Speak loudly and clearly so that you do not have to be asked to repeat yourself. Answer him right away if he asks a question.
+2. Say your full name and where you live. Then explain the problem you need prayer for.
+3. Raise your hands, stand upright, and look him directly in the eyes. Do not pray yourself; simply receive in faith.
+${isOnline ? '4. *ON ZOOM*: Turn on your camera and microphone. Stand where he can see you clearly' : ''}
+If you feel the power causing you to fall or the urge to vomit, do not resist or hold it back, because that is your deliverance.
 
-      *IKINYARWANDA*
-      Twishimiye kukumenyesha ko wahawe amahirwe yo gusengerwa kuri *${apptDateStr}*,
-      mugihe ugeze imbere y'Intumwa y'Umwami Yesu witondere ibi bikurikira kugirango abashe kugufasha:
-      1. Vuga cyane uranguruye kuburyo bidasaba ko bagusubirishamo. Subiza Intumwa vuba igihe cyose hari icyo akubajije.
-      2. Vuga amazina yawe naho uherereye unasobanure ikibazo cyatumye uza gusengerwa.
-      3. Zamura amaboko yawe hejuru uhagarare neza umurebe mu maso. Wowe ntusenge, ahubwo wakire mu kwizera. 
-      ${isOnline ? '4. *KURI ZOOM*: Ufungure Camera yawe ukande kuri unmute, uhagarare aho akubona neza.' : ''}
-      Niwumva imbaraga zitumye ugwa cyangwa ushaka kuruka, we kubyibuza kuko ni ko gusubizwa kwawe. 
+*IKINYARWANDA*
+Twishimiye kukumenyesha ko wahawe amahirwe yo gusengerwa kuri *${apptDateStr}*,
+mugihe ugeze imbere y'Intumwa y'Umwami Yesu witondere ibi bikurikira kugirango abashe kugufasha:
+1. Vuga cyane uranguruye kuburyo bidasaba ko bagusubirishamo. Subiza Intumwa vuba igihe cyose hari icyo akubajije.
+2. Vuga amazina yawe naho uherereye unasobanure ikibazo cyatumye uza gusengerwa.
+3. Zamura amaboko yawe hejuru uhagarare neza umurebe mu maso. Wowe ntusenge, ahubwo wakire mu kwizera. 
+${isOnline ? '4. *KURI ZOOM*: Ufungure Camera yawe ukande kuri unmute, uhagarare aho akubona neza.' : ''}
+Niwumva imbaraga zitumye ugwa cyangwa ushaka kuruka, we kubyibuza kuko ni ko gusubizwa kwawe. 
 
-      Yesu ni Umwami!
-      `);
-    window.open(`https://wa.me/${cleanNumber}?text=${message}`, "_blank");
+Yesu ni Umwami!`;
+
+    // 1. Copy the message to the computer's clipboard quietly
+    try {
+      await navigator.clipboard.writeText(message);
+      alert("Message copied to clipboard! Just 'Paste' it into the WhatsApp chat.");
+    } catch (err) {
+      console.error("Failed to copy message", err);
+    }
+
+    // 2. Open the blank chat window so no URL parameters trigger the spam filter
+    window.open(`https://wa.me/${cleanNumber}`, "_blank");
   };
 
   // --- EVENTS MANAGEMENT FUNCTIONS ---

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Calendar, Clock, MapPin, X, ExternalLink, Loader2 } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { CrossoverModal } from "./CrossoverModal";
+import { CROSSOVER, CROSSOVER_FALLBACK_EVENT, isCrossoverEvent } from "./crossover";
 
 export function EventList() {
   const [events, setEvents] = useState<any[]>([]);
@@ -14,6 +16,24 @@ export function EventList() {
   // --- MODAL STATES ---
   const [selectedEvent, setSelectedEvent] = useState<any | null>(null);
   const [selectedLanguage, setSelectedLanguage] = useState<"en" | "rw" | null>(null);
+  const [showCrossover, setShowCrossover] = useState(false);
+
+  // Open the Crossover pop-up straight away when arriving from the landing page flyer (/events?event=crossover)
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("event") === CROSSOVER.slug) {
+      setShowCrossover(true);
+    }
+  }, []);
+
+  const closeCrossover = useCallback(() => {
+    setShowCrossover(false);
+    // Drop the deep-link param so a refresh doesn't reopen the pop-up
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("event")) {
+      url.searchParams.delete("event");
+      window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+    }
+  }, []);
 
   // Fetch live events from Firebase
   useEffect(() => {
@@ -38,7 +58,11 @@ export function EventList() {
     const upcoming: any[] = [];
     const past: any[] = [];
 
-    events.forEach(event => {
+    // Show the built-in Crossover card while it's upcoming, unless the admin already added it from the dashboard
+    const needsCrossoverCard = CROSSOVER_FALLBACK_EVENT.systemDate >= today && !events.some(isCrossoverEvent);
+    const allEvents = needsCrossoverCard ? [CROSSOVER_FALLBACK_EVENT, ...events] : events;
+
+    allEvents.forEach(event => {
       // Fallback to upcoming if systemDate doesn't exist yet
       if (!event.systemDate || event.systemDate >= today) {
         upcoming.push(event);
@@ -65,6 +89,11 @@ export function EventList() {
     <motion.div
       whileHover={!isPast ? { y: -8 } : {}}
       onClick={() => {
+        // The upcoming Crossover card opens its own dedicated pop-up
+        if (!isPast && isCrossoverEvent(event)) {
+          setShowCrossover(true);
+          return;
+        }
         setSelectedEvent(event);
         if (isPast) {
           // Skip language picker for historical events and default view to English
@@ -79,8 +108,9 @@ export function EventList() {
         <Image 
           src={event.image} 
           alt={event.titleEn || event.title || "Event Flyer"} 
-          fill 
+          fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
+          style={isCrossoverEvent(event) ? { objectPosition: CROSSOVER.cardImagePosition } : undefined}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#1B1C1E]/80 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
         
@@ -104,7 +134,7 @@ export function EventList() {
           <span>{event.location}</span>
         </p>
         <div className="text-[#E8751A] text-sm font-bold flex items-center gap-1 group-hover:underline mt-auto">
-          View Details {isPast ? "" : "& Register"} <ExternalLink size={14} />
+          View Details {isPast || isCrossoverEvent(event) ? "" : "& Register"} <ExternalLink size={14} />
         </div>
       </div>
     </motion.div>
@@ -128,7 +158,7 @@ export function EventList() {
         <div className="flex justify-center items-center py-20">
           <Loader2 className="animate-spin text-[#E8751A]" size={48} />
         </div>
-      ) : events.length === 0 ? (
+      ) : upcomingEvents.length + pastEvents.length === 0 ? (
         <div className="text-center py-20 text-gray-400 italic">
           No upcoming events at the moment. Stay tuned!
         </div>
@@ -316,6 +346,9 @@ export function EventList() {
           </div>
         )}
       </AnimatePresence>
+
+      {/* CROSSOVER POP-UP */}
+      <CrossoverModal open={showCrossover} onClose={closeCrossover} />
 
     </section>
   );
