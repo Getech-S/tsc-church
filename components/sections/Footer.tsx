@@ -176,7 +176,17 @@ export function Footer() {
                         <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                     </div>
 
-                    <p>© {new Date().getFullYear()} TSC | Powered by GeTech Solutions</p>
+                    <p>
+                        © {new Date().getFullYear()} TSC | Powered by{" "}
+                        <a
+                            href="https://www.getech.rw"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-white underline-offset-4 hover:underline transition-colors"
+                        >
+                            GeTech Solutions
+                        </a>
+                    </p>
                 </div>
 
             </div>

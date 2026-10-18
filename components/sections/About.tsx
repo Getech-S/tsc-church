@@ -20,7 +20,7 @@ export function About() {
         >
           <Image
             src="/HUMR_42.jpg"
-            alt="Apostle Charles on Stage"
+            alt="Church members in white raising their hands in worship"
             width={557}
             height={408}
             className="w-full h-[408px] object-cover"
@@ -63,8 +63,8 @@ export function About() {
             transition={{ duration: 0.8 }}
           >
             <Image
-              src="/about-group.jpg"
-              alt="Apostle Charles on Stage"
+              src="/HUMR_42.jpg"
+              alt="Church members in white raising their hands in worship"
               width={557}
               height={408}
               className="w-full h-auto object-cover"
