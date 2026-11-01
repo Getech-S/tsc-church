@@ -9,6 +9,9 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { CrossoverModal } from "./CrossoverModal";
 import { CROSSOVER, CROSSOVER_FALLBACK_EVENT, isCrossoverEvent } from "./crossover";
 
+// Events created without a form link (e.g. overnights) shouldn't show a Register button
+const hasRegistrationLink = (event: any) => Boolean(event.formLinkEn || event.formLinkRw || event.formLink);
+
 export function EventList() {
   const [events, setEvents] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -134,7 +137,7 @@ export function EventList() {
           <span>{event.location}</span>
         </p>
         <div className="text-[#E8751A] text-sm font-bold flex items-center gap-1 group-hover:underline mt-auto">
-          View Details {isPast || isCrossoverEvent(event) ? "" : "& Register"} <ExternalLink size={14} />
+          View Details {isPast || isCrossoverEvent(event) || !hasRegistrationLink(event) ? "" : "& Register"} <ExternalLink size={14} />
         </div>
       </div>
     </motion.div>
@@ -325,7 +328,7 @@ export function EventList() {
                     const now = new Date();
                     const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
                     return (!selectedEvent.systemDate || selectedEvent.systemDate >= todayStr);
-                  })() && (
+                  })() && hasRegistrationLink(selectedEvent) && (
                     <div className="mt-auto pt-6 border-t border-gray-100">
                       <a 
                         href={selectedLanguage === "rw" 

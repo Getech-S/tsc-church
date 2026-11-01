@@ -15,6 +15,23 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export const dynamic = "force-dynamic";
 
+// Lowercase and strip accents so "sandrine" also finds "Sandrìne" or "SANDRINE"
+const normalizeText = (value: unknown) =>
+  String(value ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+// One CSV cell: always quoted, inner quotes doubled. Values typed into the public prayer form that start
+// with =, +, - or @ get a leading ' so Excel can't run them as formulas (plain phone numbers are left alone).
+const csvCell = (value: unknown) => {
+  let text = String(value ?? "");
+  if (/^[=+\-@\t\r]/.test(text) && !/^\+?[\d\s()-]+$/.test(text)) text = `'${text}`;
+  return `"${text.replace(/"/g, '""')}"`;
+};
+
+const todayKey = () => {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+};
+
 export default function StaffDashboard() {
   const router = useRouter();
   
@@ -224,21 +241,28 @@ export default function StaffDashboard() {
     const startOfWeek = new Date(); startOfWeek.setDate(now.getDate() - 7);
     const startOfMonth = new Date(); startOfMonth.setMonth(now.getMonth() - 1);
 
+    // Every word typed must appear somewhere in the booking (any order): "uwase sandrine" finds "Sandrine Uwase"
+    const searchTerms = normalizeText(searchQuery).split(/\s+/).filter(Boolean);
+    // Phone search ignores spaces, "+" and a leading 0: "0788 123" finds "+250788123..."
+    const searchDigits = searchQuery.replace(/\D/g, "").replace(/^0+/, "");
+
     return requests.filter(req => {
-      const matchDate = 
+      // A search looks through ALL bookings, new and archived, regardless of the date filters
+      if (searchTerms.length > 0) {
+        const haystack = normalizeText([req.name, req.email, req.whatsapp, req.location, req.requestType, req.appointmentDate].join(" "));
+        const phoneDigits = String(req.whatsapp ?? "").replace(/\D/g, "");
+        return searchTerms.every(term => haystack.includes(term)) ||
+          (searchDigits.length >= 3 && phoneDigits.includes(searchDigits));
+      }
+
+      const matchDate =
         filter === "Today" ? req.date >= startOfToday :
         filter === "This Week" ? req.date >= startOfWeek :
         filter === "This Month" ? req.date >= startOfMonth : true;
 
-      const matchSearch = 
-        req.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        req.whatsapp?.includes(searchQuery) ||
-        req.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        req.appointmentDate?.includes(searchQuery);
-        
       const matchSlot = selectedSlotDate ? req.appointmentDate === selectedSlotDate : true;
 
-      return matchDate && matchSearch && matchSlot;
+      return matchDate && matchSlot;
     });
   }, [requests, filter, searchQuery, selectedSlotDate]);
 
@@ -259,27 +283,34 @@ export default function StaffDashboard() {
   };
 
   const handleExport = () => {
-    const exportData = filteredRequests.filter(req => req.status !== "rejected");
+    // Export exactly what the table is showing (every page of it): the search results, or the current filters
+    const exportData = filteredRequests;
 
     const headers = ["Name", "WhatsApp", "Email", "Location", "Request", "Status", "Attendance", "Doctor Visited", "Submitted Date", "Appointment Date", "Document Links"];
     const csvContent = [
-      headers.join(","),
+      headers.map(csvCell).join(","),
       ...exportData.map(req => {
         const docLinks = req.documents && req.documents.length > 0 ? req.documents.join(" | ") : "No Documents";
         return [
-          `"${req.name}"`, `"${req.whatsapp}"`, `"${req.email}"`, `"${req.location}"`, 
-          `"${req.requestType}"`, `"${req.status || "pending"}"`, `"${req.attendance}"`, `"${req.hasSeenDoctor || "N/A"}"`, 
-          `"${req.date.toLocaleDateString()}"`, `"${req.appointmentDate || "N/A"}"`, `"${docLinks}"`
-        ].join(",");
+          req.name, req.whatsapp, req.email, req.location,
+          req.requestType, req.status || "pending", req.attendance, req.hasSeenDoctor || "N/A",
+          req.date.toLocaleDateString(), req.appointmentDate || "N/A", docLinks
+        ].map(csvCell).join(",");
       })
-    ].join("\n");
+    ].join("\r\n");
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    // Name the file after what was exported, e.g. Prayer_Requests_search-canada_2026-11-01.csv
+    const slug = (text: string) => normalizeText(text).trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const label = searchQuery.trim() ? `search-${slug(searchQuery)}` : selectedSlotDate ? `appointments-${selectedSlotDate}` : slug(filter);
+
+    // The BOM makes Excel read accented names (e.g. "Sandrìne") correctly
+    const blob = new Blob(["﻿" + csvContent], { type: "text/csv;charset=utf-8;" });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `Prayer_Requests_${new Date().toLocaleDateString()}.csv`;
+    a.download = `Prayer_Requests_${label}_${todayKey()}.csv`;
     a.click();
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
   };
 
   const downloadFile = (url: string) => {
@@ -411,7 +442,7 @@ Yesu ni Umwami!`;
         <header className="h-[77px] bg-[#FFFFFD] border-b border-gray-100 flex items-center justify-between px-10 sticky top-0 z-10">
           <div className="relative w-full max-w-[400px]">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search..." className="w-full pl-12 pr-4 py-2.5 bg-[#F8F9FA] rounded-lg border border-gray-100 outline-none focus:border-[#E8751A] text-[14px]" />
+            <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search name, email, WhatsApp or date..."className="w-full pl-12 pr-4 py-2.5 bg-[#F8F9FA] rounded-lg border border-gray-100 outline-none focus:border-[#E8751A] text-[14px]" />
           </div>
           <div className="flex items-center gap-6">
             <button onClick={handleLogout} className="flex items-center gap-2 text-red-500 font-bold text-[13px] border border-red-100 px-4 py-2 rounded-xl hover:bg-red-50 transition-all whitespace-nowrap">
@@ -506,7 +537,7 @@ Yesu ni Umwami!`;
                       </button>
                     ))}
                   </div>
-                  <button onClick={handleExport} className="flex items-center gap-2 px-5 py-2 border rounded-lg text-[14px] font-bold text-gray-600 hover:bg-gray-50 transition-colors whitespace-nowrap"><Download size={16} /> Export List</button>
+                  <button onClick={handleExport} disabled={filteredRequests.length === 0} className="flex items-center gap-2 px-5 py-2 border rounded-lg text-[14px] font-bold text-gray-600 hover:bg-gray-50 transition-colors whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed"><Download size={16} /> Export List ({filteredRequests.length})</button>
                 </div>
 
                 <div className="p-6 md:p-8">
@@ -563,6 +594,20 @@ Yesu ni Umwami!`;
                     </div>
                   </div>
 
+                  {searchQuery.trim() && (
+                    <div className="flex flex-wrap items-center justify-between gap-3 mb-6 px-4 py-3 rounded-lg bg-[#FDF8F3] border border-[#E8751A]/20 text-[14px] text-[#1B1C1E]">
+                      <span>
+                        Showing <b>{filteredRequests.length}</b> result{filteredRequests.length === 1 ? "" : "s"} for <b>&ldquo;{searchQuery.trim()}&rdquo;</b> across all bookings, new and archived. Date filters are paused while you search.
+                      </span>
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="flex items-center gap-1 text-[12px] font-bold text-red-500 hover:bg-red-50 px-3 py-1.5 rounded-lg transition-colors border border-red-100"
+                      >
+                        <X size={14} /> Clear Search
+                      </button>
+                    </div>
+                  )}
+
                   <div className="w-full overflow-x-auto custom-scrollbar">
                     <table className="w-full text-left min-w-[1050px]">
                       <thead>
@@ -584,7 +629,7 @@ Yesu ni Umwami!`;
                         {loading ? (
                           <tr><td colSpan={11} className="py-20 text-center"><Loader2 className="animate-spin mx-auto text-[#E8751A]" /></td></tr>
                         ) : currentTableData.length === 0 ? (
-                          <tr><td colSpan={11} className="py-20 text-center text-gray-400 italic">No prayer requests found for this filter.</td></tr>
+                          <tr><td colSpan={11} className="py-20 text-center text-gray-400 italic">{searchQuery.trim() ? `No bookings match “${searchQuery.trim()}”.` : "No prayer requests found for this filter."}</td></tr>
                         ) : currentTableData.map((req) => (
                           <tr key={req.id} className="hover:bg-gray-50/50 transition-colors">
                             <td className="py-6 px-2"><input type="checkbox" className="accent-[#E8751A]" /></td>
@@ -605,7 +650,12 @@ Yesu ni Umwami!`;
                             <td className="py-6 pr-4">
                               <span className={`px-3 py-1 rounded-full text-[11px] font-bold uppercase whitespace-nowrap ${req.attendance?.includes("Online") ? "bg-green-50 text-green-600" : "bg-blue-50 text-blue-600"}`}>{req.attendance}</span>
                             </td>
-                            <td className="py-6 text-[14px] font-bold text-[#E8751A] whitespace-nowrap pr-4">{req.appointmentDate || "N/A"}</td>
+                            <td className="py-6 text-[14px] font-bold text-[#E8751A] whitespace-nowrap pr-4">
+                              {req.appointmentDate || "N/A"}
+                              {req.appointmentDate && req.appointmentDate < todayKey() && (
+                                <span className="block mt-1 text-[11px] font-bold uppercase tracking-wider text-gray-400">Archived</span>
+                              )}
+                            </td>
                             <td className="py-6 text-right pr-4">
                               <div className="flex items-center justify-end gap-3">
                                 <button onClick={() => openWhatsApp(req.whatsapp, req.name, req.attendance, req.appointmentDate)} className="p-2 bg-green-50 text-green-600 rounded-lg hover:bg-green-100"><MessageCircle size={18} /></button>

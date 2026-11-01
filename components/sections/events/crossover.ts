@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, HandHeart, MapPin, Radio, Zap } from "lucide-react";
+import { CalendarDays, Clock, HandHeart, MapPin, PenLine, Radio, Zap } from "lucide-react";
 
 // Single source of truth for the Crossover 2026 → 2027 event.
 // Used by the Events page pop-up (CrossoverModal) and the landing page banner (CrossoverBanner).
@@ -33,6 +33,11 @@ export const CROSSOVER = {
       icon: Zap,
       title: "Your 2027 Requests",
       text: "Bring your new prayer requests for the new year. Position your faith for the thundering fire of mass prayer, healing, and your next wave of blessings.",
+    },
+    {
+      icon: PenLine,
+      title: "What You Want Removed",
+      text: "Write down on a piece of paper what you want God to destroy or remove from your life, and bring it with you.",
     },
   ],
 

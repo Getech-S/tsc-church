@@ -95,7 +95,7 @@ export function CrossoverModal({ open, onClose }: CrossoverModalProps) {
                 <p className="mb-4 text-gray-500 text-sm font-medium">{CROSSOVER.bringIntro}</p>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {CROSSOVER.bring.map(({ icon: Icon, title, text }) => (
-                    <li key={title} className="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                    <li key={title} className="flex items-start gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100 md:last:odd:col-span-2">
                       <span className="shrink-0 p-2 rounded-xl bg-[#E8751A]/10 text-[#E8751A]">
                         <Icon size={18} />
                       </span>
